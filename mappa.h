@@ -13,16 +13,32 @@ struct punto{
 
 struct livello{
     int mappa[80][20];
+	
     punto spawnNemici[100];
 	int numSpawnNemici;
+	
     punto spawnOggetti[3];
 	int numSpawnOggetti;
+	
+	livello* prec;
     livello* next;
 };
 typedef livello* punt_livello;
 
-punt_livello aggiungiLivello (punt_livello head, punt_livello liv);
-void stampaLivelli(punt_livello head);
+//Funzioni di gestione livelli
+//punt_livello aggiungiLivelloTesta (punt_livello head, punt_livello liv);
+punt_livello aggiungiLivelloDopo (punt_livello nodo, punt_livello liv);
+punt_livello caricaMappaDaID (punt_livello tail, int id);
+int contaLivelli(punt_livello tail);
+
+punt_livello livelloSuccessivo (punt_livello nodo);
+punt_livello livelloPrecedente (punt_livello nodo);
+
+//Funzioni di Debug
+void stampaLivelli(punt_livello tail);
+
+//Funzioni di salvataggio riguardo i livelli
+void salvaLivelliCaricati(punt_livello tail);
 
 punt_livello inizializzaListaLivelli(punt_livello head);
 void disegnaMappa(WINDOW* win, punt_livello l);
