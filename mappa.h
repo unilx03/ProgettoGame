@@ -16,9 +16,13 @@ struct livello{
 	
     punto spawnNemici[100];
 	int numSpawnNemici;
+	punto posizioneNemici[100];
+	int numPosizioneNemici;
 	
     punto spawnOggetti[3];
 	int numSpawnOggetti;
+	punto posizioneOggetti[3];
+	int numPosizioneOggetti;
 	
 	livello* prec;
     livello* next;
@@ -33,6 +37,8 @@ int contaLivelli(punt_livello tail);
 
 punt_livello livelloSuccessivo (punt_livello nodo);
 punt_livello livelloPrecedente (punt_livello nodo);
+punt_livello generaNemici (punt_livello nodo);
+punt_livello generaOggetti (punt_livello nodo);
 
 //Funzioni di Debug
 void stampaLivelli(punt_livello tail);

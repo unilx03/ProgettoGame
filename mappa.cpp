@@ -52,22 +52,58 @@ punt_livello inizializzaListaLivelli(punt_livello head)
 
 punt_livello aggiungiLivelloDopo (punt_livello nodo, punt_livello liv)
 {
+	punt_livello l = new livello;
+	
+	for (int i = 0; i < 80; i++)
+		for (int j = 0; j < 20; j++)
+			l->mappa[i][j] = liv->mappa[i][j];
+		
+	l->numSpawnNemici = liv->numSpawnNemici;
+	for (int i = 0; i < l->numSpawnNemici; i++)
+	{
+		l->spawnNemici[i].x = liv->spawnNemici[i].x;
+		l->spawnNemici[i].y = liv->spawnNemici[i].y;
+	}
+	l->numSpawnOggetti = liv->numSpawnOggetti;
+	for (int i = 0; i < l->numSpawnOggetti; i++)
+	{
+		l->spawnOggetti[i].x = liv->spawnOggetti[i].x;
+		l->spawnOggetti[i].y = liv->spawnOggetti[i].y;
+	}
+	
+	l->numPosizioneNemici = liv->numPosizioneNemici;
+	for (int i = 0; i < l->numPosizioneNemici; i++)
+	{
+		l->posizioneNemici[i].x = liv->posizioneNemici[i].x;
+		l->posizioneNemici[i].y = liv->posizioneNemici[i].y;
+	}
+	l->numPosizioneOggetti = liv->numPosizioneOggetti;
+	for (int i = 0; i < l->numPosizioneOggetti; i++)
+	{
+		l->posizioneOggetti[i].x = liv->posizioneOggetti[i].x;
+		l->posizioneOggetti[i].y = liv->posizioneOggetti[i].y;
+	}
+			
 	if (nodo != NULL)
-		nodo->next = liv;
+		nodo->next = l;
 	
-	liv->prec = nodo;
-	liv->next = NULL;
+	l->prec = nodo;
+	l->next = NULL;
 	
-    return liv;
+    return l;
 }
 
 punt_livello caricaMappaDaID (punt_livello tail, int id)
 {
 	if (id == 0)
+	{
 		return tail;
+	}
 	else
+	{
 		//return caricaMappaDaID (tail->next, id - 1);
 		return caricaMappaDaID (tail->prec, id - 1);
+	}
 }
 
 int contaLivelli(punt_livello tail)
@@ -90,6 +126,30 @@ punt_livello livelloPrecedente (punt_livello nodo)
 		return nodo->prec;
 	else
 		return nodo;
+}
+
+punt_livello generaNemici (punt_livello nodo)
+{
+	nodo->numPosizioneNemici = (rand() % 2) + 1;
+	for (int i = 0; i < nodo->numPosizioneNemici; i++)
+	{
+		int randomNemico = rand() % nodo->numSpawnNemici;
+		nodo->posizioneNemici[i].x = nodo->spawnNemici[randomNemico].x;
+		nodo->posizioneNemici[i].y = nodo->spawnNemici[randomNemico].y;
+	}
+	return nodo;
+}
+
+punt_livello generaOggetti (punt_livello nodo)
+{
+	nodo->numPosizioneOggetti = (rand() % 2) + 1;
+	for (int i = 0; i < nodo->numPosizioneOggetti; i++)
+	{
+		int randomOggetto = rand() % nodo->numSpawnOggetti;
+		nodo->posizioneOggetti[i].x = nodo->spawnOggetti[randomOggetto].x;
+		nodo->posizioneOggetti[i].y = nodo->spawnOggetti[randomOggetto].y;
+	}
+	return nodo;
 }
 
 void stampaLivelli(punt_livello tail)
@@ -140,11 +200,15 @@ void disegnaMappa(WINDOW* win, punt_livello l)
 		}
 	}
 	
-	int randomNemico = rand() % l->numSpawnNemici;
-	mvwprintw(win, l->spawnNemici[randomNemico].y, l->spawnNemici[randomNemico].x, "%c", 'N');
+	for (int i = 0; i < l->numPosizioneNemici; i++)
+	{
+		mvwprintw(win, l->posizioneNemici[i].y, l->posizioneNemici[i].x, "%c", 'N');
+	}
 	
-	int randomOggetto = rand() % l->numSpawnOggetti;
-	mvwprintw(win, l->spawnOggetti[randomOggetto].y, l->spawnOggetti[randomOggetto].x, "%c", 'O');
+	for (int i = 0; i < l->numPosizioneOggetti; i++)
+	{
+		mvwprintw(win, l->posizioneOggetti[i].y, l->posizioneOggetti[i].x, "%c", 'O');
+	}
 	
 	mvwprintw(win, 20, 1, "%c",'S');
 
