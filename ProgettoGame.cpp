@@ -6,7 +6,7 @@ int main()
 	noecho();
 	cbreak();
 	
-	WINDOW* win = newwin(22, 82, 2, 5);
+	WINDOW* win = newwin(ROW + 2, COLUMN + 2, 2, 5);
 	box(win, 0, 0);
 	refresh();
 	wrefresh(win);
@@ -16,6 +16,7 @@ int main()
 	punt_livello listaLivelli = inizializzaListaLivelli(NULL); //tutte le mappe del gioco, si scorrere andando indietro
 	int livelliTotali = contaLivelli(listaLivelli);
 	punt_livello livelliCorrenti = NULL; //mappe caricate nella partita corrente, si scorre andando indietro
+	
 	if (listaLivelli != NULL)	//se i livelli sono stati caricati, procedere
 	{
 		int idLivelloDaCaricare = rand() % livelliTotali;
@@ -32,8 +33,16 @@ int main()
 			//gameState = 0;
 			if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 			{
+				livello temp = livelliCorrenti;
 				livelliCorrenti = livelloPrecedente(livelliCorrenti);
-				disegnaMappa(win, livelliCorrenti);
+				if (temp != livelliCorrenti)
+				{
+					disegnaMappa(win, livelliCorrenti);
+				}
+				else //non sipuò tornare più indietro del primo livello
+				{
+					
+				}
 			}
 			else if (key == 'd') //carica livello successivo, se non esiste aggiungere un nuovo livello
 			{

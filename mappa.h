@@ -6,22 +6,31 @@
 
 using namespace std;
 
+#define ROW 20
+#define COLUMN 80
+
+#define ENEMYSPAWN 100 //numero massimo di nemici e oggetti che possono essere generati
+#define ITEMSPAWN 3
+
+#define ENEMYMAPNUMBER 3 //carattere che indica uno spawn di nemici o oggetti nella mappa
+#define ITEMMAPNUMBER 5
+
 struct punto{
     int x;
     int y;
 };
 
 struct livello{
-    int mappa[80][20];
+    int mappa[COLUMN][ROW];
 	
-    punto spawnNemici[100];
+    punto spawnNemici[ENEMYSPAWN];
 	int numSpawnNemici;
-	punto posizioneNemici[100];
+	punto posizioneNemici[ENEMYSPAWN];
 	int numPosizioneNemici;
 	
-    punto spawnOggetti[3];
+    punto spawnOggetti[ITEMSPAWN];
 	int numSpawnOggetti;
-	punto posizioneOggetti[3];
+	punto posizioneOggetti[ITEMSPAWN];
 	int numPosizioneOggetti;
 	
 	livello* prec;
