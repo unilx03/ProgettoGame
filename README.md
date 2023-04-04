@@ -33,20 +33,20 @@ cliccato l'apposito tasto]
 PERSONAGGI E NEMICI: note implementative
 
 Gerarchia classi:
-Classe base -> Charactert
+Classe base -> Character
 Classi che ereditano Character -> Enemy, Hero
 Classi che ereditano Enemy -> JumpingEnemy, ThiefEnemy, FlyingEnemyY, FlyingEnemyX, BossEnemy
 
 Breve descrizione classi:
 Character non istanzia niente, serve solo come superclasse.
-Hero istanzia il personaggio giocabile dall'utente.
-Enemy istanzia il nemico di tipo "base".
-JumpingEnemy istanzia il nemico di tipo "saltellante".
-ThiefEnemy istanzia il nemico di tipo "ladro".
-FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y".
-BossEnemy istanzia i boss.
+Hero istanzia il personaggio giocabile dall'utente -> può muoversi, saltare, sparare proiettili
+Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx
+JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx
+ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore
+FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
+BossEnemy istanzia il boss -> spara proiettili ed è il più potente tra tutti i nemici
 
 Come sono organizzati i file:
-ogni classe implementata ha associati un file classe.h e un classe.cpp. Nel file classe.h vi è la definizione della classe, nel file classe.cpp vi è (generalmente) una funzione che, se richiamata, permette di istanziare oggetti della relativa classe.
+ogni classe implementata ha associati un file classe.h e un classe.cpp. Nel file classe.h vi è la definizione della classe, nel file classe.cpp vi è (generalmente) una funzione che, se richiamata, permette di istanziare oggetti della relativa classe, permettendone l'utilizzo senza per forza conoscerne l'implementazione.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
