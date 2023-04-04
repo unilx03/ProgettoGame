@@ -29,3 +29,24 @@ cliccato l'apposito tasto]
 6.	Proiettili speciali (?) --Aggiunti in un secondo momento
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PERSONAGGI E NEMICI: note implementative
+
+Gerarchia classi:
+Classe base -> Charactert
+Classi che ereditano Character -> Enemy, Hero
+Classi che ereditano Enemy -> JumpingEnemy, ThiefEnemy, FlyingEnemyY, FlyingEnemyX, BossEnemy
+
+Breve descrizione classi:
+Character non istanzia niente, serve solo come superclasse.
+Hero istanzia il personaggio giocabile dall'utente.
+Enemy istanzia il nemico di tipo "base".
+JumpingEnemy istanzia il nemico di tipo "saltellante".
+ThiefEnemy istanzia il nemico di tipo "ladro".
+FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y".
+BossEnemy istanzia i boss.
+
+Come sono organizzati i file:
+ogni classe implementata ha associati un file classe.h e un classe.cpp. Nel file classe.h vi è la definizione della classe, nel file classe.cpp vi è (generalmente) una funzione che, se richiamata, permette di istanziare oggetti della relativa classe.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
