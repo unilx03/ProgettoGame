@@ -30,7 +30,7 @@ cliccato l'apposito tasto]
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-PERSONAGGI E NEMICI: note implementative
+PERSONAGGI E NEMICI: note implementative e comandi
 
 Gerarchia classi:
 - Classe base -> Character
@@ -46,7 +46,15 @@ Breve descrizione classi:
 - FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
 - BossEnemy istanzia il boss -> spara proiettili ed è il più potente tra tutti i nemici
 
-Come sono organizzati i file:
+Organizzazione file:
 ogni classe implementata ha associati un file classe.h e un classe.cpp. Nel file classe.h vi è la definizione della classe, nel file classe.cpp vi è (generalmente) una funzione che, se richiamata, permette di istanziare oggetti della relativa classe, permettendone l'utilizzo senza per forza conoscerne l'implementazione.
+
+Comandi da tastiera:
+- Freccia dx/sx -> l'eroe fa un passo verso dx/sx
+- Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio
+- Barra spaziatrice -> l'eroe spara un proiettile
+- Freccia in su -> l'eroe salta in verticale
+- Freccia in su + freccia dx/sx -> l'eroe salta verso dx/sx
+- Freccia in su + barra spaziatrice -> l'eroe salta in verticale e contemporaneamente spara un proiettile
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
