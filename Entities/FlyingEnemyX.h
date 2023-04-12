@@ -21,6 +21,12 @@ class FlyingEnemyX: public Enemy{
         FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, bool isL = false, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, isL, r){
             is_up = up;
         }
+		
+		//per sfruttare polimorfismo
+		void move()
+		{
+			mv_up_down();
+		}
 
         //Spostamento in su del nemico
         void mvup(){

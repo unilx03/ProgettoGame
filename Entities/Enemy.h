@@ -32,8 +32,14 @@ class Enemy: public Character{
         Enemy(WINDOW * win, int y, int x, int type, int bRight, bool isL = false, int r = 1):Character(win, y, x, bRight, isL, r){
             enemy_type = type;
         }
+		
+		//per sfruttare polimorfismo
+		void move()
+		{
+			mv_left_right();
+		}
 
-        //funzione che fa muovere i nemici a destra e a sinistra
+		//funzione che fa muovere l'entità a destra e a sinistra
         void mv_left_right(){
             if(is_left)
                 mvleft();

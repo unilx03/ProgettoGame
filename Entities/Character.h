@@ -36,6 +36,8 @@ class Character{
             is_left = isL;
             rows = r;
         }
+		
+		void move() {}
 
         //Spostamento a sinistra del personaggino
         void mvleft(){
