@@ -7,7 +7,7 @@
 using namespace std;
 
 #define ROW 20
-#define COLUMN 80
+#define COLUMN 160
 
 #define ENEMYSPAWN 100 //numero massimo di nemici e oggetti che possono essere generati
 #define ITEMSPAWN 3

@@ -32,10 +32,10 @@ int main(int argc, char ** argv){
     wrefresh(playwin);
 
     //creazione dell'eroe
-    //create_hero(playwin, 17, 1);
+    create_hero(playwin, 17, 1);
 
     //creazione di nemici
-    /*create_standard_enemy(playwin, 18, 10);
+    create_standard_enemy(playwin, 18, 10);
     create_jumping_enemy(playwin, 18, 25);
     create_thief_enemy(playwin, 17, 35);
     create_flying_enemy_y(playwin, 10, 15);

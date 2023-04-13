@@ -1,7 +1,7 @@
 #include "map.h"
 
 //#include "Entities/Character.h"
-//#include "Entities/Hero.h"
+#include "Entities/Hero.h"
 //#include "Entities/Enemy.h"
 //#include "Entities/BossEnemy.h"
 
@@ -217,7 +217,7 @@ void drawMap(WINDOW* win, punt_level l)
 		mvwprintw(win, l->positionItems[i].y, l->positionItems[i].x, "%c", 'O');
 	}
 	
-	mvwprintw(win, 20, 1, "%c",'S');
+	//create_hero(win, 20, 2);
 
 	wrefresh(win);
 }

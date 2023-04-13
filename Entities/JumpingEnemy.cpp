@@ -4,7 +4,7 @@ creazione e la gestione delle azioni dei nemici "saltellanti"
 ----------------------------------------------------------------------------------*/
 
 #include <ncurses/ncurses.h>
-#include "JumpingENemy.h"
+#include "JumpingEnemy.h"
 
 //Istanziazione di un nemico di tipo saltellante; numero identificativo = 1.
 //Questo tipo di nemico si muove a destra e a sinistra saltando.
