@@ -3,6 +3,7 @@ Progetto di Programmazione 2023
 
 Checklist Mappe
 - Adattare i codici per Nemici e Oggetti alla mappa
+- Gestire collisioni tra Entità e Mappa
 - Migliorare il caricamento da file della lista delle mappe
 - Salvare su file la mappa con i nemici e oggetti generati (aggiornare quando un nemico viene sconfitto, un oggetto viene preso, un nuovo livello viene caricato)
 
