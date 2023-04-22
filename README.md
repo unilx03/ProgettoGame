@@ -60,11 +60,11 @@ Note implementative:
 - I nemici vengono istanziati e gestiti per mezzo di una lista. Ogni nodo contiene un nemico di classe Enemy; in ogni funzione è presente uno switch-case che permette di effetturare il downcasting dalla classe Enemy alla corretta sottoclasse del nemico considerato.
 
 Alcuni punti ancora da finalizzare:
--Quanto indicato in "Note implementative"
--Gestione del BossEnemy
--Gestione del JumpingEnemy
--Gestione in generale delle funzioni Jump e Attack
--Tutto ciò che riguarda attacco/danno/punteggio/soldi
--Tutto ciò che riguarda l'interazione con le mappe dei livelli
+- Quanto indicato in "Note implementative"
+- Gestione del BossEnemy
+- Gestione del JumpingEnemy
+- Gestione in generale delle funzioni Jump e Attack
+- Tutto ciò che riguarda attacco/danno/punteggio/soldi
+- Tutto ciò che riguarda l'interazione con le mappe dei livelli
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
