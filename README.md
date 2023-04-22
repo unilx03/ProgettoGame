@@ -48,9 +48,6 @@ Breve descrizione classi:
 - FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
 - BossEnemy istanzia il boss -> spara proiettili ed è il più potente tra tutti i nemici
 
-Organizzazione file:
-ogni classe implementata ha associati un file classe.h e un classe.cpp. Nel file classe.h vi è la definizione della classe, nel file classe.cpp vi è (generalmente) una funzione che, se richiamata, permette di istanziare oggetti della relativa classe, permettendone l'utilizzo senza per forza conoscerne l'implementazione.
-
 Comandi da tastiera:
 - Freccia dx/sx -> l'eroe fa un passo verso dx/sx
 - Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio
@@ -58,5 +55,16 @@ Comandi da tastiera:
 - Freccia in su -> l'eroe salta in verticale
 - Freccia in su + freccia dx/sx -> l'eroe salta verso dx/sx
 - Freccia in su + barra spaziatrice -> l'eroe salta in verticale e contemporaneamente spara un proiettile
+
+Note implementative:
+- I nemici vengono istanziati e gestiti per mezzo di una lista. Ogni nodo contiene un nemico di classe Enemy; in ogni funzione è presente uno switch-case che permette di effetturare il downcasting dalla classe Enemy alla corretta sottoclasse del nemico considerato.
+
+Alcuni punti ancora da finalizzare:
+-Quanto indicato in "Note implementative"
+-Gestione del BossEnemy
+-Gestione del JumpingEnemy
+-Gestione in generale delle funzioni Jump e Attack
+-Tutto ciò che riguarda attacco/danno/punteggio/soldi
+-Tutto ciò che riguarda l'interazione con le mappe dei livelli
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
