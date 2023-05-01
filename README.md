@@ -11,14 +11,15 @@ Checklist Mappe
 
 OGGETTI (uso singolo) --> Un solo carattere descrive l'oggetto
 [Ogni volta che viene terminata una stanza, ovvero che vengono uccisi tutti i nemici, viene droppato un oggetto in base alla probabilità ad esso associato] 
-1.	Healing Potion
-2. 	Carota magica (invincibilità per la stanza corrente)
-3.	Boost punteggio (per la stanza corrente il punteggio è raddoppiato)
-4.	Carota tagliente (aumento attacco per la stanza corrente)
-5.	Boost soldi (per la stanza corrente i soldi sono doppi)
-6.	Sconti (valido per la run successiva. Dimezza i prezzi di quanto venduto nel negozio)
-7.	Scarpe carote (aumenta la velocità di movimento del personaggio per la stanza corrente) -- Da ragionare se fattibile con i thread
-8.	Salterello (aumenta la potenza di salto)
+1.	Healing Potion --> probabilità 30%
+2. 	Carota magica (invincibilità per la stanza corrente) --> probabilità 8%
+3.	Boost punteggio (per la stanza corrente il punteggio è raddoppiato) --> probabilità 10%
+4.	Carota tagliente (aumento attacco per la stanza corrente) --> probabilità 15%
+5.	Boost soldi (per la stanza corrente i soldi sono doppi) --> probabilità 10%
+6.	Sconti (valido per la run successiva. Dimezza i prezzi di quanto venduto nel negozio) -->probabilità 2%
+7.	Carota veloce (aumenta la velocità di sparo) --> probabilità 5%
+8.	Salterello (aumenta la potenza di salto) --> probabilità 5%
+9.	Scudo carota (aumenta la difesa del personaggio) --> probabilità 15%
 
 OGGETTI (market) --> Più caratteri descrivono l'oggetto
 [Il market è statico, quindi verrà caricato da file. Il personaggio appare nello schermo ma non si può muovere. La run inizia quando viene
