@@ -1,7 +1,7 @@
 #include "map.h"
 
 //#include "Entities/Character.h"
-#include "Entities/Hero.h"
+//#include "Entities/Hero.h"
 //#include "Entities/Enemy.h"
 //#include "Entities/BossEnemy.h"
 
@@ -60,35 +60,78 @@ punt_level initializeLevelList(punt_level head)
 punt_level addLevel (punt_level node, punt_level liv)
 {
 	punt_level l = new level;
-	
-	for (int i = 0; i < COLUMN; i++)
-		for (int j = 0; j < ROW; j++)
-			l->map[i][j] = liv->map[i][j];
-		
+
 	l->numSpawnEnemies = liv->numSpawnEnemies;
-	for (int i = 0; i < l->numSpawnEnemies; i++)
-	{
-		l->spawnEnemies[i].x = liv->spawnEnemies[i].x;
-		l->spawnEnemies[i].y = liv->spawnEnemies[i].y;
-	}
 	l->numSpawnItems = liv->numSpawnItems;
-	for (int i = 0; i < l->numSpawnItems; i++)
-	{
-		l->spawnItems[i].x = liv->spawnItems[i].x;
-		l->spawnItems[i].y = liv->spawnItems[i].y;
-	}
-	
 	l->numPositionEnemies = liv->numPositionEnemies;
-	for (int i = 0; i < l->numPositionEnemies; i++)
-	{
-		l->positionEnemies[i].x = liv->positionEnemies[i].x;
-		l->positionEnemies[i].y = liv->positionEnemies[i].y;
-	}
 	l->numPositionItems = liv->numPositionItems;
-	for (int i = 0; i < l->numPositionItems; i++)
+
+	int mapVersion = rand() % 2; //0: normal, 1 : mirrored
+
+	//int mapVersion = 1;
+	if (mapVersion == 0)
 	{
-		l->positionItems[i].x = liv->positionItems[i].x;
-		l->positionItems[i].y = liv->positionItems[i].y;
+		for (int i = 0; i < COLUMN; i++)
+		{
+			for (int j = 0; j < ROW; j++)
+				l->map[i][j] = liv->map[i][j];
+		}
+
+		for (int i = 0; i < l->numSpawnEnemies; i++)
+		{
+			l->spawnEnemies[i].x = liv->spawnEnemies[i].x;
+			l->spawnEnemies[i].y = liv->spawnEnemies[i].y;
+		}
+		
+		for (int i = 0; i < l->numSpawnItems; i++)
+		{
+			l->spawnItems[i].x = liv->spawnItems[i].x;
+			l->spawnItems[i].y = liv->spawnItems[i].y;
+		}
+		
+		for (int i = 0; i < l->numPositionEnemies; i++)
+		{
+			l->positionEnemies[i].x = liv->positionEnemies[i].x;
+			l->positionEnemies[i].y = liv->positionEnemies[i].y;
+		}
+		
+		for (int i = 0; i < l->numPositionItems; i++)
+		{
+			l->positionItems[i].x = liv->positionItems[i].x;
+			l->positionItems[i].y = liv->positionItems[i].y;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < COLUMN; i++)
+		{
+			for (int j = 0; j < ROW; j++)
+				l->map[i][j] = liv->map[COLUMN - i - 1][j];
+		}
+
+		for (int i = 0; i < l->numSpawnEnemies; i++)
+		{
+			l->spawnEnemies[i].x = COLUMN - 1 - liv->spawnEnemies[i].x;
+			l->spawnEnemies[i].y = liv->spawnEnemies[i].y;
+		}
+		
+		for (int i = 0; i < l->numSpawnItems; i++)
+		{
+			l->spawnItems[i].x = COLUMN - 1 - liv->spawnItems[i].x;
+			l->spawnItems[i].y = liv->spawnItems[i].y;
+		}
+		
+		for (int i = 0; i < l->numPositionEnemies; i++)
+		{
+			l->positionEnemies[i].x = COLUMN - 1 - liv->positionEnemies[i].x;
+			l->positionEnemies[i].y = liv->positionEnemies[i].y;
+		}
+		
+		for (int i = 0; i < l->numPositionItems; i++)
+		{
+			l->positionItems[i].x = COLUMN - 1 - liv->positionItems[i].x;
+			l->positionItems[i].y = liv->positionItems[i].y;
+		}
 	}
 			
 	if (node != NULL)
@@ -137,7 +180,8 @@ punt_level previousLevel (punt_level node)
 
 punt_level generateEnemies (punt_level node)
 {
-	node->numPositionEnemies = (rand() % 2) + 1;
+	//node->numPositionEnemies = (rand() % 2) + 1;
+	node->numPositionEnemies = 0;
 	for (int i = 0; i < node->numPositionEnemies; i++)
 	{
 		int randomEnemy = rand() % node->numSpawnEnemies;
@@ -149,7 +193,8 @@ punt_level generateEnemies (punt_level node)
 
 punt_level generateItems (punt_level node)
 {
-	node->numPositionItems = (rand() % 2) + 1;
+	//node->numPositionItems = (rand() % 2) + 1;
+	node->numPositionItems = 0;
 	for (int i = 0; i < node->numPositionItems; i++)
 	{
 		int randomItem = rand() % node->numSpawnItems;

@@ -19,7 +19,8 @@ int main()
 	
 	if (levelList != NULL)	//se i livelli sono stati caricati, procedere
 	{
-		int levelToLoadID = rand() % numLevels;
+		//int levelToLoadID = rand() % numLevels;
+		int levelToLoadID = numLevels - 1;
 		currentLevel = addLevel(currentLevel, loadMapFromID(levelList, levelToLoadID));
 		currentLevel = generateEnemies(currentLevel);
 		currentLevel = generateItems(currentLevel);
@@ -53,7 +54,8 @@ int main()
 				}
 				else
 				{
-					levelToLoadID = rand() % numLevels;
+					//levelToLoadID = rand() % numLevels;
+					levelToLoadID--;
 					currentLevel = addLevel(currentLevel, loadMapFromID(levelList, levelToLoadID));
 					currentLevel = generateEnemies(currentLevel);
 					currentLevel = generateItems(currentLevel);
