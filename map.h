@@ -21,20 +21,22 @@ struct point{
 };
 
 struct level{
-    int map[COLUMN][ROW];
+	int id; //id mappa
+	bool mirrored; //e' specchiato?
+    int map[COLUMN][ROW]; //caselle mappa segnate come in map.txt
 
-    point spawnEnemies[ENEMYSPAWN];
-	int numSpawnEnemies;
-	point positionEnemies[ENEMYSPAWN];
-	int numPositionEnemies;
+    point spawnEnemies[ENEMYSPAWN]; //punti possibili di spawn dei nemici presi dalla mappa
+	int numSpawnEnemies; //numero massimo di spawn nemici presenti nella mappa
+	point positionEnemies[ENEMYSPAWN]; //punti di spawn effettivi dei nemici
+	int numPositionEnemies; //numero effettivo di nemci
 	
-    point spawnItems[ITEMSPAWN];
+    point spawnItems[ITEMSPAWN]; //analogo ai nemici
 	int numSpawnItems;
 	point positionItems[ITEMSPAWN];
 	int numPositionItems;
 	
-	level* prec;
-    level* next;
+	level* prec; //livello precedente
+    level* next; //livello successivo
 };
 typedef level* punt_level;
 
@@ -53,7 +55,7 @@ punt_level generateItems (punt_level node);
 void printLevels(punt_level tail);
 
 //Funzioni di salvataggio riguardo i livelli
-void saveLoadedMaps(punt_level tail);
+punt_level loadSavedMaps(punt_level levelList, punt_level tail);
 
 punt_level initializeLevelList(punt_level head);
 void drawMap(WINDOW* win, punt_level l);

@@ -19,6 +19,8 @@ int main()
 	
 	if (levelList != NULL)	//se i livelli sono stati caricati, procedere
 	{
+		//controllo se è partita nuova
+
 		//int levelToLoadID = rand() % numLevels;
 		int levelToLoadID = numLevels - 1;
 		currentLevel = addLevel(currentLevel, loadMapFromID(levelList, levelToLoadID));
