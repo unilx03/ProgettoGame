@@ -1,10 +1,20 @@
 #include "map.h"
 
+//#include "Entities/Character.h"
+#include "Entities/Hero.h"
+//#include "Entities/SetEnemiesList.h"
+//#include "Entities/Enemy.h"
+//#include "Entities/BossEnemy.h"
+
+//#include "oggetto.h"
+
+
 int main() 
 {
 	initscr();
 	noecho();
 	cbreak();
+	curs_set(FALSE);
 	
 	WINDOW* win = newwin(ROW + 2, COLUMN + 2, 2, 5);
 	box(win, 0, 0);
@@ -16,7 +26,8 @@ int main()
 	punt_level levelList = initializeLevelList(NULL); //tutte le mappe del gioco, si scorrere andando indietro
 	int numLevels = countLevels(levelList);
 	punt_level currentLevel = NULL; //mappe caricate nella partita corrente, si scorre andando indietro
-	
+	//printLevels(levelList);
+
 	if (levelList != NULL)	//se i livelli sono stati caricati, procedere
 	{
 		//controllo se è partita nuova
@@ -27,6 +38,8 @@ int main()
 		currentLevel = generateEnemies(currentLevel);
 		currentLevel = generateItems(currentLevel);
 		drawMap(win, currentLevel);
+
+		create_hero(win, 19, 2);   
 		
 		int gameState = 1; //start
 		while (gameState > 0)
@@ -34,6 +47,10 @@ int main()
 			int key = wgetch(win);
 			//Game Over: gameState = 0
 			//gameState = 0;
+			
+			wclear(win);
+			drawMap(win, currentLevel);
+
 			if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 			{
 				level* temp = currentLevel;
@@ -67,6 +84,7 @@ int main()
 		}
 	}
 	endwin();
+	
 	
 	return 0;
 }

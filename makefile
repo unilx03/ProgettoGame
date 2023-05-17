@@ -7,5 +7,8 @@ g++ main.cpp Character.cpp Hero.cpp Enemy.cpp JumpingEnemy.cpp ThiefEnemy.cpp Fl
 g++ ProgettoGame.cpp map.cpp Entities/Character.cpp -lncurses -o ProgettoGame
 ./ProgettoGame
 
+g++ ProgettoGame.cpp map.cpp Entities/Hero.cpp -lncurses -o ProgettoGame
+./ProgettoGame
+
 g++ ProgettoGame.cpp map.cpp Entities/Character.cpp oggetto.cpp -lncurses -o ProgettoGame
 ./ProgettoGame

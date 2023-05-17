@@ -1,12 +1,5 @@
 #include "map.h"
 
-//#include "Entities/Character.h"
-//#include "Entities/Hero.h"
-//#include "Entities/Enemy.h"
-//#include "Entities/BossEnemy.h"
-
-//#include "oggetto.h"
-
 punt_level initializeLevelList(punt_level head)
 {
 	ifstream inputFile; /* Dichiarazione di tipo */
@@ -42,21 +35,22 @@ punt_level initializeLevelList(punt_level head)
 						l1->spawnEnemies[l1->numSpawnEnemies].y = i + 1;
 						l1->numSpawnEnemies++;
 					}
-					else if (l2->map[COLUMN - i - 1][i] == ENEMYMAPNUMBER) //spawn nemici livello specchiato
-					{
-						l2->spawnEnemies[l2->numSpawnEnemies].x = COLUMN - 1 - j + 1;
-						l2->spawnEnemies[l2->numSpawnEnemies].y = i + 1;
-						l2->numSpawnEnemies++;
-					}
 					else if (l1->map[j][i] == ITEMMAPNUMBER) //spawn oggetti livello normale
 					{
 						l1->spawnItems[l1->numSpawnItems].x = j + 1;
 						l1->spawnItems[l1->numSpawnItems].y = i + 1;
 						l1->numSpawnItems++;
 					}
-					else if (l2->map[j][i] == ITEMMAPNUMBER) //spawn oggetti livello specchiato
+
+					if (l2->map[COLUMN - j - 1][i] == ENEMYMAPNUMBER) //spawn nemici livello specchiato
 					{
-						l2->spawnItems[l2->numSpawnItems].x = COLUMN - 1 - j + 1;
+						l2->spawnEnemies[l2->numSpawnEnemies].x = COLUMN - j - 1 + 1;
+						l2->spawnEnemies[l2->numSpawnEnemies].y = i + 1;
+						l2->numSpawnEnemies++;
+					}
+					else if (l2->map[COLUMN - j - 1][i] == ITEMMAPNUMBER) //spawn oggetti livello specchiato
+					{
+						l2->spawnItems[l2->numSpawnItems].x = COLUMN - j - 1 + 1;
 						l2->spawnItems[l2->numSpawnItems].y = i + 1;
 						l2->numSpawnItems++;
 					}
@@ -250,7 +244,7 @@ punt_level previousLevel (punt_level node)
 
 punt_level generateEnemies (punt_level node)
 {
-	//node->numPositionEnemies = (rand() % 2) + 1;
+	//node->numPositionEnemies = rand() % ENEMYSPAWN;
 	node->numPositionEnemies = 0;
 	for (int i = 0; i < node->numPositionEnemies; i++)
 	{
@@ -263,7 +257,7 @@ punt_level generateEnemies (punt_level node)
 
 punt_level generateItems (punt_level node)
 {
-	//node->numPositionItems = (rand() % 2) + 1;
+	//node->numPositionItems = rand() % ITEMSPAWN;
 	node->numPositionItems = 0;
 	for (int i = 0; i < node->numPositionItems; i++)
 	{
@@ -278,6 +272,9 @@ void printLevels(punt_level tail)
 {
 	if (tail != NULL)
 	{
+		cout << tail->id << endl;
+		cout << tail->mirrored << endl << endl;
+
 		for (int i = 0; i < ROW; i++)
 		{
 			for (int j = 0; j < COLUMN; j++)
@@ -287,7 +284,7 @@ void printLevels(punt_level tail)
 			cout << endl;
 		}
 		
-		if (tail->prec != NULL)
+		/*if (tail->prec != NULL)
 			cout << "Ha precedente" << endl;
 		else
 			cout << "Non ha precedente" << endl;
@@ -295,7 +292,19 @@ void printLevels(punt_level tail)
 		if (tail->next != NULL)
 			cout << "Ha successivo" << endl;
 		else
-			cout << "Non ha successivo" << endl;
+			cout << "Non ha successivo" << endl;*/
+
+		cout << endl;
+		for (int i = 0; i < tail->numSpawnEnemies; i++)
+		{
+			cout << "Enemy: " << tail->spawnEnemies[i].x << " / " << tail->spawnEnemies[i].y << endl;
+		}
+		cout << endl;
+		for (int i = 0; i < tail->numSpawnItems; i++)
+		{
+			cout << "Item: " << tail->spawnItems[i].x << " / " << tail->spawnItems[i].y << endl;
+		}
+		cout << endl;
 		
 		cout << endl << endl;
 		//stampaLivelli(tail->next);
@@ -332,7 +341,7 @@ void drawMap(WINDOW* win, punt_level l)
 		mvwprintw(win, l->positionItems[i].y, l->positionItems[i].x, "%c", 'O');
 	}
 	
-	//create_hero(win, 20, 2);
+	//create_hero(win, 19, 2);
 
 	wrefresh(win);
 }
