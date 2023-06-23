@@ -3,6 +3,9 @@
         "iosfwd": "cpp",
         "ostream": "cpp",
         "iostream": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "map": "cpp",
+        "thread": "cpp",
+        "xlocale": "cpp"
     }
 }
