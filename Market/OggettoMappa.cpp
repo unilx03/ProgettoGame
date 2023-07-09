@@ -49,3 +49,7 @@ void OggettoMappa::setStatChange(Hero h){
     else
         setStatPermanent(h);
 }
+
+const char * OggettoMappa::getSkin(){
+    return skin;
+}
