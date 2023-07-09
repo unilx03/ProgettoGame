@@ -22,6 +22,11 @@ class Character{
         int rows; //numero di righe su cui viene disegnato il personaggio
         int xLoc, yLoc, xMax, yMax;                                  
         WINDOW * curwin;
+
+        bool isJumping;
+        int jumpCounter;
+        bool isFalling;
+        int fallCounter;
    
     public:
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
@@ -162,6 +167,7 @@ class Character{
 
         //Funzione che fa saltare il personaggio in verticale
         void jump_vertical(const char* left[], const char* right[]){
+            /*
             //da aggiungere: gestione interazione con piattaforme
             //Controllo innanzitutto se il personaggio è a terra, e solo in quel caso gli permetto di saltare.
             if (yLoc == yMax-(rows+1)) {
@@ -171,15 +177,50 @@ class Character{
                     display(left, right);
                     napms(JUMP_DELAY);
                 }
+            } */
+
+            if (!isJumping)
+            {
+                isJumping = true;
+                jumpCounter = jumpForce;
+            }
+            jumpCounter--;
+
+            if (jumpCounter > 0)
+            {
+                yLoc--;
+                display(left, right);
+                napms(JUMP_DELAY);
+            }
+            else
+            {
+                isJumping = false;
+                isFalling = true;
+                fallCounter = jumpForce;
             }
         }
 
         void fall_vertical(const char* left[], const char* right[]){
+            /*
             //caduta
             for (int i = 0; i < jumpForce; i++){
                 yLoc++;
                 display(left, right);    
                 napms(JUMP_DELAY);
+            }
+            */
+
+            fallCounter--;
+
+            if (fallCounter > 0)
+            {
+                yLoc++;
+                display(left, right);
+                napms(JUMP_DELAY);
+            }
+            else
+            {
+                isFalling = false;
             }
         }
 

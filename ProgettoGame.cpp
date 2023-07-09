@@ -37,7 +37,7 @@ int main()
 		int key = wgetch(win);
 		//Game Over: gameState = 0
 		//gameState = 0;
-		
+
 		//wclear(win);
 		mapManager->DrawCurrentMap();
 
@@ -59,6 +59,9 @@ int main()
 				mapManager->DrawCurrentMap();
 			}
 		}
+
+		mapManager->GetPlayer()->getmv(key);
+		mapManager->GetPlayer()->display(mapManager->GetPlayer()->player_shape_left, mapManager->GetPlayer()->player_shape_right);
 
 		//gameState = 0;
 	}

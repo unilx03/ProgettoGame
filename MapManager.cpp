@@ -122,7 +122,7 @@ void MapManager::DrawCurrentMap()
 
 //Entita
 Hero* MapManager::GetPlayer() { return this->player; }
-void MapManager::SetPlayer(Hero* p) { this->player = h; }
+void MapManager::SetPlayer(Hero* p) { this->player = p; }
 
 /*
 Oltre alle informazioni relative ad ogni livello, salvare il numero di livelli caricati e statistiche del protagonista

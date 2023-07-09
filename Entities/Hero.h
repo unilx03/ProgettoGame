@@ -108,14 +108,20 @@ class Hero: public Character{
         }
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
-        int getmv(){
-            int choice = wgetch(curwin);
+        void getmv(int choice){
+            if (isJumping)
+                jump_vertical(player_shape_left, player_shape_right);
+            else if (isFalling)
+                fall_vertical(player_shape_left, player_shape_right);
+            
             switch(choice){
                 /*case KEY_UP:
                     jump(player_shape_left, player_shape_right);
                     break;*/
                 case KEY_UP:
-                    get_jump_type();
+                    //get_jump_type();
+                    if (!isJumping && !isFalling)
+                        jump_vertical(player_shape_left, player_shape_right);
                     break;
                 case KEY_LEFT:
                     mvleft();
@@ -131,9 +137,6 @@ class Hero: public Character{
                 default:
                     break;
             }
-            return choice;
         }
 
 };
-
-void create_hero(WINDOW * playwin, int y, int x);
