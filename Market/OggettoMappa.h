@@ -28,7 +28,11 @@ class OggettoMappa : Oggetto{
 
         void setStatPermanent(Hero h);
         //Modifica le statistiche permanenti in base all'effetto dell'oggetto
-        
+
+        const char * getSkin(); 
+        //ritorna la skin dell'oggetto
+
         void setStatChange(Hero h); 
-        //Modifica le statistiche in base all'oggetto raccolto      
+        //Modifica le statistiche in base all'oggetto raccolto     
+  
 };

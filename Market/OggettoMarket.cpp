@@ -24,3 +24,7 @@ void OggettoMarket::setStatChange(Hero h){
     else if(strcmp(statAffected, "attackSpeed")==0)
         h.setAttackSpeed((int)(h.getAttackSpeed() * boost));
 }
+
+const char * OggettoMarket::getSkin(){
+    return skin;
+}

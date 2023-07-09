@@ -6,6 +6,9 @@ class OggettoMarket : Oggetto{
         //SKIN solo per il market
 
     public:
+        /*OggettoMarket(){
+
+        }*/
         OggettoMarket(const char * name, const char * skin, double boostStat, const char * statAffected, double price){
             this -> name = new char[LEN];
             this -> name = name;
@@ -23,6 +26,9 @@ class OggettoMarket : Oggetto{
             modificate le stat e ritorna messaggio di avvenuto acquisto. Altrimenti messaggio di errore a schermo
         */
 
+        const char * getSkin(); 
+        //ritorna la skin dell'oggetto
+        
        void setStatChange(Hero h);
        /*
             Aumenta la statisticha statAffected della percentuale boostStat
