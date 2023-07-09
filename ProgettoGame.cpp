@@ -1,4 +1,4 @@
-#include "MapManager.h"
+#include "SetEnemiesList.h"
 
 //#include "Entities/Character.h"
 //#include "Entities/Hero.h"
@@ -27,6 +27,23 @@ int main()
 	MapManager* mapManager = new MapManager(win);
 	//MapManager* mapManager = new MapManager(newwin(ROW + 2, COLUMN + 2, 2, 5));
 	mapManager->GenerateNewMap();
+
+	Hero* player = new Hero(win, 19, 2, 8, mapManager, "Ettore");
+
+	p_nodo h = NULL;
+    h = head_insert(h, win, mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].y,
+					mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].x, mapManager, 0);
+    //h = head_insert(h, win, 17, 35, 2);
+    //h = head_insert(h, win, 10, 20, 3);
+    //h = head_insert(h, win, 10, 25, 4);
+
+	/*char key = ' ';
+	do
+	{
+		cin >> key;
+		player->getmv(key);
+	}
+	while (key != 'o');*/
 
 	//mapManager->GetFullMapList()->printMaps(mapManager->GetFullMapList()->GetTail());
 	//mapManager->GetCurrentMapList()->printMaps(mapManager->GetCurrentMapList()->GetTail());
@@ -61,8 +78,12 @@ int main()
 			}
 		}*/
 
-		mapManager->GetPlayer()->getmv(key);
-		mapManager->GetPlayer()->display(mapManager->GetPlayer()->player_shape_left, mapManager->GetPlayer()->player_shape_right);
+		display_list(h);
+        action_list(win, h);
+
+		player->getmv(key);
+		player->display(player->player_shape_left, player->player_shape_right);
+
 		//flushinp();
 
 		//gameState = 0;

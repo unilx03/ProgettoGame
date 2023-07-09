@@ -3,7 +3,7 @@ Implementazione della classe JumpingEnemy ("Nemico Saltellante"),
 sottoclasse di Enemy.
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include "Enemy.h"
 
 class JumpingEnemy: public Enemy{
@@ -19,7 +19,7 @@ class JumpingEnemy: public Enemy{
             "=^._.^=)~"
         };
 
-        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Enemy(win, y, x, type, bRight, hp, st, df, isL, r){
+        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Enemy(win, y, x, type, bRight, map, hp, st, df, isL, r){
 
         }
 };

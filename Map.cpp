@@ -105,7 +105,7 @@ void Map::SetNext(Map* n) { this->next = n; }
 void Map::GenerateEnemies ()
 {
 	//numPositionEnemies = rand() % ENEMYSPAWN;
-	numPositionEnemies = 0;
+	numPositionEnemies = 1;
 	for (int i = 0; i < numPositionEnemies; i++)
 	{
 		int randomEnemy = rand() % numSpawnEnemies;

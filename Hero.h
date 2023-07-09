@@ -68,7 +68,7 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, char n[], int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, hp, st, df, isL, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, char n[], int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, hp, st, df, isL, r){
             money = m;
             score = s;
             luck = lp;
@@ -81,7 +81,7 @@ class Hero: public Character{
         //default -> salto in verticale
         //freccia su + freccia dx/sx -> salto a dx/sx
         //freccia su + barra spaziatrice -> attacco durante il salto
-        void get_jump_type(){
+        /*void get_jump_type(){
             int choice = wgetch(curwin);
             wtimeout(curwin, 150); //dopo aver premuto la freccia in su, se l'utente non preme nessun altro tasto entro 150ms, il personaggio fa un semplice salto in verticale
             switch(choice){
@@ -105,14 +105,18 @@ class Hero: public Character{
                     fall_vertical(player_shape_left, player_shape_right);
                     break;
             }
-        }
+        }*/
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
             if (isJumping)
+            {
                 jump_vertical(player_shape_left, player_shape_right);
+            }
             else if (isFalling)
+            {
                 fall_vertical(player_shape_left, player_shape_right);
+            }
             
             switch(choice){
                 /*case KEY_UP:
@@ -121,14 +125,20 @@ class Hero: public Character{
                 case KEY_UP:
                     //get_jump_type();
                     if (!isJumping && !isFalling)
+                    {
+                        isJumping = true;
+                        jumpCounter = jumpForce;
                         jump_vertical(player_shape_left, player_shape_right);
+                    }
                     break;
                 case KEY_LEFT:
-                    mvleft();
+                    if (check_map_collision(0))
+                        mvleft();
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case KEY_RIGHT:
-                    mvright();
+                    if (check_map_collision(1))
+                        mvright();
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case ' ': //quando si preme la barra spaziatrice
@@ -139,4 +149,44 @@ class Hero: public Character{
             }
         }
 
+        /*void getmv(char key)
+        {
+            if (isJumping)
+            {
+                if (check_map_collision(2))
+                    jump_vertical(player_shape_left, player_shape_right);
+            }
+            else if (isFalling)
+            {
+                if (check_map_collision(3))
+                    fall_vertical(player_shape_left, player_shape_right);
+            }
+            
+            switch(key){
+                /*case KEY_UP:
+                    jump(player_shape_left, player_shape_right);
+                    break;
+
+                case 'w':
+                    //get_jump_type();
+                    if (!isJumping && !isFalling)
+                        jump_vertical(player_shape_left, player_shape_right);
+                    break;
+
+                case 'a':
+                    if (check_map_collision(0))
+                        mvleft();
+                    //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
+                    break;
+
+                case 'd':
+                    if (check_map_collision(1))
+                        mvright();
+                    //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
+                    break;
+
+                default:
+                    break;
+            }
+        }*/
 };

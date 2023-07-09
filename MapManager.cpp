@@ -5,8 +5,6 @@ MapManager::MapManager(WINDOW* win)
     this->window = win;
     InitializeFullMapList();
     this->currentMapList = new MapList();
-
-	SetPlayer(new Hero(this->window, 19, 2, 8, "Ettore"));
 }
 
 void MapManager::InitializeFullMapList()
@@ -93,9 +91,9 @@ void MapManager::DrawCurrentMap()
 			char character = ' ';
 			if (this->currentMapList->GetTail()->GetMap()[i][j] == 0)
 				character = ' ';
-			else if (this->currentMapList->GetTail()->GetMap()[i][j] == 1)
+			else if (this->currentMapList->GetTail()->GetMap()[i][j] == FLOORCHARACTER)
 				character = '_';
-			else if (this->currentMapList->GetTail()->GetMap()[i][j] == 2)
+			else if (this->currentMapList->GetTail()->GetMap()[i][j] == WALLCHARACTER)
 				character = '|';
 			else
 				character = ' ';
@@ -103,7 +101,7 @@ void MapManager::DrawCurrentMap()
 		}
 	}
 	
-	for (int i = 0; i < this->currentMapList->GetTail()->GetNumPositionEnemies(); i++)
+	/*for (int i = 0; i < this->currentMapList->GetTail()->GetNumPositionEnemies(); i++)
 	{
 		mvwprintw(this->window, this->currentMapList->GetTail()->GetPositionEnemies()[i].y, this->currentMapList->GetTail()->GetPositionEnemies()[i].x, 
 					"%c", 'N');
@@ -113,16 +111,12 @@ void MapManager::DrawCurrentMap()
 	{
 		mvwprintw(this->window, this->currentMapList->GetTail()->GetPositionItems()[i].y, this->currentMapList->GetTail()->GetPositionItems()[i].x, 
 					"%c", 'O');
-	}
+	}*/
 
 	wrefresh(this->window);
 
 	//this->player->display(this->player->player_shape_left, this->player->player_shape_right);
 }
-
-//Entita
-Hero* MapManager::GetPlayer() { return this->player; }
-void MapManager::SetPlayer(Hero* p) { this->player = p; }
 
 /*
 Oltre alle informazioni relative ad ogni livello, salvare il numero di livelli caricati e statistiche del protagonista

@@ -3,7 +3,7 @@ Implementazione della classe Enemy ("Nemico"), sottoclasse di Character,
 e classe base delle altre classi che definiscono gli altri tipi di nemici
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 //#include "Character.h"
 #include "Hero.h"
 
@@ -28,7 +28,7 @@ class Enemy: public Character{
 
         //costruttore dei nemici. Richiama il costruttore della classe Character.
         //Enemy(WINDOW * win, int y, int x, int type, int r, char* right[], char* left[]):Character(win, y, x){
-        Enemy(WINDOW * win, int y, int x, int type, int bRight, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Character(win, y, x, bRight, hp, st, df, isL, r){
+        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Character(win, y, x, bRight, map, hp, st, df, isL, r){
             //wtimeout(win, 100); //permette al nemico di muoversi indipendentemente dagli input dell'utente
             enemy_type = type;
         }

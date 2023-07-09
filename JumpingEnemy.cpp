@@ -3,7 +3,7 @@ Utilizzo della classe JumpingEnemy (definita in JumpingEnemy.h) per la
 creazione e la gestione delle azioni dei nemici "saltellanti"
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include "JumpingENemy.h"
 
 //Istanziazione di un nemico di tipo saltellante; numero identificativo = 1.

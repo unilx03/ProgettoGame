@@ -16,5 +16,5 @@ g++ ProgettoGame.cpp map.cpp Entities/Character.cpp oggetto.cpp -lncurses -o Pro
 g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp -lncurses -o ProgettoGameClassi
 ./ProgettoGameClassi
 
-g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Entities/Hero.cpp -lncurses -o ProgettoGameClassi
+g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Hero.cpp -lncurses -o ProgettoGameClassi
 ./ProgettoGameClassi

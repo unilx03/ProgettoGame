@@ -3,7 +3,9 @@ Implementazione della superclasse Character ("Personaggio"), classe base di tutt
 la gerarchia di classi
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h> 
+#include <ncurses.h>
+
+#include "MapManager.h"
 
 class Character{ 
     private:
@@ -11,7 +13,6 @@ class Character{
         const char* bullet = "-";
 
         //attributi su cui avranno influenza gli oggetti
-        int jumpForce; //"forza di salto", ossia numero di righe che costituisce l'altezza del salto
         int attackSpeed; //velocità con cui vengono sparati i proiettili
         int health; //punti vita
         int strenght; //quantità di danno inflitto
@@ -20,9 +21,11 @@ class Character{
     protected: //protected perché serve che tali attributi siano visibili alle classi che ereditano
         int bound_right;
         int rows; //numero di righe su cui viene disegnato il personaggio
-        int xLoc, yLoc, xMax, yMax;                                  
+        int xLoc, yLoc, xMax, yMax;   
+
         WINDOW * curwin;
 
+        int jumpForce; //"forza di salto", ossia numero di righe che costituisce l'altezza del salto
         bool isJumping;
         int jumpCounter;
         bool isFalling;
@@ -31,6 +34,7 @@ class Character{
     public:
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
         bool is_left;
+        MapManager* mapManager;
 
         void setJumpForce(int n){
             jumpForce = n;
@@ -66,7 +70,7 @@ class Character{
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 1, int jF = 5, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 1, int jF = 4, int aS = 20){
             curwin = win;
             yLoc = y;
             xLoc = x;
@@ -80,6 +84,8 @@ class Character{
             health = hp;
             strenght = st;
             defense = df;
+
+            mapManager = map;
         }
 
         //Spostamento a sinistra del personaggino
@@ -178,18 +184,12 @@ class Character{
                     napms(JUMP_DELAY);
                 }
             } */
-
-            if (!isJumping)
+         
+            if (isJumping)
             {
-                isJumping = true;
-                jumpCounter = jumpForce;
-            }
-            else
-            {
-                jumpCounter--;
-
-                if (jumpCounter > 0)
+                if (jumpCounter > 0 && check_map_collision(2))
                 {
+                    jumpCounter--;
                     yLoc--;
                     display(left, right);
                     //napms(JUMP_DELAY);
@@ -197,8 +197,16 @@ class Character{
                 else
                 {
                     isJumping = false;
-                    isFalling = true;
-                    fallCounter = jumpForce;
+                    jumpCounter = 0;
+                    if (check_map_collision(3))
+                    {
+                        isFalling = true;
+                        fallCounter = ROW;
+                    }
+                    else
+                    {
+                        isFalling = false;
+                    }
                 }
             }
         }
@@ -212,13 +220,12 @@ class Character{
                 napms(JUMP_DELAY);
             }
             */
-
+            
             if (isFalling)
             {
-                fallCounter--;
-
-                if (fallCounter > 0)
+                if (fallCounter > 0 && check_map_collision(3))
                 {
+                    fallCounter--;
                     yLoc++;
                     display(left, right);
                     //napms(JUMP_DELAY);
@@ -226,6 +233,7 @@ class Character{
                 else
                 {
                     isFalling = false;
+                    fallCounter = 0;
                 }
             }
         }
@@ -254,5 +262,48 @@ class Character{
             }
         }
 
+        bool check_map_collision(int direction)
+        {
+            switch (direction)
+            {
+                case 0: //left
+                    if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc][xLoc - 2] == WALLCHARACTER)
+                        return false;
+                    else
+                        return true;
+                    break;
+                    
+                case 1: //right
+                    if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc][xLoc + bound_right - 2] == WALLCHARACTER)
+                        return false;
+                    else
+                        return true;
+                    break;
+
+                case 2: //top
+                    if (rows - 1 < 1)
+                        return false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc + bound_right - 2] == FLOORCHARACTER)
+                        return false;
+                    else
+                        return true;
+                    break;
+
+                case 3: //bottom
+                    if (yLoc + 1 > ROW - 1)
+                        return false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - rows][xLoc] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - rows][xLoc + bound_right - 2] == FLOORCHARACTER)
+                        return false;
+                    else
+                        return true;
+                    break;
+
+                default:
+                    return false;
+                    break;
+            }
+        }
 };
 

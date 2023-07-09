@@ -4,7 +4,6 @@
 #include <fstream>
 #include <ncurses.h>
 
-#include "Entities/Hero.h"
 #include "MapList.h"
 
 using namespace std;
@@ -16,8 +15,6 @@ class MapManager
         MapList* fullMapList;
         int numMaps;
         MapList* currentMapList;
-
-        Hero* player;
 
     public:
         MapManager(WINDOW* win);
@@ -38,10 +35,6 @@ class MapManager
         void GenerateNewMap();
 
         void DrawCurrentMap();
-
-        //Entita
-        Hero* GetPlayer();
-        void SetPlayer(Hero* p);
 
         //Funzioni di salvataggio riguardo i livelli
         void LoadSavedMaps();

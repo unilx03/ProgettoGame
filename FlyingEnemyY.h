@@ -3,7 +3,7 @@ Implementazione della classe FlyingEnemyY ("Nemico Volante" che si muove
 sulla stessa Y), sottoclasse di Enemy
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 //#include "Enemy.h"
 #include "ThiefEnemy.h"
 
@@ -14,7 +14,7 @@ class FlyingEnemyY: public Enemy{
                 "Vvv  ^ ^  vvV"
         };
         
-        FlyingEnemyY(WINDOW * win, int y, int x, int type, int bRight, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 2):Enemy(win, y, x, type, bRight, hp, st, df, isL, r){
+        FlyingEnemyY(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 2):Enemy(win, y, x, type, bRight, map, hp, st, df, isL, r){
         
         }
 };

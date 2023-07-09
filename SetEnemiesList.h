@@ -2,7 +2,7 @@
 I nemici vengono gestiti per mezzo di una lista dinamica.
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include "BossEnemy.h"
 
 //NOTA PER ME: fare una lista di costanti con i numeri identificativi dei nemici.
@@ -17,34 +17,34 @@ struct nodo{
 typedef nodo* p_nodo;
 
 //NOTA PER ME: gestendo il tutto in certo modo (considerata anche la funzione seguente), tutti i file nemico.cpp diventano inutili.
-p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, int enemy_type){
+p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type){
     p_nodo tmp = new nodo;
     //ogni tipologia di nemico viene identificata da un codice (un numero).
     switch(enemy_type){
         case 1:
             //nemico saltellante
-            tmp->e = new JumpingEnemy(playwin, y, x, 1, 10);
+            tmp->e = new JumpingEnemy(playwin, y, x, 1, 10, map);
             break;
         case 2:
             //nemico ladro
-            tmp->e = new ThiefEnemy(playwin, y, x, 2, 8);
+            tmp->e = new ThiefEnemy(playwin, y, x, 2, 8, map);
             break;
         case 3:
             //nemico volante di tipo Y
-            tmp->e = new FlyingEnemyY(playwin, y, x, 3, 14);
+            tmp->e = new FlyingEnemyY(playwin, y, x, 3, 14, map);
             break;
         case 4:
             //nemico volante di tipo X
-            tmp->e = new FlyingEnemyX(playwin, y, x, 4, 6, true);
+            tmp->e = new FlyingEnemyX(playwin, y, x, 4, 6, map, true);
             break;
         //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
         case 5:
             //nemico boss
-            tmp->e = new BossEnemy(playwin, y, x, 5, 11);
+            tmp->e = new BossEnemy(playwin, y, x, 5, 11, map);
             break;
         default:
             //nemico base
-            tmp->e = new Enemy(playwin, y, x, 0, 10);
+            tmp->e = new Enemy(playwin, y, x, 0, 10, map);
             break;
     }
     tmp->next = h;
@@ -130,7 +130,7 @@ nella funzione display.
 
 
 
-void provaaa(WINDOW * playwin, int yHero, int xHero, p_nodo h){
+/*void provaaa(WINDOW * playwin, int yHero, int xHero, p_nodo h){
         char name[7] = "Ettore";
         Hero * c = new Hero(playwin, yHero, xHero, 8, name);
         do{     
@@ -141,4 +141,4 @@ void provaaa(WINDOW * playwin, int yHero, int xHero, p_nodo h){
 
                 c->display(c->player_shape_left, c->player_shape_right);
         }while(c->getmv()!='x');
-}
+}*/

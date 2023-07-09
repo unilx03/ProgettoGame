@@ -2,7 +2,7 @@
 Implementazione della classe ThiefEnemy ("Nemico Ladro"), sottoclasse di Enemy
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 //#include "Enemy.h"
 #include "JumpingENemy.h"
 
@@ -17,7 +17,7 @@ class ThiefEnemy: public Enemy{
                 "<( <  )"
         };
         
-        ThiefEnemy(WINDOW * win, int y, int x, int type, int bRight, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 2):Enemy(win, y, x, type, bRight, hp, st, df, isL, r){
+        ThiefEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 2):Enemy(win, y, x, type, bRight, map, hp, st, df, isL, r){
         
         }
 };
