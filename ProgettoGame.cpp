@@ -35,13 +35,14 @@ int main()
 	while (gameState > 0)
 	{
 		int key = wgetch(win);
+		wtimeout(win, 150);
 		//Game Over: gameState = 0
 		//gameState = 0;
 
 		//wclear(win);
 		mapManager->DrawCurrentMap();
 
-		if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
+		/*if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 		{
 			mapManager->GetCurrentMapList()->PreviousMap();
 			mapManager->DrawCurrentMap();
@@ -58,10 +59,11 @@ int main()
 				mapManager->GenerateNewMap();
 				mapManager->DrawCurrentMap();
 			}
-		}
+		}*/
 
 		mapManager->GetPlayer()->getmv(key);
 		mapManager->GetPlayer()->display(mapManager->GetPlayer()->player_shape_left, mapManager->GetPlayer()->player_shape_right);
+		//flushinp();
 
 		//gameState = 0;
 	}

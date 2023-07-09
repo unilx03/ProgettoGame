@@ -117,7 +117,7 @@ void MapManager::DrawCurrentMap()
 
 	wrefresh(this->window);
 
-	this->player->display(this->player->player_shape_left, this->player->player_shape_right);
+	//this->player->display(this->player->player_shape_left, this->player->player_shape_right);
 }
 
 //Entita

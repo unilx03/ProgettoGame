@@ -66,7 +66,7 @@ class Character{
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 1, int jF = 4, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 1, int jF = 5, int aS = 20){
             curwin = win;
             yLoc = y;
             xLoc = x;
@@ -142,7 +142,7 @@ class Character{
                     display(left, right);
 
                     //naps permette di ritardare l'output
-                    napms(JUMP_DELAY);
+                    //napms(JUMP_DELAY);
                     //wtimeout(win, 100);
                 }
             }
@@ -161,7 +161,7 @@ class Character{
                 }
                 display(left, right);    
                 //naps permette di ritardare l'output a video
-                napms(JUMP_DELAY);
+                //napms(JUMP_DELAY);
             }
         }
 
@@ -184,19 +184,22 @@ class Character{
                 isJumping = true;
                 jumpCounter = jumpForce;
             }
-            jumpCounter--;
-
-            if (jumpCounter > 0)
-            {
-                yLoc--;
-                display(left, right);
-                napms(JUMP_DELAY);
-            }
             else
             {
-                isJumping = false;
-                isFalling = true;
-                fallCounter = jumpForce;
+                jumpCounter--;
+
+                if (jumpCounter > 0)
+                {
+                    yLoc--;
+                    display(left, right);
+                    //napms(JUMP_DELAY);
+                }
+                else
+                {
+                    isJumping = false;
+                    isFalling = true;
+                    fallCounter = jumpForce;
+                }
             }
         }
 
@@ -210,17 +213,20 @@ class Character{
             }
             */
 
-            fallCounter--;
+            if (isFalling)
+            {
+                fallCounter--;
 
-            if (fallCounter > 0)
-            {
-                yLoc++;
-                display(left, right);
-                napms(JUMP_DELAY);
-            }
-            else
-            {
-                isFalling = false;
+                if (fallCounter > 0)
+                {
+                    yLoc++;
+                    display(left, right);
+                    //napms(JUMP_DELAY);
+                }
+                else
+                {
+                    isFalling = false;
+                }
             }
         }
 
