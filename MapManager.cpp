@@ -3,11 +3,13 @@
 MapManager::MapManager(WINDOW* win)
 {
     this->window = win;
-    initializeFullMapList();
+    InitializeFullMapList();
     this->currentMapList = new MapList();
+
+	SetPlayer(new Hero(this->window, 19, 2, 8, "Ettore"));
 }
 
-void MapManager::initializeFullMapList()
+void MapManager::InitializeFullMapList()
 {
     this->fullMapList = new MapList();
 
@@ -41,8 +43,8 @@ void MapManager::initializeFullMapList()
 			Map* m2 = new Map(mirroredMap, id, true);
             id++;
 
-			this->fullMapList->addMap(m1);
-			this->fullMapList->addMap(m2);
+			this->fullMapList->AddMap(m1);
+			this->fullMapList->AddMap(m2);
 		}
 		//head = head->prec; //il ciclo while crea un livello vuoto in più in fondo
 		//head = head->prec;
@@ -53,7 +55,7 @@ void MapManager::initializeFullMapList()
 		//this->fullMapList->GetTail()->SetNext(NULL);
 	}
 
-    this->numMaps = this->fullMapList->countMaps(fullMapList->GetTail());
+    this->numMaps = this->fullMapList->CountMaps(fullMapList->GetTail());
 	inputFile.close();
 }
 
@@ -69,19 +71,21 @@ void MapManager::SetNumMaps(int nm) { this->numMaps = nm; }
 MapList* MapManager::GetCurrentMapList() { return this->currentMapList; }
 void MapManager::SetCurrentMapList(MapList* cml) { this->currentMapList = cml; }
 
-void MapManager::generateNewMap()
+void MapManager::GenerateNewMap()
 {
     int levelToLoadID = rand() % numMaps;
 	//int levelToLoadID = this->numMaps - 1; //debug
     //this->numMaps--;
-    this->currentMapList->addMap(this->fullMapList->loadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
-	this->currentMapList->GetTail()->generateEnemies();
-	this->currentMapList->GetTail()->generateItems();
+    this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
+	this->currentMapList->GetTail()->GenerateEnemies();
+	this->currentMapList->GetTail()->GenerateItems();
 }
 
-void MapManager::drawCurrentMap()
+void MapManager::DrawCurrentMap()
 {
 	box(this->window, 0, 0);
+	wclear(this->window);
+
 	for (int i = 0; i < ROW; i++)
 	{
 		for (int j = 0; j < COLUMN; j++)
@@ -110,17 +114,21 @@ void MapManager::drawCurrentMap()
 		mvwprintw(this->window, this->currentMapList->GetTail()->GetPositionItems()[i].y, this->currentMapList->GetTail()->GetPositionItems()[i].x, 
 					"%c", 'O');
 	}
-	
-	//create_hero(win, 19, 2);
 
 	wrefresh(this->window);
+
+	this->player->display(this->player->player_shape_left, this->player->player_shape_right);
 }
+
+//Entita
+Hero* MapManager::GetPlayer() { return this->player; }
+void MapManager::SetPlayer(Hero* p) { this->player = h; }
 
 /*
 Oltre alle informazioni relative ad ogni livello, salvare il numero di livelli caricati e statistiche del protagonista
 */
 
-void MapManager::loadSavedMaps()
+void MapManager::LoadSavedMaps()
 {
 	ifstream inputFile; /* Dichiarazione di tipo */
 	char path[100] = "mapSaveFile.txt";
@@ -133,11 +141,11 @@ void MapManager::loadSavedMaps()
 			int id;
 			inputFile >> id;
 
-			Map* temp = this->fullMapList->loadMapFromID(fullMapList->GetTail(), id);
+			Map* temp = this->fullMapList->LoadMapFromID(fullMapList->GetTail(), id);
 
 			//aggiornare mappa a seconda dei nemici e oggetti spawnati
 
-			this->fullMapList->addMap(temp);
+			this->fullMapList->AddMap(temp);
 		}
 	}
 	

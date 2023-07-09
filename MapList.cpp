@@ -8,7 +8,7 @@ MapList::MapList()
 Map* MapList::GetTail() { return this->tail; }
 void MapList::SetTail(Map* t) { this->tail = t; }
 
-void MapList::addMap(Map* node)
+void MapList::AddMap(Map* node)
 {
     Map* temp = new Map(node);
 
@@ -20,7 +20,7 @@ void MapList::addMap(Map* node)
     this->SetTail(temp);
 }
 
-Map* MapList::loadMapFromID (Map* t, int id)
+Map* MapList::LoadMapFromID (Map* t, int id)
 {
     if (id == 0)
 	{
@@ -28,30 +28,30 @@ Map* MapList::loadMapFromID (Map* t, int id)
 	}
 	else
 	{
-		return loadMapFromID (t->GetPrev(), id - 1);
+		return LoadMapFromID (t->GetPrev(), id - 1);
 	}
 }
 
-int MapList::countMaps(Map* t)
+int MapList::CountMaps(Map* t)
 {
 	if (t == NULL)
 		return 0;
 	else
-		return 1 + countMaps(t->GetPrev());
+		return 1 + CountMaps(t->GetPrev());
 }
 
-void MapList::nextMap()
+void MapList::NextMap()
 {
     this->SetTail(this->tail->GetNext());
 }
 
-void MapList::previousMap()
+void MapList::PreviousMap()
 {
     if (this->tail->GetPrev() != NULL)
 		this->SetTail(this->tail->GetPrev());
 }
 
-void MapList::printMaps(Map* t)
+void MapList::PrintMaps(Map* t)
 {
 	if (t != NULL)
 	{
@@ -90,6 +90,6 @@ void MapList::printMaps(Map* t)
 		cout << endl;
 		
 		cout << endl << endl;
-		printMaps(t->GetPrev());
+		PrintMaps(t->GetPrev());
 	}
 }

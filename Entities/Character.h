@@ -3,7 +3,7 @@ Implementazione della superclasse Character ("Personaggio"), classe base di tutt
 la gerarchia di classi
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h> 
+#include <ncurses.h> 
 
 class Character{ 
     private:

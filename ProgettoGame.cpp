@@ -26,7 +26,7 @@ int main()
 
 	MapManager* mapManager = new MapManager(win);
 	//MapManager* mapManager = new MapManager(newwin(ROW + 2, COLUMN + 2, 2, 5));
-	mapManager->generateNewMap();
+	mapManager->GenerateNewMap();
 
 	//mapManager->GetFullMapList()->printMaps(mapManager->GetFullMapList()->GetTail());
 	//mapManager->GetCurrentMapList()->printMaps(mapManager->GetCurrentMapList()->GetTail());
@@ -39,24 +39,24 @@ int main()
 		//gameState = 0;
 		
 		//wclear(win);
-		mapManager->drawCurrentMap();
+		mapManager->DrawCurrentMap();
 
 		if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 		{
-			mapManager->GetCurrentMapList()->previousMap();
-			mapManager->drawCurrentMap();
+			mapManager->GetCurrentMapList()->PreviousMap();
+			mapManager->DrawCurrentMap();
 		}
 		else if (key == 'd') //carica livello successivo, se non esiste aggiungere un nuovo livello
 		{
 			if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL)
 			{
-				mapManager->GetCurrentMapList()->nextMap();
-				mapManager->drawCurrentMap();
+				mapManager->GetCurrentMapList()->NextMap();
+				mapManager->DrawCurrentMap();
 			}
 			else
 			{
-				mapManager->generateNewMap();
-				mapManager->drawCurrentMap();
+				mapManager->GenerateNewMap();
+				mapManager->DrawCurrentMap();
 			}
 		}
 

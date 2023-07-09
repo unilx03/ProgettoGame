@@ -3,7 +3,7 @@ Implementazione della classe Hero ("Eroe", il personaggio comandato dall'utente)
 sottoclasse di Character
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include <cstring>
 //#include "JumpingEnemy.h"
 #include "Character.h"

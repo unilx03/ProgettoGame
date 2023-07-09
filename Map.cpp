@@ -102,7 +102,7 @@ void Map::SetPrev(Map* p) { this->prev = p; }
 Map* Map::GetNext() { return this->next; }
 void Map::SetNext(Map* n) { this->next = n; }
 
-void Map::generateEnemies ()
+void Map::GenerateEnemies ()
 {
 	//numPositionEnemies = rand() % ENEMYSPAWN;
 	numPositionEnemies = 0;
@@ -114,7 +114,7 @@ void Map::generateEnemies ()
 	}
 }
 
-void Map::generateItems ()
+void Map::GenerateItems ()
 {
 	//numPositionItems = rand() % ITEMSPAWN;
 	numPositionItems = 0;

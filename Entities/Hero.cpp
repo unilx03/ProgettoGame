@@ -3,7 +3,7 @@ Utilizzo della classe Hero (definita in Hero.h) per la creazione e la gestione
 delle azioni dell'eroe
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include "Hero.h"
 
 void create_hero(WINDOW * playwin, int y, int x){

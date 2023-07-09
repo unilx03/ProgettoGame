@@ -83,6 +83,6 @@ class Map
 		Map* GetNext();
 		void SetNext(Map* p);
 
-		void generateEnemies();
-		void generateItems();
+		void GenerateEnemies();
+		void GenerateItems();
 };

@@ -19,12 +19,12 @@ class MapList
         Map* GetTail();
         void SetTail(Map* t);
 
-        void addMap (Map* node);
-        Map* loadMapFromID (Map* tail, int id);
-        int countMaps (Map* tail);
+        void AddMap (Map* node);
+        Map* LoadMapFromID (Map* tail, int id);
+        int CountMaps (Map* tail);
 
-        void printMaps(Map* tail);
+        void PrintMaps(Map* tail);
 
-        void nextMap ();
-        void previousMap ();
+        void NextMap ();
+        void PreviousMap ();
 };
