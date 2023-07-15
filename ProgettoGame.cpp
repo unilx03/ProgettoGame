@@ -22,26 +22,30 @@ int main()
 	srand(time(NULL));
 	keypad(win, true);
 
-	//mvwprintw(win, 10, 10, "*");
-
 	MapManager* mapManager = new MapManager(win);
 	//MapManager* mapManager = new MapManager(newwin(ROW + 2, COLUMN + 2, 2, 5));
 	mapManager->GenerateNewMap();
+	//mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
 
-	Hero* player = new Hero(win, 19, 2, 8, mapManager, "Ettore");
-
+	Hero* player = new Hero(win, 19, 2, 7, mapManager, "Ettore");
+	/*
 	p_nodo h = NULL;
     h = head_insert(h, win, mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].y,
 					mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].x, mapManager, 0);
     //h = head_insert(h, win, 17, 35, 2);
     //h = head_insert(h, win, 10, 20, 3);
-    //h = head_insert(h, win, 10, 25, 4);
+    //h = head_insert(h, win, 10, 25, 4);*/
 
 	/*char key = ' ';
 	do
 	{
 		cin >> key;
-		player->getmv(key);
+		if (key != 'o' && key != ' ')
+		{
+			mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
+			player->getmv(key);
+			key = ' ';
+		}
 	}
 	while (key != 'o');*/
 
@@ -52,14 +56,14 @@ int main()
 	while (gameState > 0)
 	{
 		int key = wgetch(win);
-		wtimeout(win, 150);
+
 		//Game Over: gameState = 0
 		//gameState = 0;
 
 		//wclear(win);
 		mapManager->DrawCurrentMap();
 
-		/*if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
+		if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 		{
 			mapManager->GetCurrentMapList()->PreviousMap();
 			mapManager->DrawCurrentMap();
@@ -76,15 +80,15 @@ int main()
 				mapManager->GenerateNewMap();
 				mapManager->DrawCurrentMap();
 			}
-		}*/
+		}
 
-		display_list(h);
-        action_list(win, h);
+		//display_list(h);
+        //action_list(win, h);
 
 		player->getmv(key);
 		player->display(player->player_shape_left, player->player_shape_right);
 
-		//flushinp();
+		flushinp();
 
 		//gameState = 0;
 	}

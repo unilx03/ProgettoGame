@@ -63,7 +63,7 @@ class Hero: public Character{
             "( ='.')",
         };
         const char* player_shape_left[2] = {
-            "(\\ /)  ",
+            "(\\ /) ",
             "('.'= )",
         };
 
@@ -119,9 +119,6 @@ class Hero: public Character{
             }
             
             switch(choice){
-                /*case KEY_UP:
-                    jump(player_shape_left, player_shape_right);
-                    break;*/
                 case KEY_UP:
                     //get_jump_type();
                     if (!isJumping && !isFalling)
@@ -134,11 +131,17 @@ class Hero: public Character{
                 case KEY_LEFT:
                     if (check_map_collision(0))
                         mvleft();
+
+                    if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case KEY_RIGHT:
                     if (check_map_collision(1))
                         mvright();
+
+                    if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case ' ': //quando si preme la barra spaziatrice
@@ -160,33 +163,45 @@ class Hero: public Character{
             {
                 if (check_map_collision(3))
                     fall_vertical(player_shape_left, player_shape_right);
+                else
+                    isFalling = false;
             }
-            
-            switch(key){
-                /*case KEY_UP:
-                    jump(player_shape_left, player_shape_right);
-                    break;
 
+            switch(key){
                 case 'w':
                     //get_jump_type();
                     if (!isJumping && !isFalling)
+                    {
+                        isJumping = true;
+                        jumpCounter = jumpForce;
                         jump_vertical(player_shape_left, player_shape_right);
+                    }
                     break;
 
                 case 'a':
                     if (check_map_collision(0))
                         mvleft();
+
+                    if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
 
                 case 'd':
                     if (check_map_collision(1))
                         mvright();
+                        
+                     if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
 
                 default:
                     break;
             }
+
+            cout << "Player " << yLoc - rows + 1 << " / " << yLoc << " / " << xLoc << " / " << xLoc + bound_right - 1 << endl; 
+            cout << "isJumping " << isJumping << " / " << jumpCounter << endl;
+            cout << "isFalling " << isFalling << endl;
         }*/
 };

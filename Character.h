@@ -29,7 +29,6 @@ class Character{
         bool isJumping;
         int jumpCounter;
         bool isFalling;
-        int fallCounter;
    
     public:
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
@@ -74,8 +73,8 @@ class Character{
             curwin = win;
             yLoc = y;
             xLoc = x;
-            getmaxyx(curwin, yMax, xMax);
-            keypad(curwin, true);
+            //getmaxyx(curwin, yMax, xMax);
+            //keypad(curwin, true);
             bound_right = bRight;
             is_left = isL;
             rows = r;
@@ -86,6 +85,9 @@ class Character{
             defense = df;
 
             mapManager = map;
+            isJumping = false;
+            jumpCounter = 0;
+            isFalling = false;
         }
 
         //Spostamento a sinistra del personaggino
@@ -128,7 +130,6 @@ class Character{
             //le righe seguenti ricreano la cornice della box ad ogni movimento del personaggio (necessario!)
             box(curwin, 0, 0);
             wrefresh(curwin);
-
         }
 
         //Funzione che fa saltare il personaggio a dx e a sx
@@ -187,21 +188,29 @@ class Character{
          
             if (isJumping)
             {
-                if (jumpCounter > 0 && check_map_collision(2))
+                bool stillJumping = true;
+                if (jumpCounter > 0)
                 {
                     jumpCounter--;
-                    yLoc--;
-                    display(left, right);
+                    if (check_map_collision(2))
+                    {
+                        yLoc--;
+                        //display(left, right);
+                    }
+                    else
+                        stillJumping = false;
                     //napms(JUMP_DELAY);
                 }
                 else
+                    stillJumping = false;
+                
+                if (!stillJumping)
                 {
                     isJumping = false;
                     jumpCounter = 0;
                     if (check_map_collision(3))
                     {
                         isFalling = true;
-                        fallCounter = ROW;
                     }
                     else
                     {
@@ -223,18 +232,16 @@ class Character{
             
             if (isFalling)
             {
-                if (fallCounter > 0 && check_map_collision(3))
+                if (check_map_collision(3))
                 {
-                    fallCounter--;
                     yLoc++;
-                    display(left, right);
-                    //napms(JUMP_DELAY);
+                    //display(left, right);
                 }
                 else
                 {
                     isFalling = false;
-                    fallCounter = 0;
                 }
+                //napms(JUMP_DELAY);
             }
         }
 
@@ -264,46 +271,55 @@ class Character{
 
         bool check_map_collision(int direction)
         {
+            bool noCollision = true;
+            int checkY = 0;
             switch (direction)
             {
                 case 0: //left
-                    if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc][xLoc - 2] == WALLCHARACTER)
-                        return false;
-                    else
-                        return true;
+                    checkY = 0;
+                    while (checkY < rows)
+                    {
+                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == WALLCHARACTER ||
+                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == FLOORCHARACTER)
+                            noCollision = false;
+                        checkY++;
+                    }
                     break;
                     
-                case 1: //right
-                    if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc][xLoc + bound_right - 2] == WALLCHARACTER)
-                        return false;
-                    else
-                        return true;
+                case 1: //right     (xLoc + bound_right - 1) limite a destra effettivo 
+                    checkY = 0;
+                    while (checkY < rows)
+                    {
+                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == WALLCHARACTER ||
+                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == FLOORCHARACTER)
+                            noCollision = false;
+                        checkY++;
+                    }
                     break;
 
                 case 2: //top
-                    if (rows - 1 < 1)
-                        return false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc + bound_right - 2] == FLOORCHARACTER)
-                        return false;
-                    else
-                        return true;
+                    if ((yLoc - rows + 1) - 1 < 0)  //(yLoc - rows + 1) limite superiore effettivo
+                        noCollision = false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][xLoc - 1] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
+                        noCollision = false;
                     break;
 
                 case 3: //bottom
                     if (yLoc + 1 > ROW - 1)
-                        return false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - rows][xLoc] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - rows][xLoc + bound_right - 2] == FLOORCHARACTER)
-                        return false;
-                    else
-                        return true;
+                        noCollision = false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc - 1] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
+                        noCollision = false;
                     break;
 
                 default:
-                    return false;
+                    noCollision = false;
                     break;
             }
+
+            //cout << "No Collision " << noCollision << endl;
+            return noCollision;
         }
 };
 

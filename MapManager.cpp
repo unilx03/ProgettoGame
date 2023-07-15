@@ -49,7 +49,7 @@ void MapManager::InitializeFullMapList()
 		//head->next = NULL;
 
 		this->fullMapList->SetTail(this->fullMapList->GetTail()->GetPrev()); //il ciclo while crea un livello vuoto in più in fondo
-		//this->fullMapList->SetTail(this->fullMapList->GetTail()->GetPrev());
+		this->fullMapList->SetTail(this->fullMapList->GetTail()->GetPrev());
 		//this->fullMapList->GetTail()->SetNext(NULL);
 	}
 
@@ -72,6 +72,7 @@ void MapManager::SetCurrentMapList(MapList* cml) { this->currentMapList = cml; }
 void MapManager::GenerateNewMap()
 {
     int levelToLoadID = rand() % numMaps;
+	//int levelToLoadID = this->numMaps - 1;
 	//int levelToLoadID = this->numMaps - 1; //debug
     //this->numMaps--;
     this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
