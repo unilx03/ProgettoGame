@@ -45,8 +45,14 @@ class FlyingEnemyX: public Enemy{
         //funzione che fa muovere il nemico su e giù
         void mv_up_down(){
             if(is_up)
-                mvup();
+            {
+                if (check_map_collision(2))
+                    mvup();
+            }
             else
-                mvdown();
+            {
+                if (check_map_collision(3))
+                    mvdown();
+            }
         }
 };

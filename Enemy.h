@@ -36,8 +36,14 @@ class Enemy: public Character{
         //funzione che fa muovere i nemici a destra e a sinistra
         void mv_left_right(){
             if(is_left)
-                mvleft();
+            {
+                if (check_map_collision(0))
+                    mvleft();
+            }
             else
-                mvright();
+            {
+                if (check_map_collision(1))
+                    mvright();
+            }
         }
 };

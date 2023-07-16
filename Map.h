@@ -16,6 +16,7 @@ using namespace std;
 #define ITEMSPAWN 1
 
 #define ENEMYMAPNUMBER 3 //carattere che indica uno spawn di nemici o oggetti nella mappa
+#define FLYINGMAPNUMBER 4
 #define ITEMMAPNUMBER 9
 
 struct point{
