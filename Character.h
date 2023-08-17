@@ -97,7 +97,6 @@ class Character{
 
         //Spostamento a sinistra del personaggino
         void mvleft(){
-            //da aggiungere: richiamare funzione di caduta se arriva alla fine di una piattaforma elevata
             is_left = true;
             xLoc--;
             if(xLoc < 1){
@@ -108,7 +107,6 @@ class Character{
 
         //Spostamento a destra del personaggino
         void mvright(){
-            //da aggiungere: richiamare funzione di caduta se arriva alla fine di una piattaforma elevata
             is_left = false;
             xLoc++;
             if(xLoc > xMax-bound_right){

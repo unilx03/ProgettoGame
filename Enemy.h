@@ -37,12 +37,12 @@ class Enemy: public Character{
         void mv_left_right(){
             if(is_left)
             {
-                if (check_map_collision(0))
+                //if (check_map_collision(0))
                     mvleft();
             }
             else
             {
-                if (check_map_collision(1))
+                //if (check_map_collision(1))
                     mvright();
             }
         }

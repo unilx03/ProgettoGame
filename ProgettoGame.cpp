@@ -28,6 +28,9 @@ int main()
 	//mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
 
 	Hero* player = new Hero(win, 19, 2, 7, mapManager, "Ettore");
+	p_nodo h = NULL;
+    h = head_insert(h, win, 19, 150, mapManager, 2);
+	 
 	/*
 	p_nodo h = NULL;
     h = head_insert(h, win, mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].y,
@@ -82,8 +85,8 @@ int main()
 			}
 		}
 
-		//display_list(h);
-        //action_list(win, h);
+		display_list(h);
+        action_list(win, h);
 
 		player->getmv(key);
 		player->display(player->player_shape_left, player->player_shape_right);
