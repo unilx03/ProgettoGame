@@ -2,7 +2,7 @@
 Implementazione della classe BossEnemy ("Boss")
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 //#include "Enemy.h"
 #include "FlyingEnemyX.h"
 

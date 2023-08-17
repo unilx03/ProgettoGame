@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------------
-Main di prova.
+MAIN DI PROVA DI BEATRICE (non più in uso).
 Path: /cygdrive/c/Users/ravy0/Documents/Università/vscodeWorkspace/Entities
 Per compilare:   g++ main.cpp Hero.cpp JumpingEnemy.cpp BossEnemy.cpp -lncurses -o game
 Per eseguire:   ./game.exe

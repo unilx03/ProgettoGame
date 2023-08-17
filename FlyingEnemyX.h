@@ -3,7 +3,7 @@ Implementazione della classe FlyingEnemyX ("Nemico Volante" che si muove sulla
 stessa X), sottoclasse di Enemy
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 //#include "Enemy.h"
 #include "FlyingEnemyY.h"
 

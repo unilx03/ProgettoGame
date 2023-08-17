@@ -3,7 +3,7 @@ Implementazione della classe JumpingEnemy ("Nemico Saltellante"),
 sottoclasse di Enemy.
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 #include "Enemy.h"
 
 class JumpingEnemy: public Enemy{

@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 
 #include "MapList.h"
 

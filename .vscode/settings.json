@@ -6,6 +6,7 @@
         "fstream": "cpp",
         "map": "cpp",
         "thread": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "ctime": "cpp"
     }
 }

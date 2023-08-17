@@ -58,7 +58,7 @@ int cercaRecord(string v[], int n){
     int j=1;
     int cont=1;
     while(j<n-2){
-    if(stoi(v[j])<stoi(v[j+2])){   //in caso di parità tengo il vecchio campione
+    if(stoi(v[j])<stoi(v[j+2])){   //in caso di paritï¿½ tengo il vecchio campione
     cont=j+2;
     }
     j+=2;
@@ -116,7 +116,7 @@ int main(int argc, char ** argv){
 
 
     //wrefresh() copia la finestra indicata sullo schermo fisico del terminale,
-    //tenendo presente quanto vi si trova già allo scopo di ottimizzare
+    //tenendo presente quanto vi si trova giï¿½ allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
     mvwprintw(G.getW(),1,1,"        |||||||     ||     ||  |||        || |||        ||  |||     |||     ||||||||||  ||     || ||||||  |||     |||");
@@ -211,7 +211,7 @@ int main(int argc, char ** argv){
 
 
     //PER ORA FACCIO UNA SEMPLICE FRASE, SUCCESSIVAMENTE DEVO CREARE DELLE PAGINE
-    mvwprintw(G.getW(), 25,1,"La tua scelta è: %s ", choices[highlight].c_str());
+    mvwprintw(G.getW(), 25,1,"La tua scelta ï¿½: %s ", choices[highlight].c_str());
     wrefresh(G.getW());
     //G.wW();
 

@@ -3,7 +3,7 @@ Implementazione della classe Enemy ("Nemico"), sottoclasse di Character,
 e classe base delle altre classi che definiscono gli altri tipi di nemici
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 //#include "Character.h"
 #include "Hero.h"
 

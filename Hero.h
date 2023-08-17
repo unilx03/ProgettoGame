@@ -3,9 +3,8 @@ Implementazione della classe Hero ("Eroe", il personaggio comandato dall'utente)
 sottoclasse di Character
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 #include <cstring>
-//#include "JumpingEnemy.h"
 #include "Character.h"
 
 class Hero: public Character{
@@ -78,54 +77,28 @@ class Hero: public Character{
             doubleScore = dS;
         }
 
-        //default -> salto in verticale
-        //freccia su + freccia dx/sx -> salto a dx/sx
-        //freccia su + barra spaziatrice -> attacco durante il salto
-        /*void get_jump_type(){
-            int choice = wgetch(curwin);
-            wtimeout(curwin, 150); //dopo aver premuto la freccia in su, se l'utente non preme nessun altro tasto entro 150ms, il personaggio fa un semplice salto in verticale
-            switch(choice){
-                case KEY_LEFT:
-                    is_left = true;
-                    jump(player_shape_left, player_shape_right);
-                    fall(player_shape_left, player_shape_right);
-                    break;
-                case KEY_RIGHT:
-                    is_left = false;
-                    jump(player_shape_left, player_shape_right);
-                    fall(player_shape_left, player_shape_right);
-                    break;
-                case ' ': //quando si preme la barra spaziatrice
-                    jump_vertical(player_shape_left, player_shape_right);
-                    attack(player_shape_left, player_shape_right);
-                    fall_vertical(player_shape_left, player_shape_right);
-                    break;
-                default:
-                    jump_vertical(player_shape_left, player_shape_right);
-                    fall_vertical(player_shape_left, player_shape_right);
-                    break;
-            }
-        }*/
-
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
             if (isJumping)
             {
-                jump_vertical(player_shape_left, player_shape_right);
+                jump();
             }
             else if (isFalling)
             {
-                fall_vertical(player_shape_left, player_shape_right);
+                fall();
+            }
+
+            if(isAttacking){
+                attack();
             }
             
             switch(choice){
                 case KEY_UP:
-                    //get_jump_type();
                     if (!isJumping && !isFalling)
                     {
                         isJumping = true;
                         jumpCounter = jumpForce;
-                        jump_vertical(player_shape_left, player_shape_right);
+                        jump();
                     }
                     break;
                 case KEY_LEFT:
@@ -145,63 +118,22 @@ class Hero: public Character{
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case ' ': //quando si preme la barra spaziatrice
-                    attack(player_shape_left, player_shape_right);
+                    if(!isAttacking){
+                        isAttacking = true;
+                        bullet_y = yLoc;
+                        if(is_left){
+                            is_left_bullet = true;
+                            bullet_x = xLoc-1;
+                        }
+                        else{
+                            is_left_bullet = false;
+                            bullet_x = xLoc+bound_right-1;
+                        }
+                        attack();
+                    }
                     break;
                 default:
                     break;
             }
         }
-
-        /*void getmv(char key)
-        {
-            if (isJumping)
-            {
-                if (check_map_collision(2))
-                    jump_vertical(player_shape_left, player_shape_right);
-            }
-            else if (isFalling)
-            {
-                if (check_map_collision(3))
-                    fall_vertical(player_shape_left, player_shape_right);
-                else
-                    isFalling = false;
-            }
-
-            switch(key){
-                case 'w':
-                    //get_jump_type();
-                    if (!isJumping && !isFalling)
-                    {
-                        isJumping = true;
-                        jumpCounter = jumpForce;
-                        jump_vertical(player_shape_left, player_shape_right);
-                    }
-                    break;
-
-                case 'a':
-                    if (check_map_collision(0))
-                        mvleft();
-
-                    if (check_map_collision(3))
-                        isFalling = true;
-                    //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
-                    break;
-
-                case 'd':
-                    if (check_map_collision(1))
-                        mvright();
-                        
-                     if (check_map_collision(3))
-                        isFalling = true;
-                    //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
-                    break;
-
-                default:
-                    break;
-            }
-
-            cout << "Player " << yLoc - rows + 1 << " / " << yLoc << " / " << xLoc << " / " << xLoc + bound_right - 1 << endl; 
-            cout << "isJumping " << isJumping << " / " << jumpCounter << endl;
-            cout << "isFalling " << isFalling << endl;
-        }*/
 };

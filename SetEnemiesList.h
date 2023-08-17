@@ -2,7 +2,7 @@
 I nemici vengono gestiti per mezzo di una lista dinamica.
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 #include "BossEnemy.h"
 
 //NOTA PER ME: fare una lista di costanti con i numeri identificativi dei nemici.
@@ -88,7 +88,7 @@ void display_list(p_nodo h){
 void action_list(WINDOW * playwin, p_nodo h){
     if(h != NULL){  //controllo di avere ancora elementi da stampare nella lista
         while(h != NULL){
-            wtimeout(playwin, 70); //permette al nemico di muoversi indipendentemente dagli input dell'utente
+            //wtimeout(playwin, 70); //permette al nemico di muoversi indipendentemente dagli input dell'utente
             //switch-case che effettua il downcasting nella sottoclasse di Enemy corretta in base alla tipologia di nemico
             switch((h->e)->enemy_type){  
                 /*case 1:

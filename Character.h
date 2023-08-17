@@ -3,7 +3,7 @@ Implementazione della superclasse Character ("Personaggio"), classe base di tutt
 la gerarchia di classi
 ----------------------------------------------------------------------------------*/
 
-#include <ncurses.h>
+#include <ncurses/ncurses.h>
 
 #include "MapManager.h"
 
@@ -29,6 +29,11 @@ class Character{
         bool isJumping;
         int jumpCounter;
         bool isFalling;
+
+        bool isAttacking; 
+        int bullet_x=0;
+        int bullet_y=0;
+        bool is_left_bullet; //direzione del proiettile
    
     public:
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
@@ -73,7 +78,7 @@ class Character{
             curwin = win;
             yLoc = y;
             xLoc = x;
-            //getmaxyx(curwin, yMax, xMax);
+            getmaxyx(curwin, yMax, xMax);
             //keypad(curwin, true);
             bound_right = bRight;
             is_left = isL;
@@ -132,60 +137,8 @@ class Character{
             wrefresh(curwin);
         }
 
-        //Funzione che fa saltare il personaggio a dx e a sx
-        void jump(const char* left[], const char* right[]){
-            //da aggiungere: gestione dei salti sulle/dalle piattaforme
-            //Controllo innanzitutto se il personaggio è a terra, e solo in quel caso gli permetto di saltare.
-            if (yLoc == yMax-(rows+1)) {
-                //salto (mantiene la direzione dell'ultima freccia premuta)
-                for (int i = 0; i < jumpForce; i++){
-                    yLoc--;
-                    if(is_left){
-                        mvleft();
-                    }
-                    else{
-                        mvright();
-                    }
-                    display(left, right);
-
-                    //naps permette di ritardare l'output
-                    //napms(JUMP_DELAY);
-                    //wtimeout(win, 100);
-                }
-            }
-        }
-
-        //Funzione che fa cadere il personaggio
-        void fall(const char* left[], const char* right[]){
-            //caduta (mantiene la direzione dell'ultima freccia premuta)
-            for (int i = 0; i < jumpForce; i++){
-                yLoc++;
-                if(is_left){
-                    mvleft();
-                }
-                else{
-                    mvright();
-                }
-                display(left, right);    
-                //naps permette di ritardare l'output a video
-                //napms(JUMP_DELAY);
-            }
-        }
-
-        //Funzione che fa saltare il personaggio in verticale
-        void jump_vertical(const char* left[], const char* right[]){
-            /*
-            //da aggiungere: gestione interazione con piattaforme
-            //Controllo innanzitutto se il personaggio è a terra, e solo in quel caso gli permetto di saltare.
-            if (yLoc == yMax-(rows+1)) {
-                //salto
-                for (int i = 0; i < jumpForce; i++){
-                    yLoc--;
-                    display(left, right);
-                    napms(JUMP_DELAY);
-                }
-            } */
-         
+        //Funzione che fa saltare il personaggio
+        void jump(){
             if (isJumping)
             {
                 bool stillJumping = true;
@@ -220,16 +173,8 @@ class Character{
             }
         }
 
-        void fall_vertical(const char* left[], const char* right[]){
-            /*
-            //caduta
-            for (int i = 0; i < jumpForce; i++){
-                yLoc++;
-                display(left, right);    
-                napms(JUMP_DELAY);
-            }
-            */
-            
+        //Funzione che fa cadere il personaggio
+        void fall(){
             if (isFalling)
             {
                 if (check_map_collision(3))
@@ -245,26 +190,27 @@ class Character{
             }
         }
 
-        //Funzione che fa cadere il personaggio in verticale
-
-        //Funzione che stampa il poiettile che viene sparato con la funzione attack()
-        void attack_display(const char* left[], const char* right[], int i){
-            display(left, right);
-            mvwprintw(curwin, yLoc, i, bullet);
-            wrefresh(curwin);
-            napms(attackSpeed);
-        }
-
         //Funzione di attacco (permette al personaggio di "sparare proiettili")
-        void attack(const char* left[], const char* right[]){
-            if(is_left){
-                for(int i = xLoc -1 ; i > 1; i--){
-                    attack_display(left, right, i);
+        void attack(){
+            if(isAttacking){
+               //wtimeout(curwin, 70);
+               if(is_left_bullet){
+                    if(bullet_x > 1 && check_map_collision_bullet()){
+                        bullet_x--;
+                        mvwprintw(curwin, bullet_y, bullet_x, bullet);
+                    }
+                    else{
+                        isAttacking = false;
+                    }
                 }
-            }
-            else{
-                for(int i = xLoc+bound_right-1; i < xMax-1; i++){
-                   attack_display(left, right, i);
+                else{
+                    if(bullet_x < xMax-1 && check_map_collision_bullet() ){
+                        bullet_x++;
+                        mvwprintw(curwin, bullet_y, bullet_x, bullet);
+                    }
+                    else{
+                        isAttacking = false;
+                    }
                 }
             }
         }
@@ -321,5 +267,19 @@ class Character{
             //cout << "No Collision " << noCollision << endl;
             return noCollision;
         }
+
+        bool check_map_collision_bullet(){
+            bool noCollision = true;
+            if(is_left_bullet){
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            else{
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            return noCollision;
+        }
+       
 };
 
