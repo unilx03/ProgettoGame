@@ -18,7 +18,7 @@ class FlyingEnemyX: public Enemy{
                 "/),,)"
         };
         
-        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, hp, st, df, isL, r){
+        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
             is_up = up;
         }
 
@@ -48,11 +48,15 @@ class FlyingEnemyX: public Enemy{
             {
                 if (check_map_collision(2))
                     mvup();
+                else
+                    is_up = false;
             }
             else
             {
                 if (check_map_collision(3))
                     mvdown();
+                else
+                    is_up = true;
             }
         }
 };

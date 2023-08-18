@@ -19,9 +19,23 @@ class JumpingEnemy: public Enemy{
             "=^._.^=)~"
         };
 
-        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Enemy(win, y, x, type, bRight, map, hp, st, df, isL, r){
+        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 1):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+        
+        }
 
+        void jump_and_fall(){
+            mv_left_right();
+
+            if (!isJumping && !isFalling){
+                isJumping = true;
+                jumpCounter = jumpForce;
+                jump();
+            }
+            else if (isJumping){
+                jump();
+            }
+            else if (isFalling){
+                fall();
+            }
         }
 };
-
-void create_jumping_enemy(WINDOW * playwin, int y, int x);

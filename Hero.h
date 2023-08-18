@@ -67,7 +67,7 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, char n[], int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, hp, st, df, isL, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 5, int st = 3, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             score = s;
             luck = lp;
@@ -124,7 +124,7 @@ class Hero: public Character{
                         bullet_y = yLoc;
                         if(is_left){
                             is_left_bullet = true;
-                            bullet_x = xLoc-1;
+                            bullet_x = xLoc;
                         }
                         else{
                             is_left_bullet = false;

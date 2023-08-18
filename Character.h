@@ -74,7 +74,7 @@ class Character{
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 1, int jF = 4, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 4, int aS = 20){
             curwin = win;
             yLoc = y;
             xLoc = x;
@@ -146,11 +146,9 @@ class Character{
                     if (check_map_collision(2))
                     {
                         yLoc--;
-                        //display(left, right);
                     }
                     else
                         stillJumping = false;
-                    //napms(JUMP_DELAY);
                 }
                 else
                     stillJumping = false;
@@ -213,7 +211,7 @@ class Character{
             }
         }
 
-        bool check_map_collision(int direction)
+        bool check_map_collision(int direction) 
         {
             bool noCollision = true;
             int checkY = 0;

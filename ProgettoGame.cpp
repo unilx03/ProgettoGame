@@ -27,17 +27,19 @@ int main()
 	mapManager->GenerateNewMap();
 	//mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
 
-	Hero* player = new Hero(win, 19, 2, 7, mapManager, "Ettore");
+	char n[] = "Ettore";
+	Hero* player = new Hero(win, 19, 2, 7, mapManager, false, n);
+
+	//NOTA: bisognerà creare una lista di nemici per ogni mappa
 	p_nodo h = NULL;
-    h = head_insert(h, win, 19, 150, mapManager, 2);
-	 
-	/*
-	p_nodo h = NULL;
-    h = head_insert(h, win, mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].y,
-					mapManager->GetCurrentMapList()->GetTail()->GetPositionEnemies()[0].x, mapManager, 0);
-    //h = head_insert(h, win, 17, 35, 2);
-    //h = head_insert(h, win, 10, 20, 3);
-    //h = head_insert(h, win, 10, 25, 4);*/
+	srand((unsigned) time(NULL));
+	h = generate_enemies(5, win, mapManager);
+
+    /*h = head_insert(h, win, 10, 150, mapManager, 0);
+	h = head_insert(h, win, 10, 140, mapManager, 1);
+	h = head_insert(h, win, 3, 150, mapManager, 2);
+	h = head_insert(h, win, 8, 60, mapManager, 3);
+	h = head_insert(h, win, 17, 10, mapManager, 4);*/
 
 	/*char key = ' ';
 	do

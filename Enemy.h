@@ -28,22 +28,36 @@ class Enemy: public Character{
 
         //costruttore dei nemici. Richiama il costruttore della classe Character.
         //Enemy(WINDOW * win, int y, int x, int type, int r, char* right[], char* left[]):Character(win, y, x){
-        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, int hp = 4, int st = 1, int df = 1, bool isL = false, int r = 1):Character(win, y, x, bRight, map, hp, st, df, isL, r){
+        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 1):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             //wtimeout(win, 100); //permette al nemico di muoversi indipendentemente dagli input dell'utente
             enemy_type = type;
         }
 
         //funzione che fa muovere i nemici a destra e a sinistra
         void mv_left_right(){
+            if (isFalling){
+                fall();
+            }
+
             if(is_left)
             {
-                //if (check_map_collision(0))
+                if (check_map_collision(0))
                     mvleft();
+                else
+                    is_left = false;
+
+                if (enemy_type != 3 && check_map_collision(3))
+                    isFalling = true;
             }
             else
             {
-                //if (check_map_collision(1))
+                if (check_map_collision(1))
                     mvright();
+                else
+                    is_left = true;
+
+                if (enemy_type != 3 && check_map_collision(3))
+                    isFalling = true;
             }
         }
 };
