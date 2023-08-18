@@ -89,6 +89,7 @@ int main()
         action_list(win, h);
 
 		player->getmv(key);
+		wtimeout(win, 150); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
 		player->display(player->player_shape_left, player->player_shape_right);
 
 		flushinp();

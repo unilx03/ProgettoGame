@@ -79,6 +79,9 @@ class Hero: public Character{
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
+
+            //napms(50);
+
             if (isJumping){
                 jump();
             }
@@ -131,6 +134,16 @@ class Hero: public Character{
                     }
                     break;
                 default:
+                    if (isJumping){
+                        jump();
+                    }
+                    else if (isFalling){
+                        fall();
+                    }
+
+                    if(isAttacking){
+                        attack();
+                    }
                     break;
             }
         }
