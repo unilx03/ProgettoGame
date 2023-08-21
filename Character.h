@@ -10,7 +10,6 @@ la gerarchia di classi
 class Character{ 
     private:
         const int JUMP_DELAY = 45; 
-        const char* bullet = "-";
 
         //attributi su cui avranno influenza gli oggetti
         int attackSpeed; //velocità con cui vengono sparati i proiettili
@@ -29,11 +28,6 @@ class Character{
         bool isJumping;
         int jumpCounter;
         bool isFalling;
-
-        bool isAttacking; 
-        int bullet_x=0;
-        int bullet_y=0;
-        bool is_left_bullet; //direzione del proiettile
    
     public:
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
@@ -74,7 +68,7 @@ class Character{
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 4, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 5, int aS = 20){
             curwin = win;
             yLoc = y;
             xLoc = x;
@@ -95,6 +89,26 @@ class Character{
             isFalling = false;
         }
 
+        //Stampa a video del personaggio, una riga per volta 
+        void display(const char* left[], const char* right[]){
+            if(is_left){
+                for (int i = 0; i < rows; i++) {
+                    mvwprintw(curwin, yLoc + i, xLoc, left[i]);
+                }
+            }
+            else{
+                for (int i = 0; i < rows; i++) {
+                    mvwprintw(curwin, yLoc + i, xLoc, right[i]);
+                }
+            }
+
+            //le righe seguenti ricreano la cornice della box ad ogni movimento del personaggio (necessario!)
+            box(curwin, 0, 0);
+            wrefresh(curwin);
+        }
+
+        //********** Nella seguente sezione si gestiscono i movimenti **********
+
         //Spostamento a sinistra del personaggino
         void mvleft(){
             is_left = true;
@@ -113,26 +127,6 @@ class Character{
                 xLoc = xMax-bound_right; //la costante bound_right è necessaria per non far fuoriuscire il personaggio dai bordi della box
                 is_left = true;
             }
-        }
-
-        //Stampa a video del personaggio, una riga per volta 
-        void display(const char* left[], const char* right[]){
-            //wclear(curwin); //cancella ciò che è stato stampato in precedenza per tenere solo la stampa del personaggio nella sua posizione corrente
-
-            if(is_left){
-                for (int i = 0; i < rows; i++) {
-                    mvwprintw(curwin, yLoc + i, xLoc, left[i]);
-                }
-            }
-            else{
-                for (int i = 0; i < rows; i++) {
-                    mvwprintw(curwin, yLoc + i, xLoc, right[i]);
-                }
-            }
-
-            //le righe seguenti ricreano la cornice della box ad ogni movimento del personaggio (necessario!)
-            box(curwin, 0, 0);
-            wrefresh(curwin);
         }
 
         //Funzione che fa saltare il personaggio
@@ -186,31 +180,7 @@ class Character{
             }
         }
 
-        //Funzione di attacco (permette al personaggio di "sparare proiettili")
-        void attack(){
-            if(isAttacking){
-               //wtimeout(curwin, 70);
-               if(is_left_bullet){
-                    if(bullet_x > 1 && check_map_collision_bullet()){
-                        bullet_x--;
-                        mvwprintw(curwin, bullet_y, bullet_x, bullet);
-                    }
-                    else{
-                        isAttacking = false;
-                    }
-                }
-                else{
-                    if(bullet_x < xMax-1 && check_map_collision_bullet() ){
-                        bullet_x++;
-                        mvwprintw(curwin, bullet_y, bullet_x, bullet);
-                    }
-                    else{
-                        isAttacking = false;
-                    }
-                }
-            }
-        }
-
+        //Funzione che controlla le collisioni entità-mappa (RIDEFINIRLA IN Hero.h AGGIUNGENDO CONTROLLO COLLISIONI EROE-NEMICI!!)
         bool check_map_collision(int direction) 
         {
             bool noCollision = true;
@@ -261,19 +231,6 @@ class Character{
             }
 
             //cout << "No Collision " << noCollision << endl;
-            return noCollision;
-        }
-
-        bool check_map_collision_bullet(){
-            bool noCollision = true;
-            if(is_left_bullet){
-                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER)
-                    noCollision = false;
-            }
-            else{
-                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER)
-                    noCollision = false;
-            }
             return noCollision;
         }
        

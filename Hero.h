@@ -9,6 +9,19 @@ sottoclasse di Character
 
 class Hero: public Character{
     private:
+
+       //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
+        struct bulletNode{    
+            int bullet_x=0;
+            int bullet_y=0;
+            bool is_left_bullet; //direzione del proiettile
+            bulletNode *next;
+        };
+        typedef bulletNode* p_bullet;
+        p_bullet h = NULL;
+        const char* bullet = "-";
+        bool isAttacking; //è vero finchè la lista di proiettili ha almeno un elemento
+
         //attributi su cui avranno influenza gli oggetti
         int money; 
         int luck; //punti fortuna (determinano la probabilità di trovare determinati oggetti nei livelli)
@@ -59,11 +72,11 @@ class Hero: public Character{
         //il personaggio viene disegnato su più righe utilizzando un array
         const char* player_shape_right[2] = {
             "  (\\ /)",
-            "( ='.')",
+            "( ='.')"
         };
         const char* player_shape_left[2] = {
             "(\\ /) ",
-            "('.'= )",
+            "('.'= )"
         };
 
         //costruttore del personaggio
@@ -75,7 +88,76 @@ class Hero: public Character{
             invincibility = inv;
             doubleMoney = dM;
             doubleScore = dS;
+            isAttacking = false;
         }
+
+        //********** Nella seguente sezione si gestisce l'attacco con i proiettili **********
+
+        //Funzione che inserisce un nuovo proiettile in testa alla lista
+        p_bullet bullet_insert(p_bullet h, int x, int y, bool left){
+            p_bullet tmp = new bulletNode;
+            tmp->bullet_x = x;
+            tmp->bullet_y = y;
+            tmp->is_left_bullet = left;
+            tmp->next = h;
+            return tmp;
+        }
+
+        //Funzione di attacco (permette al personaggio di "sparare proiettili")
+        void attack(p_bullet h){
+            if(isAttacking){
+                if(h == NULL) //controllo se ci sono ancora proiettili nella lista
+                    isAttacking = false;
+                else{
+                    p_bullet tmp = h;
+                    while(tmp!=NULL){
+                        if(tmp->is_left_bullet){
+                            if(tmp->bullet_x > 1 && check_map_collision_bullet(tmp->is_left_bullet, tmp->bullet_y, tmp->bullet_x)){
+                                tmp->bullet_x--;
+                                mvwprintw(curwin, tmp->bullet_y, tmp->bullet_x, bullet);
+                            }
+                            else{
+                                //rimuovo il proiettile dalla lista
+                                p_bullet tmp2 = tmp;
+                                p_bullet del = tmp;
+                                tmp2 = tmp2->next;
+                                //delete del;   //ERRORE "ABORTED: CORE DUMPED"
+                            }
+                        }
+                        else{
+                            if(tmp->bullet_x < xMax-1 && check_map_collision_bullet(tmp->is_left_bullet, tmp->bullet_y, tmp->bullet_x)){
+                                tmp->bullet_x++;
+                                mvwprintw(curwin, tmp->bullet_y, tmp->bullet_x, bullet);
+                            }
+                            else{
+                               //rimuovo il proiettile dalla lista
+                                p_bullet tmp2 = tmp;
+                                p_bullet del = tmp;
+                                tmp2 = tmp2->next;
+                                //delete del;   //ERRORE "ABORTED: CORE DUMPED"
+                            }
+                        }
+                        tmp = tmp->next;
+                    }
+                }
+            }
+        }
+
+        //Funzione che controlla le collisioni proiettili-mappa (AGGIUNGERE CONTROLLO COLLISIONI PROIETTILE NEMICO!!)
+        bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x){
+            bool noCollision = true;
+            if(is_left_bullet){
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            else{
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            return noCollision;
+        }
+
+        //********** Nella seguente sezione viene gestito l'input da tastiera dell'utente **********
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
@@ -87,10 +169,6 @@ class Hero: public Character{
             }
             else if (isFalling){
                 fall();
-            }
-
-            if(isAttacking){
-                attack();
             }
             
             switch(choice){
@@ -119,32 +197,21 @@ class Hero: public Character{
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case ' ': //quando si preme la barra spaziatrice
-                    if(!isAttacking){
-                        isAttacking = true;
-                        bullet_y = yLoc;
-                        if(is_left){
-                            is_left_bullet = true;
-                            bullet_x = xLoc;
-                        }
-                        else{
-                            is_left_bullet = false;
-                            bullet_x = xLoc+bound_right-1;
-                        }
-                        attack();
+                    isAttacking = true;
+                    if(is_left){
+                        h = bullet_insert(h, xLoc, yLoc, true);
+                    }
+                    else{
+                        h = bullet_insert(h, xLoc+bound_right-1, yLoc, false);
                     }
                     break;
                 default:
-                    if (isJumping){
-                        jump();
-                    }
-                    else if (isFalling){
-                        fall();
-                    }
-
-                    if(isAttacking){
-                        attack();
-                    }
                     break;
             }
+
+            if(isAttacking){
+                attack(h);
+            }
+
         }
 };

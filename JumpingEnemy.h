@@ -12,14 +12,24 @@ class JumpingEnemy: public Enemy{
         const int JUMP_FORCE = 5; //"forza di salto", ossia numero di righe che costituisce l'altezza del salto
 
     public:
-        const char* enemy_shape_right[1]= {
+        /*const char* enemy_shape_right[2]= {
             "~(=^._.^="
         };
-        const char* enemy_shape_left[1]= {
+        const char* enemy_shape_left[2]= {
             "=^._.^=)~"
+        };*/
+
+        const char* enemy_shape_right[2]= {
+            "  /\\__/\\ ",
+            "~( =^.^=)"
+
+        };
+        const char* enemy_shape_left[2]= {
+            " /\\__/\\  ",
+            "(=^.^= )~"
         };
 
-        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 1):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
         
         }
 

@@ -160,7 +160,7 @@ p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map){
                 if(p == 0)
                     list = head_insert(list, playwin, 7, 30, map, 3);
                 else
-                    list = head_insert(list, playwin, 4, 80, map, 3);
+                    list = head_insert(list, playwin, 13, 80, map, 3);
                 break;
             case 4:
                 p = rand()%2;
@@ -172,9 +172,9 @@ p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map){
             default:
                 p = rand()%2;
                 if(p == 0)
-                    list = head_insert(list, playwin, 15, 150, map, 0);
+                    list = head_insert(list, playwin, 10, 150, map, 0);
                 else
-                    list = head_insert(list, playwin, 17, 80, map, 0);
+                    list = head_insert(list, playwin, 4, 80, map, 0);
                 break;
         }
     }
