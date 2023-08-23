@@ -9,18 +9,13 @@ la gerarchia di classi
 
 class Character{ 
     private:
-        const int JUMP_DELAY = 45; 
-
         //attributi su cui avranno influenza gli oggetti
         int attackSpeed; //velocità con cui vengono sparati i proiettili
         int health; //punti vita
         int strenght; //quantità di danno inflitto
         int defense; //punti difesa
-
-    protected: //protected perché serve che tali attributi siano visibili alle classi che ereditano
-        int bound_right;
-        int rows; //numero di righe su cui viene disegnato il personaggio
-        int xLoc, yLoc, xMax, yMax;   
+   
+    public:
 
         WINDOW * curwin;
 
@@ -28,8 +23,13 @@ class Character{
         bool isJumping;
         int jumpCounter;
         bool isFalling;
-   
-    public:
+
+        int bound_right;
+        int rows; //numero di righe su cui viene disegnato il personaggio
+        int xLoc, yLoc, xMax, yMax;  
+        bool is_hit; //true se un entità è stata colpita
+        int hit_direction; //DA DOVE è arrivato il colpo. Nessun colpo = 0, dx = 1, sx = 2, down = 3, up = 4
+
         //la seguente variabile booleana serve per selezionare quale forma del personaggio stampare (quella che "guarda" a sx oppure quella che "guarda" a dx)
         bool is_left;
         MapManager* mapManager;
@@ -82,6 +82,9 @@ class Character{
             health = hp;
             strenght = st;
             defense = df;
+
+            is_hit = false;
+            hit_direction = 0;
 
             mapManager = map;
             isJumping = false;
@@ -176,11 +179,10 @@ class Character{
                 {
                     isFalling = false;
                 }
-                //napms(JUMP_DELAY);
             }
         }
 
-        //Funzione che controlla le collisioni entità-mappa (RIDEFINIRLA IN Hero.h AGGIUNGENDO CONTROLLO COLLISIONI EROE-NEMICI!!)
+        //Funzione che controlla le collisioni entità-mappa
         bool check_map_collision(int direction) 
         {
             bool noCollision = true;

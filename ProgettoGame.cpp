@@ -88,11 +88,19 @@ int main()
 		}
 
 		display_list(h);
-        action_list(win, h);
+        action_list(win, h, player);
 
-		player->getmv(key);
+		if(player->getHealth()>0){ //NOTA: if provvisorio. Giusto per capire quando avviene un gameover.
+			player->getmv(key);
+			if(player->hit_direction!=0)
+				player->display(player->player_shape_left_hit, player->player_shape_right_hit);
+			else
+				player->display(player->player_shape_left, player->player_shape_right);
+		}
+
+		player->hit_direction = 0;
+
 		wtimeout(win, 150); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
-		player->display(player->player_shape_left, player->player_shape_right);
 
 		flushinp();
 

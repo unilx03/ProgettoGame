@@ -11,7 +11,6 @@ class Enemy: public Character{
 
     public:
         //NOTA PER ME: aggiungere i seguenti attributi commentati al costruttore ecc.
-        //damage //danni inflitti al giocatore (dipendono dall'attributo diff_level dell'eroe)
         //money_released //soldi rilasciati alla sconfitta (dipendono dall'attributo diff_level dell'eroe)
         //score_released
 
@@ -79,4 +78,62 @@ class Enemy: public Character{
                     is_left = true;*/
             }
         }
+
+        //Funzione che controlla se un nemico è venuto a contatto con il personaggino. (DA FINIRE!!)
+        //bool check_enemy_player_collision(Hero *p){
+        void check_enemy_player_collision(Hero *p){
+            //bool not_hit = true;
+
+            //se il nemico colpisce l'eroe da dx, quest'ultimo viene "spinto" verso sx
+            if((p->xLoc >= xLoc - p->bound_right+1 && p->xLoc < xLoc) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
+                //not_hit = false;
+                p->is_hit = true;
+                p->hit_direction = 1;
+                if (p->check_map_collision(0))
+                    p->mvleft();
+                if (p->check_map_collision(3))
+                    p->isFalling = true;
+            }
+            //se il nemico colpisce l'eroe da sx, quest'ultimo viene "spinto" verso dx
+            else if((p->xLoc == xLoc + bound_right - 2) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
+                //not_hit = false;
+                p->is_hit = true;
+                p->hit_direction = 2;
+                if (p->check_map_collision(1))
+                    p->mvright();
+                if (p->check_map_collision(3))
+                    p->isFalling = true;
+            }
+            //se il nemico colpisce l'eroe dal basso, quest'ultimo viene "fatto rimbalzare" verso l'alto
+            else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc + p->rows == yLoc)){
+                //not_hit = false;
+                p->is_hit = true;
+                p->hit_direction = 3;
+                p->isJumping = true;
+                p->isFalling = false;
+                p->jumpCounter = p->jumpForce;
+                p->jump();
+            }
+            //se il nemico colpisce l'eroe dall'alto, quest'ultimo viene "fatto rimbalzare" verso il basso
+            else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc == yLoc + rows)){
+                //not_hit = false;
+                p->is_hit = true;
+                p->hit_direction = 4;
+                p->isJumping = false;
+                p->isFalling = true;
+                p->fall();
+            }
+            
+            //Se l'eroe è entrato a contatto con un nemico, perde tanti punti vita (health) quanti sono i punti di forza (strenght) del nemico
+            if(p->is_hit){
+                p->setHealth(p->getHealth() - getStrenght());
+                p->is_hit = false;
+    	        //p->hit_direction = 0;
+            }
+            
+            //return not_hit;
+        }
+
+        //Funzione che controlla se un nemico è venuto a contatto con un proiettile. In tal caso, enemy->setHealth(enemy->getHealth - player->strenght. Se arrivo a 0, rimuovere il nemico dalla lista)
+        //NOTA: probabilmente questa funzione andrà spostata in SetEnemiesList.h
 };

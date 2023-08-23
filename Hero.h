@@ -79,8 +79,17 @@ class Hero: public Character{
             "('.'= )"
         };
 
+        const char* player_shape_right_hit[2] = {
+            "  (\\ /)",
+            "( =@_@)"
+        };
+        const char* player_shape_left_hit[2] = {
+            "(\\ /) ",
+            "(@_@= )"
+        };
+
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 5, int st = 3, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             score = s;
             luck = lp;
@@ -159,18 +168,64 @@ class Hero: public Character{
 
         //********** Nella seguente sezione viene gestito l'input da tastiera dell'utente **********
 
+        //Funzione che controlla le collisioni eroe-mappa ed eroe-nemici (da finire)
+        bool check_map_collision(int direction) 
+        {
+            bool noCollision = true;
+            int checkY = 0;
+            switch (direction)
+            {
+                case 0: //left
+                    checkY = 0;
+                    while (checkY < rows)
+                    {
+                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == WALLCHARACTER ||
+                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == FLOORCHARACTER)
+                            noCollision = false;
+                        checkY++;
+                    }
+                    break;
+                    
+                case 1: //right     (xLoc + bound_right - 1) limite a destra effettivo 
+                    checkY = 0;
+                    while (checkY < rows)
+                    {
+                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == WALLCHARACTER ||
+                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == FLOORCHARACTER)
+                            noCollision = false;
+                        checkY++;
+                    }
+                    break;
+
+                case 2: //top
+                    if ((yLoc - rows + 1) - 1 < 0)  //(yLoc - rows + 1) limite superiore effettivo
+                        noCollision = false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][xLoc - 1] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
+                        noCollision = false;
+                    break;
+
+                case 3: //bottom
+                    if (yLoc + 1 > ROW - 1)
+                        noCollision = false;
+                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc - 1] == FLOORCHARACTER ||
+                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
+                        noCollision = false;
+                    break;
+
+                default:
+                    noCollision = false;
+                    break;
+            }
+            return noCollision;
+        }
+       
+
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
 
             //napms(50);
 
-            if (isJumping){
-                jump();
-            }
-            else if (isFalling){
-                fall();
-            }
-            
             switch(choice){
                 case KEY_UP:
                     if (!isJumping && !isFalling)
@@ -181,17 +236,17 @@ class Hero: public Character{
                     }
                     break;
                 case KEY_LEFT:
-                    if (check_map_collision(0))
-                        mvleft();
-
+                    if(hit_direction != 2)
+                        if (check_map_collision(0))
+                            mvleft();
                     if (check_map_collision(3))
                         isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case KEY_RIGHT:
-                    if (check_map_collision(1))
-                        mvright();
-
+                    if(hit_direction != 1)
+                        if (check_map_collision(1))
+                            mvright();
                     if (check_map_collision(3))
                         isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
@@ -207,6 +262,13 @@ class Hero: public Character{
                     break;
                 default:
                     break;
+            }
+
+            if(isJumping){
+                jump();
+            }
+            else if(isFalling){
+                fall();
             }
 
             if(isAttacking){
