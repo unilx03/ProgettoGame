@@ -88,14 +88,18 @@ int main()
 		}
 
 		display_list(h);
-        action_list(win, h, player);
+        h = action_list(win, h, player);
 
-		if(player->getHealth()>0){ //NOTA: if provvisorio. Giusto per capire quando avviene un gameover.
+		if(player->getHealth()>0){ //NOTA: if ed else if provvisori. Giusto per capire quando avviene un gameover.
 			player->getmv(key);
 			if(player->hit_direction!=0)
 				player->display(player->player_shape_left_hit, player->player_shape_right_hit);
 			else
 				player->display(player->player_shape_left, player->player_shape_right);
+		}
+		else if(player->getHealth() == 0){
+			player->setHealth(-1);
+			player->display(player->player_shape_dead, player->player_shape_dead);
 		}
 
 		player->hit_direction = 0;

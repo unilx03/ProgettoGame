@@ -87,6 +87,10 @@ class Hero: public Character{
             "(\\ /) ",
             "(@_@= )"
         };
+        const char* player_shape_dead[2] = {
+            "/ X X \\",
+            "VVVVVVV"
+        };
 
         //costruttore del personaggio
         Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
@@ -112,44 +116,71 @@ class Hero: public Character{
             return tmp;
         }
 
-        //Funzione di attacco (permette al personaggio di "sparare proiettili")
-        void attack(p_bullet h){
+        //Funzione di attacco (permette al personaggio di "sparare proiettili") (NOTA: dà coredump)
+        p_bullet attack(p_bullet h){
             if(isAttacking){
                 if(h == NULL) //controllo se ci sono ancora proiettili nella lista
                     isAttacking = false;
                 else{
+                    //check del primo elemento
+                    if(h->is_left_bullet){
+                        if(h->bullet_x > 1 && check_map_collision_bullet(h->is_left_bullet, h->bullet_y, h->bullet_x)){
+                            h->bullet_x--;
+                            mvwprintw(curwin, h->bullet_y, h->bullet_x, bullet);
+                        }
+                        else{
+                            //rimuovo il proiettile dalla lista                                
+                            p_bullet h2 = h;
+                            h = h->next;
+                            delete(h2);
+                        }
+                    }
+                    else{
+                        if(h->bullet_x < xMax-1 && check_map_collision_bullet(h->is_left_bullet, h->bullet_y, h->bullet_x)){
+                                h->bullet_x++;
+                                mvwprintw(curwin, h->bullet_y, h->bullet_x, bullet);
+                        }
+                        else{
+                            //rimuovo il proiettile dalla lista
+                            p_bullet h2 = h;
+                            h = h->next;
+                           delete(h2);
+                        }
+                    }
+
+                    //check dal secondo elemento in poi
                     p_bullet tmp = h;
-                    while(tmp!=NULL){
-                        if(tmp->is_left_bullet){
-                            if(tmp->bullet_x > 1 && check_map_collision_bullet(tmp->is_left_bullet, tmp->bullet_y, tmp->bullet_x)){
-                                tmp->bullet_x--;
-                                mvwprintw(curwin, tmp->bullet_y, tmp->bullet_x, bullet);
+                    while(tmp!=NULL && (tmp->next)!=NULL){
+                        if((tmp->next)->is_left_bullet){
+                            if((tmp->next)->bullet_x > 1 && check_map_collision_bullet((tmp->next)->is_left_bullet, (tmp->next)->bullet_y, (tmp->next)->bullet_x)){
+                                (tmp->next)->bullet_x--;
+                                mvwprintw(curwin, (tmp->next)->bullet_y, (tmp->next)->bullet_x, bullet);
+                                tmp = tmp->next;
                             }
                             else{
-                                //rimuovo il proiettile dalla lista
-                                p_bullet tmp2 = tmp;
-                                p_bullet del = tmp;
-                                tmp2 = tmp2->next;
-                                //delete del;   //ERRORE "ABORTED: CORE DUMPED"
+                                //rimuovo il proiettile dalla lista (FARE UNA FUNZIONE APPOSTA!! così stai solo evitando di stampare i proiettili che hanno colpito qualcosa)
+                                p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
                             }
                         }
                         else{
-                            if(tmp->bullet_x < xMax-1 && check_map_collision_bullet(tmp->is_left_bullet, tmp->bullet_y, tmp->bullet_x)){
-                                tmp->bullet_x++;
-                                mvwprintw(curwin, tmp->bullet_y, tmp->bullet_x, bullet);
+                            if((tmp->next)->bullet_x < xMax-1 && check_map_collision_bullet((tmp->next)->is_left_bullet, (tmp->next)->bullet_y, (tmp->next)->bullet_x)){
+                                (tmp->next)->bullet_x++;
+                                mvwprintw(curwin, (tmp->next)->bullet_y, (tmp->next)->bullet_x, bullet);
+                                tmp = tmp->next;
                             }
                             else{
-                               //rimuovo il proiettile dalla lista
-                                p_bullet tmp2 = tmp;
-                                p_bullet del = tmp;
-                                tmp2 = tmp2->next;
-                                //delete del;   //ERRORE "ABORTED: CORE DUMPED"
+                               //rimuovo il proiettile dalla lista (FARE UNA FUNZIONE APPOSTA!! così stai solo evitando di stampare i proiettili che hanno colpito qualcosa)
+                                p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
                             }
                         }
-                        tmp = tmp->next;
                     }
                 }
             }
+            return h;
         }
 
         //Funzione che controlla le collisioni proiettili-mappa (AGGIUNGERE CONTROLLO COLLISIONI PROIETTILE NEMICO!!)
@@ -167,59 +198,6 @@ class Hero: public Character{
         }
 
         //********** Nella seguente sezione viene gestito l'input da tastiera dell'utente **********
-
-        //Funzione che controlla le collisioni eroe-mappa ed eroe-nemici (da finire)
-        bool check_map_collision(int direction) 
-        {
-            bool noCollision = true;
-            int checkY = 0;
-            switch (direction)
-            {
-                case 0: //left
-                    checkY = 0;
-                    while (checkY < rows)
-                    {
-                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == WALLCHARACTER ||
-                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == FLOORCHARACTER)
-                            noCollision = false;
-                        checkY++;
-                    }
-                    break;
-                    
-                case 1: //right     (xLoc + bound_right - 1) limite a destra effettivo 
-                    checkY = 0;
-                    while (checkY < rows)
-                    {
-                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == WALLCHARACTER ||
-                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == FLOORCHARACTER)
-                            noCollision = false;
-                        checkY++;
-                    }
-                    break;
-
-                case 2: //top
-                    if ((yLoc - rows + 1) - 1 < 0)  //(yLoc - rows + 1) limite superiore effettivo
-                        noCollision = false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][xLoc - 1] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
-                        noCollision = false;
-                    break;
-
-                case 3: //bottom
-                    if (yLoc + 1 > ROW - 1)
-                        noCollision = false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc - 1] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
-                        noCollision = false;
-                    break;
-
-                default:
-                    noCollision = false;
-                    break;
-            }
-            return noCollision;
-        }
-       
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
         void getmv(int choice){
@@ -272,7 +250,7 @@ class Hero: public Character{
             }
 
             if(isAttacking){
-                attack(h);
+                h = attack(h);
             }
 
         }

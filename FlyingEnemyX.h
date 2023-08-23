@@ -17,6 +17,18 @@ class FlyingEnemyX: public Enemy{
                 "(O,O)",
                 "/),,)"
         };
+
+        const char* enemy_shape_hit[3]= {
+                " ,__,",
+                "(@<@)",
+                "/),,)"
+        }; 
+
+        const char* enemy_shape_dead[3]= {
+                "/X X\\",
+                "|   |",
+                "VVVVV"
+        };        
         
         FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
             is_up = up;

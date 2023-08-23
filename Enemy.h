@@ -34,6 +34,20 @@ class Enemy: public Character{
                 "_('w'_ )_"
         };
 
+        const char* enemy_shape_right_hit[2]= {
+                "  ( )( )",
+                "_( _@.@)_"
+        };
+        const char* enemy_shape_left_hit[2]= {
+                " ( )( )  ",
+                "_(@.@_ )_"
+        };
+
+        const char* enemy_shape_dead[2]= {
+                "/  X X  \\",
+                "VVVVVVVVV"
+        };
+
         //costruttore dei nemici. Richiama il costruttore della classe Character.
         //Enemy(WINDOW * win, int y, int x, int type, int r, char* right[], char* left[]):Character(win, y, x){
         Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Character(win, y, x, bRight, map, isL, hp, st, df, r){
@@ -125,11 +139,13 @@ class Enemy: public Character{
             }
             
             //Se l'eroe è entrato a contatto con un nemico, perde tanti punti vita (health) quanti sono i punti di forza (strenght) del nemico
-            if(p->is_hit){
+            if(p->is_hit && getHealth()>0){
                 p->setHealth(p->getHealth() - getStrenght());
                 p->is_hit = false;
     	        //p->hit_direction = 0;
             }
+
+            
             
             //return not_hit;
         }

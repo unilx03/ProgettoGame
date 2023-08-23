@@ -13,6 +13,16 @@ class FlyingEnemyY: public Enemy{
                 "___(^._.^)___",
                 "Vvv  ^ ^  vvV"
         };
+
+        const char* enemy_shape_hit[2]= {
+                "___(^@ @^)___",
+                "Vvv  ^ ^  vvV"
+        };
+
+        const char* enemy_shape_dead[2]= {
+                "/    X X    \\",
+                "VVVVVVVVVVVVV"
+        };
         
         FlyingEnemyY(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
         
