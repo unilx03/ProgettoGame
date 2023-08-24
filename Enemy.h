@@ -4,6 +4,7 @@ e classe base delle altre classi che definiscono gli altri tipi di nemici
 ----------------------------------------------------------------------------------*/
 
 #include <ncurses/ncurses.h>
+#include <string.h>
 //#include "Character.h"
 #include "Hero.h"
 
@@ -16,14 +17,6 @@ class Enemy: public Character{
 
         //ogni tipo di nemico viene identificato da un numero
         int enemy_type;
-
-        //il personaggio viene disegnato su più righe utilizzando un array
-        /*const char* enemy_shape_right[1]= {
-                "_( _'w')_"
-        };
-        const char* enemy_shape_left[1]= {
-                "_('w'_ )_"
-        };*/
 
         const char* enemy_shape_right[2]= {
                 "  ( )( )",
@@ -93,7 +86,7 @@ class Enemy: public Character{
             }
         }
 
-        //Funzione che controlla se un nemico è venuto a contatto con il personaggino. (DA FINIRE!!)
+        //Funzione che controlla se un nemico è venuto a contatto con il personaggino.
         //bool check_enemy_player_collision(Hero *p){
         void check_enemy_player_collision(Hero *p){
             //bool not_hit = true;
@@ -139,17 +132,118 @@ class Enemy: public Character{
             }
             
             //Se l'eroe è entrato a contatto con un nemico, perde tanti punti vita (health) quanti sono i punti di forza (strenght) del nemico
-            if(p->is_hit && getHealth()>0){
+            if(p->is_hit && getHealth()>0){ //per una iterazione, il nemico morto rimane visibile sottoforma di fantasma; in quel contesto non è però in grado di causare danno all'eroe
                 p->setHealth(p->getHealth() - getStrenght());
                 p->is_hit = false;
     	        //p->hit_direction = 0;
             }
 
-            
-            
             //return not_hit;
         }
 
-        //Funzione che controlla se un nemico è venuto a contatto con un proiettile. In tal caso, enemy->setHealth(enemy->getHealth - player->strenght. Se arrivo a 0, rimuovere il nemico dalla lista)
-        //NOTA: probabilmente questa funzione andrà spostata in SetEnemiesList.h
+        //Funzione che controlla se un nemico è venuto a contatto con un proiettile. (NOTA: non funziona)
+        /*void check_enemy_bullet_collision(Hero *p){
+            int y = yLoc;
+            chtype ch_bullet = '-';
+            while(y < yLoc+rows && !is_hit){
+                chtype ch_sx = mvwinch(curwin, y, xLoc-2) & A_CHARTEXT;
+                chtype ch_dx = mvwinch(curwin, y, xLoc+bound_right-1) & A_CHARTEXT;
+                //il nemico viene colpito da sx
+                if(ch_bullet == ch_sx){
+                    is_hit = true;
+                    hit_direction = 2;
+                }
+                //il nemico viene colpito da dx
+                else if(ch_bullet == ch_dx){
+                    is_hit = true;
+                    hit_direction = 1;
+                }
+                y++;
+            }
+            if(is_hit){
+                setHealth(getHealth() - p->getStrenght());
+            }
+        }*/
+
+        //Funzione che controlla se un nemico è venuto a contatto con un proiettile.
+        Hero::p_bullet check_enemy_bullet_collision(Hero *p, Hero::p_bullet h){
+            
+            is_hit = false;
+
+            if(h != NULL){
+                int y = yLoc;
+                int x_sx = xLoc-2, x_dx = xLoc+bound_right-1;
+
+                //controllo il primo proiettile della lista di proiettili
+                while(y < yLoc+rows && !is_hit){
+                    //if(h->is_left_bullet){
+                        if((h->bullet_x >= x_sx && h->bullet_x <= x_dx) && h->bullet_y == y){    //se il nemico viene colpito da dx
+                            is_hit = true;
+                            hit_direction = 1;
+                            setHealth(getHealth() - p->getStrenght());
+
+                            //rimuovo il proiettile
+                            Hero::p_bullet h2 = h;
+                            h = h->next;
+                            delete(h2);
+                        }
+                    //}
+                    /*else{
+                        if(h->bullet_x == x_sx && h->bullet_y == y){    //se il nemico viene colpito da sx
+                            is_hit = true;
+                            hit_direction = 2;
+                            
+                            //rimuovo il proiettile
+                            Hero::p_bullet h2 = h;
+                            h = h->next;
+                            delete(h2);
+                        }
+                    }*/
+                    y++;
+                }
+                /*if(is_hit){
+                    setHealth(getHealth() - p->getStrenght());
+                }*/
+                //controllo dal secondo proiettile in poi
+                Hero::p_bullet tmp = h;
+                while(tmp!=NULL && (tmp->next)!=NULL){
+                    is_hit = false;
+                    y = yLoc;
+                    while(y < yLoc+rows && !is_hit){
+                        //if((tmp->next)->is_left_bullet){
+                            if(((tmp->next)->bullet_x >= x_sx && (tmp->next)->bullet_x <= x_dx) && (tmp->next)->bullet_y == y){    //se il nemico viene colpito da dx
+                                is_hit = true;
+                                hit_direction = 1;
+
+                                //rimuovo il proiettile
+                                Hero::p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
+                            }
+                        //}
+                        /*else{
+                            if((tmp->next)->bullet_x == x_sx && (tmp->next)->bullet_y == y){    //se il nemico viene colpito da sx
+                                is_hit = true;
+                                hit_direction = 2;
+
+                                //rimuovo il proiettile
+                                Hero::p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
+                            }
+                        }*/
+                        y++;
+                    }
+
+                    if(is_hit){
+                        setHealth(getHealth() - p->getStrenght());
+                    }
+                    else{
+                        tmp = tmp->next;
+                    }
+                }
+            }
+            return h;
+        }
+
 };

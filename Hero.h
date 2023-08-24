@@ -10,18 +10,6 @@ sottoclasse di Character
 class Hero: public Character{
     private:
 
-       //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
-        struct bulletNode{    
-            int bullet_x=0;
-            int bullet_y=0;
-            bool is_left_bullet; //direzione del proiettile
-            bulletNode *next;
-        };
-        typedef bulletNode* p_bullet;
-        p_bullet h = NULL;
-        const char* bullet = "-";
-        bool isAttacking; //è vero finchè la lista di proiettili ha almeno un elemento
-
         //attributi su cui avranno influenza gli oggetti
         int money; 
         int luck; //punti fortuna (determinano la probabilità di trovare determinati oggetti nei livelli)
@@ -32,6 +20,18 @@ class Hero: public Character{
     public:
         //NOTA PER ME: aggiungere i seguenti attributi commentati al costruttore ecc.
         //diff_level //livello di difficoltà
+
+        //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
+        struct bulletNode{    
+            int bullet_x=0;
+            int bullet_y=0;
+            bool is_left_bullet; //direzione del proiettile
+            bulletNode *next;
+        };
+        typedef bulletNode* p_bullet;
+        p_bullet h = NULL;
+        const char* bullet = "-";
+        bool isAttacking; //è vero finchè la lista di proiettili ha almeno un elemento
 
         char player_name[50]; //nome del giocatore, che apparirà accanto all'highscore
         int score; //punteggio accumulato durante la partita
@@ -87,6 +87,7 @@ class Hero: public Character{
             "(\\ /) ",
             "(@_@= )"
         };
+
         const char* player_shape_dead[2] = {
             "/ X X \\",
             "VVVVVVV"
@@ -158,7 +159,7 @@ class Hero: public Character{
                                 tmp = tmp->next;
                             }
                             else{
-                                //rimuovo il proiettile dalla lista (FARE UNA FUNZIONE APPOSTA!! così stai solo evitando di stampare i proiettili che hanno colpito qualcosa)
+                                //rimuovo il proiettile dalla lista
                                 p_bullet tmp2 = tmp->next;
                                 tmp->next = (tmp->next)->next;
                                 delete tmp2;
@@ -171,7 +172,7 @@ class Hero: public Character{
                                 tmp = tmp->next;
                             }
                             else{
-                               //rimuovo il proiettile dalla lista (FARE UNA FUNZIONE APPOSTA!! così stai solo evitando di stampare i proiettili che hanno colpito qualcosa)
+                               //rimuovo il proiettile dalla lista
                                 p_bullet tmp2 = tmp->next;
                                 tmp->next = (tmp->next)->next;
                                 delete tmp2;
@@ -183,7 +184,7 @@ class Hero: public Character{
             return h;
         }
 
-        //Funzione che controlla le collisioni proiettili-mappa (AGGIUNGERE CONTROLLO COLLISIONI PROIETTILE NEMICO!!)
+        //Funzione che controlla le collisioni proiettili-mappa
         bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x){
             bool noCollision = true;
             if(is_left_bullet){

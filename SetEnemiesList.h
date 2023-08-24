@@ -128,6 +128,7 @@ void display_list(p_nodo h){
                     }
                     break;
             }
+            (h->e)->hit_direction = 0;
             h = h->next; //passo al prossimo elemento della lista
         }  
     }
@@ -135,7 +136,7 @@ void display_list(p_nodo h){
 
 //Funzione che fa muovere tutti i nemici nella lista di un "passo".
 p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
-    if(h != NULL){  //controllo di avere ancora elementi da stampare nella lista
+    if(h != NULL){  //controllo di avere ancora elementi nella lista
 
         //check del primo elemento
         if(h->is_dead){
@@ -155,39 +156,46 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
                 delete tmp2;
             }
             else{
-                ((tmp->next)->e)->check_enemy_player_collision(player); 
-                ((tmp->next)->e)->hit_direction = 0;
-                ((tmp->next)->e)->is_hit = false;
-                //if((h->e)->check_enemy_player_collision(player)){ //il nemico si muove solo se non sta colpendo (quindi non è a contatto con) l'eroe.
-                    //switch-case che effettua il downcasting nella sottoclasse di Enemy corretta in base alla tipologia di nemico
-                    switch(((tmp->next)->e)->enemy_type){  
-                        case 1:;
-                            ((JumpingEnemy *)((tmp->next)-> e))->jump_and_fall();
-                            break;
-                        case 2:
-                            //il nemico ladro è simile a quello di tipo base, ma il giocatore perde soldi invece che punteggio a contatto con esso.
-                            ((ThiefEnemy *)((tmp->next)-> e))->mv_left_right();
-                            break;
-                        case 3:
-                            //il nemico volante di tipo Y fluttua in aria, muovendosi a dx e a sx (quindi mantenendo invariata l'ordinata Y).
-                            ((FlyingEnemyY *)((tmp->next)-> e))->mv_left_right();
-                            break;
-                        case 4:
-                            //il nemico volante di tipo X fluttua in aria, muovendosi su e giù (quindi mantenendo invariata l'ascissa X).
-                            ((FlyingEnemyX *)((tmp->next)-> e))->mv_up_down();
-                            break;
-                        //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
-                        /*case 5:
-                            ((BossEnemy *)(h-> e))->display(((BossEnemy *)(h-> e))->enemy_shape, ((BossEnemy *)(h-> e))->enemy_shape);
-                            break;*/
-                        default:
-                            //il nemico base si muove a destra e a sinistra.
-                            ((tmp->next)->e)->mv_left_right();
-                            break;
-                    }
-                //}
                 tmp = tmp->next; //passo al prossimo elemento della lista
             }
+        }
+
+        //spostamento di un passo dei nemici
+        tmp = h;
+        while(tmp != NULL){
+            (tmp->e)->check_enemy_player_collision(player); 
+            //(tmp->e)->is_hit = false;
+            player->h = (tmp->e)->check_enemy_bullet_collision(player, player->h);
+
+            //if((h->e)->check_enemy_player_collision(player)){ //il nemico si muove solo se non sta colpendo (quindi non è a contatto con) l'eroe.
+            //switch-case che effettua il downcasting nella sottoclasse di Enemy corretta in base alla tipologia di nemico
+            switch((tmp->e)->enemy_type){  
+                case 1:
+                    ((JumpingEnemy *)(tmp -> e))->jump_and_fall();
+                    break;
+                case 2:
+                    //il nemico ladro è simile a quello di tipo base, ma il giocatore perde soldi invece che punteggio a contatto con esso.
+                    ((ThiefEnemy *)(tmp-> e))->mv_left_right();
+                    break;
+                case 3:
+                    //il nemico volante di tipo Y fluttua in aria, muovendosi a dx e a sx (quindi mantenendo invariata l'ordinata Y).
+                    ((FlyingEnemyY *)(tmp-> e))->mv_left_right();
+                    break;
+                case 4:
+                    //il nemico volante di tipo X fluttua in aria, muovendosi su e giù (quindi mantenendo invariata l'ascissa X).
+                    ((FlyingEnemyX *)(tmp-> e))->mv_up_down();
+                    break;
+                //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
+                /*case 5:
+                    ((BossEnemy *)(h-> e))->display(((BossEnemy *)(h-> e))->enemy_shape, ((BossEnemy *)(h-> e))->enemy_shape);
+                    break;*/
+                default:
+                    //il nemico base si muove a destra e a sinistra.
+                    (tmp->e)->mv_left_right();
+                    break;
+            }
+            //}
+            tmp = tmp->next; //passo al prossimo elemento della lista
         }  
     }
     return h;
