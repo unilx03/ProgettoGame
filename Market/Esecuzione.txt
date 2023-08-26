@@ -1,1 +1,0 @@
-g++ Character.h Drop.cpp Hero.cpp Main.cpp Market.cpp Oggetto.h OggettoMappa.cpp OggettoMarket.cpp -lncurses -o Prova2
