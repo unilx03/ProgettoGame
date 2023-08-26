@@ -51,7 +51,7 @@ int main() {
 
     mvprintw(1, 5, "Inserisci il nome del personaggio:");
     char name[50];
-    mvgetnstr(2, 2, nome, sizeof(nome));
+    mvgetnstr(2, 2, name, sizeof(name));
 
     clear();
 
