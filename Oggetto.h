@@ -17,6 +17,6 @@ class Oggetto{
         const char * statAffected; //nome della statistica che l'oggetto modifica
 
     public:
-        virtual const char * getSkin() = 0; //ritorna la skin dell'oggetto
-        virtual void setStatChange (Hero h) = 0; //metodo astratto
+        const char * getSkin(); //ritorna la skin dell'oggetto
+        void setStatChange (Hero* h); //metodo astratto
 };    

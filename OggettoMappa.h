@@ -23,16 +23,16 @@ class OggettoMappa : Oggetto{
 
         }
 
-        void setStatTemporary(Hero h); 
+        void setStatTemporary(Hero* h); 
         //Controlla se l'oggetto raccolto è un oggetto temporaneo e modifica stat
 
-        void setStatPermanent(Hero h);
+        void setStatPermanent(Hero* h);
         //Modifica le statistiche permanenti in base all'effetto dell'oggetto
 
         const char * getSkin(); 
         //ritorna la skin dell'oggetto
 
-        void setStatChange(Hero h); 
+        void setStatChange(Hero* h); 
         //Modifica le statistiche in base all'oggetto raccolto     
   
 };

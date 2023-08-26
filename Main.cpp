@@ -7,9 +7,12 @@ int main(){
     initscr();
     noecho();
     cbreak();
-    Hero h = new Hero();
+    curs_set(FALSE);
     WINDOW* win = newwin(ROW, COLUMN, 0,0);
 	box(win, 0, 0);
+    MapManager* mapManager = new MapManager(win);
+    char n[] = "Ettore";
+	Hero* h = new Hero(win, 19, 0, 7, mapManager, false, n);
 	refresh();
 	wrefresh(win);
     keypad(win, true);

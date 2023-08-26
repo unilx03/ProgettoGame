@@ -20,7 +20,7 @@ class OggettoMarket : Oggetto{
             this -> price = price;
         }
 
-        const char * purchase(Hero h);
+        const char * purchase(Hero * h);
         /*
             Se il personaggio ha abbastanza soldi allora compra, vengono 
             modificate le stat e ritorna messaggio di avvenuto acquisto. Altrimenti messaggio di errore a schermo
@@ -29,7 +29,7 @@ class OggettoMarket : Oggetto{
         const char * getSkin(); 
         //ritorna la skin dell'oggetto
         
-       void setStatChange(Hero h);
+       void setStatChange(Hero* h);
        /*
             Aumenta la statisticha statAffected della percentuale boostStat
         */
