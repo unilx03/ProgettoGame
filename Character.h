@@ -54,7 +54,7 @@ class Character{
         void setDefense(int n){
             defense = n;
         }
-        int geDefence(){
+        int getDefense(){
             return defense;
         }
 

@@ -29,8 +29,9 @@ class OggettoMarket : Oggetto{
         const char * getSkin(); 
         //ritorna la skin dell'oggetto
         
-       void setStatChange(Hero* h);
-       /*
+        void setStatChange(Hero* h);
+        /*
             Aumenta la statisticha statAffected della percentuale boostStat
         */
+ 
 };

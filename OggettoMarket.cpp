@@ -3,10 +3,10 @@ const char * OggettoMarket::purchase(Hero* h){
     if(h->getMoney()>=price){
         h->setMoney(h->getMoney()-price);
         setStatChange(h);
-        return "Acquisto avvenuto";
+        return "ACQUISTO    AVVENUTO";
     }
     else{
-        return "Monete insufficienti";
+        return "MONETE INSUFFICIENTI";
     }
 }
 
@@ -26,3 +26,4 @@ void OggettoMarket::setStatChange(Hero * h){
 const char * OggettoMarket::getSkin(){
     return skin;
 }
+
