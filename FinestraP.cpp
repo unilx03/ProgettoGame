@@ -51,7 +51,7 @@ int main(int argc, char ** argv){
     getmaxyx(stdscr, yMax, xMax);
 
     //creo una finestra per l'input
-    WINDOW *menuwinG= newwin(40,40, 0, 1);
+    WINDOW *menuwinG= newwin(20,30, 0, 1);
     box(menuwinG, 0,0);
 
 
@@ -86,10 +86,13 @@ int main(int argc, char ** argv){
         mvwprintw(menuwinG, 10,14,"$$$:");
         mvwprintw(menuwinG, 15,2,"FP :");
         mvwprintw(menuwinG, 15,14,"LEV:");
-        mvwprintw(menuwinG, 20,14,"SCORE:");
+        mvwprintw(menuwinG, 20,2,"SCORE:");
 
+        if(i==5)
+            mvwprintw(menuwinG, (i-1)*5+3,n*14+6,"%s ",t.c_str());
+        else
+            mvwprintw(menuwinG, (i-1)*5,n*14+6,"%s ",t.c_str());
 
-        mvwprintw(menuwinG, (i-1)*5,n*14+6,"%s ",t.c_str());
         n++;
         }
     }
