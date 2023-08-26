@@ -1,4 +1,3 @@
-
 /*----------------------------------------------------------------------------------
 Implementazione della classe Hero ("Eroe", il personaggio comandato dall'utente), 
 sottoclasse di Character
@@ -6,11 +5,11 @@ sottoclasse di Character
 
 #include <ncurses/ncurses.h>
 #include <cstring>
-//#include "JumpingEnemy.h"
 #include "Character.h"
 
 class Hero: public Character{
     private:
+
         //attributi su cui avranno influenza gli oggetti
         int money; 
         int luck; //punti fortuna (determinano la probabilità di trovare determinati oggetti nei livelli)
@@ -21,6 +20,18 @@ class Hero: public Character{
     public:
         //NOTA PER ME: aggiungere i seguenti attributi commentati al costruttore ecc.
         //diff_level //livello di difficoltà
+
+        //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
+        struct bulletNode{    
+            int bullet_x=0;
+            int bullet_y=0;
+            bool is_left_bullet; //direzione del proiettile
+            bulletNode *next;
+        };
+        typedef bulletNode* p_bullet;
+        p_bullet h = NULL;
+        const char* bullet = "-";
+        bool isAttacking; //è vero finchè la lista di proiettili ha almeno un elemento
 
         char player_name[50]; //nome del giocatore, che apparirà accanto all'highscore
         int score; //punteggio accumulato durante la partita
@@ -61,15 +72,29 @@ class Hero: public Character{
         //il personaggio viene disegnato su più righe utilizzando un array
         const char* player_shape_right[2] = {
             "  (\\ /)",
-            "( ='.')",
+            "( ='.')"
         };
         const char* player_shape_left[2] = {
-            "(\\ /)  ",
-            "('.'= )",
+            "(\\ /) ",
+            "('.'= )"
+        };
+
+        const char* player_shape_right_hit[2] = {
+            "  (\\ /)",
+            "( =@_@)"
+        };
+        const char* player_shape_left_hit[2] = {
+            "(\\ /) ",
+            "(@_@= )"
+        };
+
+        const char* player_shape_dead[2] = {
+            "/ X X \\",
+            "VVVVVVV"
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, char n[], int hp = 5, int st = 3, int df = 1, bool isL = false, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, hp, st, df, isL, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             score = s;
             luck = lp;
@@ -77,64 +102,157 @@ class Hero: public Character{
             invincibility = inv;
             doubleMoney = dM;
             doubleScore = dS;
+            isAttacking = false;
         }
 
-        //default -> salto in verticale
-        //freccia su + freccia dx/sx -> salto a dx/sx
-        //freccia su + barra spaziatrice -> attacco durante il salto
-        void get_jump_type(){
-            int choice = wgetch(curwin);
-            wtimeout(curwin, 150); //dopo aver premuto la freccia in su, se l'utente non preme nessun altro tasto entro 150ms, il personaggio fa un semplice salto in verticale
-            switch(choice){
-                case KEY_LEFT:
-                    is_left = true;
-                    jump(player_shape_left, player_shape_right);
-                    fall(player_shape_left, player_shape_right);
-                    break;
-                case KEY_RIGHT:
-                    is_left = false;
-                    jump(player_shape_left, player_shape_right);
-                    fall(player_shape_left, player_shape_right);
-                    break;
-                case ' ': //quando si preme la barra spaziatrice
-                    jump_vertical(player_shape_left, player_shape_right);
-                    attack(player_shape_left, player_shape_right);
-                    fall_vertical(player_shape_left, player_shape_right);
-                    break;
-                default:
-                    jump_vertical(player_shape_left, player_shape_right);
-                    fall_vertical(player_shape_left, player_shape_right);
-                    break;
-            }
+        //********** Nella seguente sezione si gestisce l'attacco con i proiettili **********
+
+        //Funzione che inserisce un nuovo proiettile in testa alla lista
+        p_bullet bullet_insert(p_bullet h, int x, int y, bool left){
+            p_bullet tmp = new bulletNode;
+            tmp->bullet_x = x;
+            tmp->bullet_y = y;
+            tmp->is_left_bullet = left;
+            tmp->next = h;
+            return tmp;
         }
+
+        //Funzione di attacco (permette al personaggio di "sparare proiettili") (NOTA: dà coredump)
+        p_bullet attack(p_bullet h){
+            if(isAttacking){
+                if(h == NULL) //controllo se ci sono ancora proiettili nella lista
+                    isAttacking = false;
+                else{
+                    //check del primo elemento
+                    if(h->is_left_bullet){
+                        if(h->bullet_x > 1 && check_map_collision_bullet(h->is_left_bullet, h->bullet_y, h->bullet_x)){
+                            h->bullet_x--;
+                            mvwprintw(curwin, h->bullet_y, h->bullet_x, bullet);
+                        }
+                        else{
+                            //rimuovo il proiettile dalla lista                                
+                            p_bullet h2 = h;
+                            h = h->next;
+                            delete(h2);
+                        }
+                    }
+                    else{
+                        if(h->bullet_x < xMax-1 && check_map_collision_bullet(h->is_left_bullet, h->bullet_y, h->bullet_x)){
+                                h->bullet_x++;
+                                mvwprintw(curwin, h->bullet_y, h->bullet_x, bullet);
+                        }
+                        else{
+                            //rimuovo il proiettile dalla lista
+                            p_bullet h2 = h;
+                            h = h->next;
+                           delete(h2);
+                        }
+                    }
+
+                    //check dal secondo elemento in poi
+                    p_bullet tmp = h;
+                    while(tmp!=NULL && (tmp->next)!=NULL){
+                        if((tmp->next)->is_left_bullet){
+                            if((tmp->next)->bullet_x > 1 && check_map_collision_bullet((tmp->next)->is_left_bullet, (tmp->next)->bullet_y, (tmp->next)->bullet_x)){
+                                (tmp->next)->bullet_x--;
+                                mvwprintw(curwin, (tmp->next)->bullet_y, (tmp->next)->bullet_x, bullet);
+                                tmp = tmp->next;
+                            }
+                            else{
+                                //rimuovo il proiettile dalla lista
+                                p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
+                            }
+                        }
+                        else{
+                            if((tmp->next)->bullet_x < xMax-1 && check_map_collision_bullet((tmp->next)->is_left_bullet, (tmp->next)->bullet_y, (tmp->next)->bullet_x)){
+                                (tmp->next)->bullet_x++;
+                                mvwprintw(curwin, (tmp->next)->bullet_y, (tmp->next)->bullet_x, bullet);
+                                tmp = tmp->next;
+                            }
+                            else{
+                               //rimuovo il proiettile dalla lista
+                                p_bullet tmp2 = tmp->next;
+                                tmp->next = (tmp->next)->next;
+                                delete tmp2;
+                            }
+                        }
+                    }
+                }
+            }
+            return h;
+        }
+
+        //Funzione che controlla le collisioni proiettili-mappa
+        bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x){
+            bool noCollision = true;
+            if(is_left_bullet){
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            else{
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER)
+                    noCollision = false;
+            }
+            return noCollision;
+        }
+
+        //********** Nella seguente sezione viene gestito l'input da tastiera dell'utente **********
 
         //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
-        int getmv(){
-            int choice = wgetch(curwin);
+        void getmv(int choice){
+
+            //napms(50);
+
             switch(choice){
-                /*case KEY_UP:
-                    jump(player_shape_left, player_shape_right);
-                    break;*/
                 case KEY_UP:
-                    get_jump_type();
+                    if (!isJumping && !isFalling)
+                    {
+                        isJumping = true;
+                        jumpCounter = jumpForce;
+                        jump();
+                    }
                     break;
                 case KEY_LEFT:
-                    mvleft();
+                    if(hit_direction != 2)
+                        if (check_map_collision(0))
+                            mvleft();
+                    if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case KEY_RIGHT:
-                    mvright();
+                    if(hit_direction != 1)
+                        if (check_map_collision(1))
+                            mvright();
+                    if (check_map_collision(3))
+                        isFalling = true;
                     //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
                     break;
                 case ' ': //quando si preme la barra spaziatrice
-                    attack(player_shape_left, player_shape_right);
+                    isAttacking = true;
+                    if(is_left){
+                        h = bullet_insert(h, xLoc, yLoc, true);
+                    }
+                    else{
+                        h = bullet_insert(h, xLoc+bound_right-1, yLoc, false);
+                    }
                     break;
                 default:
                     break;
             }
-            return choice;
+
+            if(isJumping){
+                jump();
+            }
+            else if(isFalling){
+                fall();
+            }
+
+            if(isAttacking){
+                h = attack(h);
+            }
+
         }
-
 };
-
-void create_hero(WINDOW * playwin, int y, int x);
