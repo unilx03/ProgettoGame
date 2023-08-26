@@ -4,7 +4,7 @@
 using namespace std;
 
 
-void creaFile(){
+void creaFileStat(){
 string nome="Bunny";
 string punteggio="0";
 string vita="50";
@@ -14,7 +14,11 @@ string attacco="15";
  fout << nome << endl; // scrive sul file
  fout << punteggio << endl;
  fout << vita << endl;
- fout << attacco;
+ fout << attacco << endl;
+ fout << soldi << endl;
+ fout << puntif << endl;
+ fout << score << endl;
+ fout << livello << endl;
  fout.close();
 }
 
@@ -53,7 +57,7 @@ int main(int argc, char ** argv){
     //tenendo presente quanto vi si trova già allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
-    mvwprintw(menuwinG,1,4,"Player:");
+    mvwprintw(menuwinG,1,2,"Player:");
 
 
 
@@ -72,9 +76,14 @@ int main(int argc, char ** argv){
             i++;
             n=0;
         }
-        mvwprintw(menuwinG, 5,2,"LP :");
+        mvwprintw(menuwinG, 5,2,"HP :");
         mvwprintw(menuwinG, 5,14,"ATT:");
         mvwprintw(menuwinG, 10,2,"DEF:");
+        mvwprintw(menuwinG, 10,14,"$$$:");
+        mvwprintw(menuwinG, 15,2,"FP :");
+        mvwprintw(menuwinG, 15,14,"LEV:");
+        mvwprintw(menuwinG, 20,14,"SCORE:");
+
 
         mvwprintw(menuwinG, (i-1)*5,n*14+6,"%s ",t.c_str());
         n++;
@@ -85,5 +94,7 @@ int main(int argc, char ** argv){
     wrefresh(menuwinG);
 
     getch();
+
+    endwin();
 
 }
