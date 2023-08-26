@@ -51,7 +51,7 @@ int main(int argc, char ** argv){
     getmaxyx(stdscr, yMax, xMax);
 
     //creo una finestra per l'input
-    WINDOW *menuwinG= newwin(15,25, 0, 1);
+    WINDOW *menuwinG= newwin(15,30, 0, 1);
     box(menuwinG, 0,0);
 
 
@@ -76,7 +76,7 @@ int main(int argc, char ** argv){
             i++;
         }else{
 
-        if(n%2==0){
+        if(n%6==0){
             i++;
             n=0;
         }
