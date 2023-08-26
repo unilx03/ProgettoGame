@@ -10,7 +10,6 @@ la gerarchia di classi
 class Character{ 
     private:
         //attributi su cui avranno influenza gli oggetti
-        int attackSpeed; //velocità con cui vengono sparati i proiettili
         int health; //punti vita
         int strenght; //quantità di danno inflitto
         int defense; //punti difesa
@@ -40,12 +39,6 @@ class Character{
         int getJumpForce(){
             return jumpForce;
         }
-        void setAttacckSpeed(int n){
-            attackSpeed = n;
-        }
-        int getAttackSpeed(){
-            return attackSpeed;
-        }
         void setHealth(int n){
             health = n;
         }
@@ -61,14 +54,14 @@ class Character{
         void setDefense(int n){
             defense = n;
         }
-        int geDefence(){
+        int getDefense(){
             return defense;
         }
 
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 5, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 5){
             curwin = win;
             yLoc = y;
             xLoc = x;
@@ -78,7 +71,6 @@ class Character{
             is_left = isL;
             rows = r;
             jumpForce = jF;
-            attackSpeed = aS;
             health = hp;
             strenght = st;
             defense = df;

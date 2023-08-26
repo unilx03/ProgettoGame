@@ -33,7 +33,7 @@ int main()
 	//NOTA: bisognerà creare una lista di nemici per ogni mappa
 	p_nodo h = NULL;
 	srand((unsigned) time(NULL));
-	h = generate_enemies(2, win, mapManager);
+	h = generate_enemies(3, win, mapManager);
 
     /*h = head_insert(h, win, 10, 150, mapManager, 0);
 	h = head_insert(h, win, 10, 140, mapManager, 1);
@@ -68,7 +68,7 @@ int main()
 		//wclear(win);
 		mapManager->DrawCurrentMap();
 
-		if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
+		/*if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
 		{
 			mapManager->GetCurrentMapList()->PreviousMap();
 			mapManager->DrawCurrentMap();
@@ -85,6 +85,47 @@ int main()
 				mapManager->GenerateNewMap();
 				mapManager->DrawCurrentMap();
 			}
+		}*/
+
+		//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
+		if((player->yLoc == 19 && player->xLoc == 153) && player->is_left == false){
+			//carica livello successivo, se non esiste aggiungere un nuovo livello
+			if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL)
+			{
+				mapManager->GetCurrentMapList()->NextMap();
+				mapManager->DrawCurrentMap();
+			}
+			else
+			{
+				mapManager->GenerateNewMap();
+				mapManager->DrawCurrentMap();
+			}
+
+			player->yLoc = 19;
+			player->xLoc = 1;
+			player->is_left = false;
+
+			//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
+			//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!)
+			
+			//le seguenti righe gestiscono il caso in cui nel file non sia già stata salvata la lista di nemici associata alla mappa successiva
+			p_nodo h2 = h;
+			delete h2;
+			h = NULL;
+			h = generate_enemies(3, win, mapManager);
+		}
+		//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente
+		else if((player->yLoc == 19 && player->xLoc == 1) && player->is_left == true){
+			mapManager->GetCurrentMapList()->PreviousMap();
+			mapManager->DrawCurrentMap();
+
+			//NOTA: bug nel primo livello; se vado in basso a sx, l'eroe viene spawnato a dx
+			player->yLoc = 19;
+			player->xLoc = 153;
+			player->is_left = true;
+
+			//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
+			//eliminare lista nemici corrente e (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA PRECEDENTE!
 		}
 
 		display_list(h);
