@@ -125,7 +125,10 @@ int main()
 			player->is_left = true;
 
 			//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
-			//eliminare lista nemici corrente e (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA PRECEDENTE!
+			p_nodo h2 = h;
+			delete h2;
+			h = NULL;
+			//(BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA PRECEDENTE!
 		}
 
 		display_list(h);
