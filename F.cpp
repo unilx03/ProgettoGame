@@ -51,7 +51,9 @@ int main() {
 
     mvprintw(1, 5, "Inserisci il nome del personaggio:");
     char name[50];
-    getstr(name);
+    mvgetnstr(2, 2, nome, sizeof(nome));
+
+    clear();
 
     Character character;
     strcpy(character.name, name);
