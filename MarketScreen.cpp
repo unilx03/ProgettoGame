@@ -1,6 +1,6 @@
 #include "MarketScreen.h"
 
-void printScreen(WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, Market m){
+void printScreen(WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, OggettoMarket* m[]){
     WINDOW* message = newwin((HEIGHT/2)+1, WIDTH*2, 10, 64);
     wrefresh(message);
     //Print scritta
@@ -17,35 +17,35 @@ void printScreen(WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDO
     //FINESTRA 1
     mvwprintw(item1, 1, 1, "BISCOTTO  VITA");
     mvwprintw(item1, 2, 1, "--------------");
-    mvwprintw(item1, 4, 7, (m.getItem(0)) -> getSkin());
+    mvwprintw(item1, 4, 7, m[0] -> getSkin());
     mvwprintw(item1, 6, 1, "______________");
     mvwprintw(item1, 7, 7, "55");
 
     //FINESTRA 2
     mvwprintw(item2, 1, 4, "SPINACIO");
     mvwprintw(item2, 2, 1, "--------------");
-    mvwprintw(item2, 4, 7, (m.getItem(1)) -> getSkin());
+    mvwprintw(item2, 4, 7, m[1] -> getSkin());
     mvwprintw(item2, 6, 1, "______________");
     mvwprintw(item2, 7, 7, "44");
 
     //FINESTRA 3
     mvwprintw(item3, 1, 1, "POZIONE  SALTO");
     mvwprintw(item3, 2, 1, "--------------");
-    mvwprintw(item3, 4, 7, (m.getItem(2)) -> getSkin());
+    mvwprintw(item3, 4, 7, m[2] -> getSkin());
     mvwprintw(item3, 6, 1, "______________");
     mvwprintw(item3, 7, 7, "22");
 
     //FINESTRA 4
     mvwprintw(item4, 1, 2, "SCUDO CAROTA");
     mvwprintw(item4, 2, 1, "--------------");
-    mvwprintw(item4, 4, 7, (m.getItem(3)) -> getSkin());
+    mvwprintw(item4, 4, 7, m[3] -> getSkin());
     mvwprintw(item4, 6, 1, "______________");
     mvwprintw(item4, 7, 7, "11");
 
     //FINESTRA 5
     mvwprintw(item5, 1, 1, "CAROTA FORTUNA");
     mvwprintw(item5, 2, 1, "--------------");
-    mvwprintw(item5, 4, 7, (m.getItem(4)) -> getSkin());
+    mvwprintw(item5, 4, 7, m[4] -> getSkin());
     mvwprintw(item5, 6, 1, "______________");
     mvwprintw(item5, 7, 7, "100");
 
@@ -62,7 +62,6 @@ void printScreen(WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDO
 void printHighlight(WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, int highlight){
     switch(highlight){
             case 0:
-                //mvwprintw(item1, 4, 6, "|");
                 wattron(item1, A_REVERSE);
                 mvwprintw(item1, 1, 1, "BISCOTTO  VITA");
                 wattroff(item1, A_REVERSE);
@@ -145,7 +144,7 @@ void changeHighlight(int choice, int & highlight, bool & cont){
     }
 }
 
-bool checkChoice(int choice, int highlight, bool cont, WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, Market m, Hero* h){
+bool checkChoice(int choice, int highlight, bool cont, WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, OggettoMarket* m[], Hero * h){
     if(choice == 10 && cont){
         WINDOW* message = newwin((HEIGHT/2)+1, WIDTH*2, 10, 64);
         box(message, 0, 0);
@@ -156,7 +155,7 @@ bool checkChoice(int choice, int highlight, bool cont, WINDOW* win, WINDOW* item
             return true;
     }
     else if (choice == 10){
-        string str2 = m.getItem(highlight)->purchase(h); //mettere l'eroe
+        string str2 = h->purchase(*(m[highlight])); //mettere l'eroe
         WINDOW* message = newwin((HEIGHT/2)+1, WIDTH*2, 10, 64);
         box(message, 0, 0);
         mvwprintw(message, 2, 6, str2.c_str());

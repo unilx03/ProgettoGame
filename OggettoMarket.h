@@ -2,7 +2,7 @@
 
 class OggettoMarket : Oggetto{
     protected:
-        double price;
+        int price;
         //SKIN solo per il market
 
     public:
@@ -20,18 +20,18 @@ class OggettoMarket : Oggetto{
             this -> price = price;
         }
 
-        const char * purchase(Hero * h);
-        /*
-            Se il personaggio ha abbastanza soldi allora compra, vengono 
-            modificate le stat e ritorna messaggio di avvenuto acquisto. Altrimenti messaggio di errore a schermo
-        */
 
         const char * getSkin(); 
         //ritorna la skin dell'oggetto
+
+        int getPrice();
+        void setPrice(int price);
+
+        void setBoostStat(double boostStat);
+        double getBoostStat();
+
+        void setStatAffected(const char * statAffected);
+        const char * getStatAffected();
         
-        void setStatChange(Hero* h);
-        /*
-            Aumenta la statisticha statAffected della percentuale boostStat
-        */
  
 };

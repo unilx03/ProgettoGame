@@ -257,6 +257,80 @@ class Hero: public Character{
             }
 
         }
+
+        //********** Nella seguente sezione si gestiscono l'iterazione tra oggetti e eroe **********
+
+        void setStatChange(OggettoMarket o){
+            double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
+            //casting a int poichè le statistiche sono valori interi
+            if(strcmp(o.getStatAffected(), "health")==0)
+                this->setHealth((int)(this->getHealth() *boost)); //Modifica il valore di MAXHP quindi dovrebbe essere setMaxHP...
+            else if(strcmp(o.getStatAffected(), "strenght")==0)
+                this->setStrenght((int)(this->getStrenght() *boost));
+            else if(strcmp(o.getStatAffected(), "defense")==0)
+                this->setDefense((int)(this->getDefense() * boost));
+            else if(strcmp(o.getStatAffected(), "luck")==0)
+                this->setLuck((int)(this->getLuck() * boost));
+        }     
+        
+        const char * purchase(OggettoMarket o){
+            if(this->getMoney()>=o.getPrice()){
+                this->setMoney(this->getMoney()-(o.getPrice()));
+                this->setStatChange(o);
+                return "ACQUISTO    AVVENUTO";
+            }
+            else{
+                return "MONETE INSUFFICIENTI";
+            }
+        }  
+
+        void setStatTemporary(OggettoMappa o){
+            if(strcmp(o.getStatAffected(), "invincibility")==0)
+                this->setInvincibility(true);
+            else if(strcmp(o.getStatAffected(), "doubleMoney")==0)
+                this->setDoubleMoney(true);
+            else if(strcmp(o.getStatAffected(), "doubleScore")==0)
+                this->setDoubleScore(true);
+        }
+
+        void setStatPermanent(OggettoMappa o){
+            double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
+            //casting a int poichè le statistiche sono valori interi
+            if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
+                this->setHealth((int)(this->getHealth() /*+ h.getMaxHp()*/ *boost));
+            else if(strcmp(o.getStatAffected(), "strenght")==0)
+                this->setStrenght((int)(this->getStrenght() *boost));
+            else if(strcmp(o.getStatAffected(), "defense")==0)
+                this->setDefense((int)(this->getDefense() * boost));
+            else if(strcmp(o.getStatAffected(), "luck")==0)
+                this->setLuck((int)(this->getLuck() * boost));
+            else if(strcmp(o.getStatAffected(), "jumpForce")==0)
+                this->setJumpForce((int)(this->getJumpForce() * boost));  
+        } 
+
+        void setStatChange(OggettoMappa o){
+            if(o.isTemporary())
+                this->setStatTemporary(o);
+            //La rimozione dell'effetto viene eseguita quando il personaggio passa al livello successivo
+            else if(o.isSpecial()){ //CASO SCONTI
+        //Parta di salvataggio su file 
+          /* ifstream inputFile; /* Dichiarazione di tipo 
+	            char path[100] = "stat.txt"; //file dove vengono salvate le statistiche
+                inputFile.open(path);
+                string word;
+	            if(!inputFile.fail()){
+                     while (inputFile >> word) {
+                        if(strcmp(word, "Sconti:")==0){ //cerca stringa Sconti
+                            inputFile<<"Y"; //Modifica a Y quello dopo
+                            break;
+                        }
+                    }
+                }
+            }*/
+            }
+            else
+                this->setStatPermanent(o);
+        }
 };
 
 

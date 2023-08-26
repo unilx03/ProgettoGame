@@ -3,6 +3,7 @@
 #include <ctime>
 #include <fstream>
 #include <ncurses/ncurses.h>
+#include "OggettoMappa.h"
 
 using namespace std;
 

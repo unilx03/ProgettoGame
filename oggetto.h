@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <ncurses/ncurses.h> 
-#include "Hero.h"
 
 using namespace std;
 #define LEN 15
@@ -18,5 +17,8 @@ class Oggetto{
 
     public:
         const char * getSkin(); //ritorna la skin dell'oggetto
-        void setStatChange (Hero* h); //metodo astratto
+        void setBoostStat(double boostStat);
+        double getBoostStat();
+        void setStatAffected(const char * statAffected);
+        const char * getStatAffected();
 };    
