@@ -5,7 +5,7 @@ using namespace std;
 
 
 void creaFileStat(){
-string nome="Bunny";
+string nome="Ettore";
 string punteggio="0";
 string vita="50";
 string attacco="15";
@@ -24,6 +24,20 @@ string livello="1";
  fout << score << endl;
  fout << livello << endl;
  fout.close();
+}
+
+void saveCharacterStats(string nome, string punteggio, string vita, string attacco,string soldi, string puntif, string score, string livello) {
+    ofstream fout;
+    fout.open("Personaggio.txt"); // apre il file in scrittura
+    fout << nome << endl; // scrive sul file
+    fout << punteggio << endl;
+    fout << vita << endl;
+    fout << attacco << endl;
+    fout << soldi << endl;
+    fout << puntif << endl;
+    fout << score << endl;
+    fout << livello << endl;
+    fclose(file);
 }
 
 
