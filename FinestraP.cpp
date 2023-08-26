@@ -27,13 +27,7 @@ string livello="1";
 }
 
 
-int main(int argc, char ** argv){
-    //NCURSES START
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(0);
-
+void creaFinestra(){
     ifstream f;
     f.open("Personaggio.txt");
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
@@ -51,14 +45,14 @@ int main(int argc, char ** argv){
     getmaxyx(stdscr, yMax, xMax);
 
     //creo una finestra per l'input
-    WINDOW *menuwinG= newwin(20,30, 0, 1);
+    WINDOW *menuwinG= newwin(18,35, 0, 1);
     box(menuwinG, 0,0);
 
 
     refresh();
 
     //wrefresh() copia la finestra indicata sullo schermo fisico del terminale,
-    //tenendo presente quanto vi si trova giï¿½ allo scopo di ottimizzare
+    //tenendo presente quanto vi si trova già allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
     mvwprintw(menuwinG,1,2,"Player:");
@@ -99,9 +93,4 @@ int main(int argc, char ** argv){
     f.close();
 
     wrefresh(menuwinG);
-
-    getch();
-
-    endwin();
-
 }
