@@ -9,9 +9,9 @@ string nome="Bunny";
 string punteggio="0";
 string vita="50";
 string attacco="15";
-string soldi="000";
-string puntif="000";
-string score="00";
+string soldi="5";
+string puntif="5";
+string score="5";
 string livello="1";
  ofstream fout;
  fout.open("Personaggio.txt"); // apre il file in scrittura
