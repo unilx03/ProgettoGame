@@ -61,7 +61,7 @@ class Character{
 
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
         //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
-        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 5, int aS = 20){
+        Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 5, int st = 3, int df = 1, int r = 1, int jF = 5){
             curwin = win;
             yLoc = y;
             xLoc = x;

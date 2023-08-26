@@ -1,6 +1,6 @@
 #include <ncurses/ncurses.h>
 #include <string.h>
-#include<fstream>
+#include <fstream>
 using namespace std;
 
 #define FILENAME "character_stats.txt"
@@ -49,9 +49,11 @@ int main() {
     refresh();
     wrefresh(win);
 
-    mvprintw(1, 1, "Inserisci il nome del personaggio:");
+    mvprintw(1, 5, "Inserisci il nome del personaggio:");
     char name[50];
-    getstr(name);
+    mvgetnstr(2, 2, name, sizeof(name));
+
+    clear();
 
     Character character;
     strcpy(character.name, name);
@@ -76,7 +78,7 @@ int main() {
     mvprintw(17, 1, "Premi un tasto per uscire.");
     getch();
 
-    endwin(); // Termina ncurses
+    endwin(); //Termina ncurses
 
     return 0;
 }
