@@ -39,7 +39,7 @@ int main(int argc, char ** argv){
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
-        creaFile();
+        creaFileStat();
         f.open("Personaggio.txt");
     }
 
@@ -58,7 +58,7 @@ int main(int argc, char ** argv){
     refresh();
 
     //wrefresh() copia la finestra indicata sullo schermo fisico del terminale,
-    //tenendo presente quanto vi si trova già allo scopo di ottimizzare
+    //tenendo presente quanto vi si trova giï¿½ allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
     mvwprintw(menuwinG,1,2,"Player:");
