@@ -33,8 +33,9 @@ class Hero: public Character{
         const char* bullet = "-";
         bool isAttacking; //è vero finchè la lista di proiettili ha almeno un elemento
 
-        char player_name[50]; //nome del giocatore, che apparirà accanto all'highscore
+        string player_name; //nome del giocatore, che apparirà accanto all'highscore
         int score; //punteggio accumulato durante la partita
+        int level;
 
         void setMoney(int n){
             money = n;
@@ -94,11 +95,12 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, char n[], int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             score = s;
+            level = 1;
             luck = lp;
-            strcpy(player_name, n);
+            player_name = n;
             invincibility = inv;
             doubleMoney = dM;
             doubleScore = dS;
@@ -256,4 +258,6 @@ class Hero: public Character{
 
         }
 };
+
+
 

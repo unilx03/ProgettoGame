@@ -1,4 +1,6 @@
 #include "SetEnemiesList.h"
+#include "FinestraP.h"
+#include <string>
 
 //#include "Entities/Character.h"
 //#include "Entities/Hero.h"
@@ -27,7 +29,7 @@ int main()
 	mapManager->GenerateNewMap();
 	//mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
 
-	char n[] = "Ettore";
+	string n = "Ettore";
 	Hero* player = new Hero(win, 19, 0, 7, mapManager, false, n);
 
 	//NOTA: bisognerà creare una lista di nemici per ogni mappa
@@ -60,6 +62,11 @@ int main()
 	int gameState = 1; //start
 	while (gameState > 0)
 	{
+		//visualzzo box statistiche
+		creaFinestra();
+		//salvo stato del giocatore su file
+		saveCharacterStats(n, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+
 		int key = wgetch(win);
 
 		//Game Over: gameState = 0
@@ -104,6 +111,7 @@ int main()
 			player->yLoc = 19;
 			player->xLoc = 1;
 			player->is_left = false;
+			(player->level)++;
 
 			//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
 			//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!)
@@ -123,6 +131,7 @@ int main()
 			player->yLoc = 19;
 			player->xLoc = 153;
 			player->is_left = true;
+			(player->level)--;
 
 			//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
 			p_nodo h2 = h;
