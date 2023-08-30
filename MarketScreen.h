@@ -1,5 +1,5 @@
 #include "SetEnemiesList.h"
-#define ROW 30
+#define ROWMARKET 30
 #define COLUMN 160
 #define HEIGHT 9
 #define WIDTH 16

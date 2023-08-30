@@ -18,9 +18,6 @@ class Hero: public Character{
         bool doubleScore;
 
     public:
-        //NOTA PER ME: aggiungere i seguenti attributi commentati al costruttore ecc.
-        //diff_level //livello di difficoltà
-
         //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
         struct bulletNode{    
             int bullet_x=0;
@@ -35,7 +32,10 @@ class Hero: public Character{
 
         string player_name; //nome del giocatore, che apparirà accanto all'highscore
         int score; //punteggio accumulato durante la partita
-        int level;
+        int score_count; //quantità di punteggio mancante prima che aumenti il livello di difficoltà di gioco
+        int score_threshold; //score + score_count (soglia di punteggio per aumentare il livello di difficoltà di gioco)
+        int level; //livello corrente in cui si trova l'eroe
+        int diff_level; //livello di difficoltà di gioco
 
         void setMoney(int n){
             money = n;
@@ -68,8 +68,6 @@ class Hero: public Character{
             return doubleScore;
         }
 
-        //NOTA PER ME: per far perdere punteggio al giocatore, si potrebbe controllare se hero.xLoc == enemy.xLoc o simile
-
         //il personaggio viene disegnato su più righe utilizzando un array
         const char* player_shape_right[2] = {
             "  (\\ /)",
@@ -95,10 +93,13 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 25, int st = 1, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 250, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
-            score = s;
             level = 1;
+            diff_level = 0;
+            score = s;
+            score_count = 100;
+            score_threshold = score + score_count;
             luck = lp;
             player_name = n;
             invincibility = inv;
@@ -258,7 +259,7 @@ class Hero: public Character{
 
         }
 
-        //********** Nella seguente sezione si gestiscono l'iterazione tra oggetti e eroe **********
+        //********** Nella seguente sezione si gestiscono l'interazione tra oggetti e eroe **********
 
         void setStatChange(OggettoMarket o){
             double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
@@ -313,7 +314,7 @@ class Hero: public Character{
                 this->setStatTemporary(o);
             //La rimozione dell'effetto viene eseguita quando il personaggio passa al livello successivo
             else if(o.isSpecial()){ //CASO SCONTI
-        //Parta di salvataggio su file 
+        //Parte di salvataggio su file 
           /* ifstream inputFile; /* Dichiarazione di tipo 
 	            char path[100] = "stat.txt"; //file dove vengono salvate le statistiche
                 inputFile.open(path);

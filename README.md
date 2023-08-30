@@ -33,7 +33,7 @@ cliccato l'apposito tasto]
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-PERSONAGGI E NEMICI: note implementative e comandi
+PERSONAGGI E NEMICI:
 
 Gerarchia classi:
 - Classe base -> Character
@@ -42,30 +42,33 @@ Gerarchia classi:
 
 Breve descrizione classi:
 - Character non istanzia niente, serve solo come superclasse.
-- Hero istanzia il personaggio giocabile dall'utente -> può muoversi, saltare, sparare proiettili
-- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx
-- JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx
-- ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore
+- Hero istanzia il personaggio giocabile dall'utente -> può muoversi, saltare, sparare proiettili. In questa classe viene inoltre gestita la meccanica dei proiettili e l'interazione tra l'eroe e gli oggetti sulla mappa.
+- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx. Se raggiunge la fine di una piattaforma elevata, cambia direzione, rimanendo così sulla piattaforma. In questa classe viene inoltre gestita l'interazione tra i nemici e l'eroe.
+- JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx. Se raggiunge la fine di una piattaforma elevata, cade giù.
+- ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore. Se raggiunge la fine di una piattaforma elevata, cade giù.
 - FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
-- BossEnemy istanzia il boss -> spara proiettili ed è il più potente tra tutti i nemici
+- BossEnemy istanzia il boss -> è il più forte tra tutti i nemici
 
 Comandi da tastiera:
 - Freccia dx/sx -> l'eroe fa un passo verso dx/sx
 - Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio
 - Barra spaziatrice -> l'eroe spara un proiettile
-- Freccia in su -> l'eroe salta in verticale
-- Freccia in su + freccia dx/sx -> l'eroe salta verso dx/sx
-- Freccia in su + barra spaziatrice -> l'eroe salta in verticale e contemporaneamente spara un proiettile
+- Freccia in su -> l'eroe salta
 
-Note implementative:
-- I nemici vengono istanziati e gestiti per mezzo di una lista. Ogni nodo contiene un nemico di classe Enemy; in ogni funzione è presente uno switch-case che permette di effetturare il downcasting dalla classe Enemy alla corretta sottoclasse del nemico considerato.
+Meccanica di gioco:
+- L'eroe perde punteggio quando entra a contatto con i nemici (tranne nel caso del nemico ladro). Se vi entra a contatto da dx o sx, viene "spostato" rispettivamente verso dx o sx. Se vi entra a contatto dal basso, viene "spinto" in giù. Se vi salta sopra, viene fatto "rimbalzare" verso l'alto.
+- I nemici perdono punteggio quando vengono colpiti da un proiettile. Quando l'eroe colpisce il nemico guadagna un quinto del punteggio massimo che il nemico può rilasciare; quando il nemico muore, l'eroe guadagna soldi e il punteggio massimo che il nemico può rilasciare.
+- I proiettili vengono distrutti (rimossi dalla lista) quando colpiscono una parete o un nemico.
 
-Alcuni punti ancora da finalizzare:
-- Quanto indicato in "Note implementative"
-- Gestione del BossEnemy
-- Gestione del JumpingEnemy
-- Gestione in generale delle funzioni Jump e Attack
-- Tutto ciò che riguarda attacco/danno/punteggio/soldi
-- Tutto ciò che riguarda l'interazione con le mappe dei livelli
+Difficoltà di gioco:
+- L'aumento della difficoltà di gioco è dato da un attributo diff_level (valore di default = 0). Tale attributo appartiene alla classe Hero.h. Inoltre, diff_level può solo aumentare, mai diminuire, e gli effetti dell'aumento del livello di difficoltà si verificheranno al raggiungimento della stanza successiva.
+- Ogni score_count punti raccolti (valore di default = 100), diff_level aumenta di 1.
+- Quando l'eroe acquista un oggetto dal mercato/raccoglie un oggetto dalla mappa, diff_level aumenta di 1 (nota: vale solo per gli oggetti che attuano modifiche permanenti sulle statistiche dell'eroe. Gli altri non modificano diff_level). 
+- Quando diff_level aumenta di 5, viene aggiunto un nuovo nemico sulla mappa.
+- Le statistiche dei nemici istanziati su una nuova mappa dipendono da diff_level: strenght += 2* diff_level, hp += 10* diff_level, defense += diff_level, money_released += 5* diff_level, score_released += 10* diff_level.
+
+Altre note implementative:
+- I nemici vengono istanziati e gestiti per mezzo di una lista. Ogni nodo contiene un nemico di classe Enemy; in ogni funzione è presente uno switch-case che permette di effetturare il downcasting dalla classe Enemy alla corretta sottoclasse del nemico considerato. Quando un nemico muore, per una frazione di secondo assume le sembianze di un fantasma, poi viene rimosso dalla lista.
+- I proiettili vengono gestiti per mezzo di una lista; ciò permette di gestire più di un proiettile alla volta.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------

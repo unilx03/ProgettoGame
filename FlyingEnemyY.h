@@ -24,7 +24,7 @@ class FlyingEnemyY: public Enemy{
                 "VVVVVVVVVVVVV"
         };
         
-        FlyingEnemyY(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+        FlyingEnemyY(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 60, int st = 15, int df = 0, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
         
         }
 };

@@ -31,7 +31,7 @@ class ThiefEnemy: public Enemy{
                 "VVVVVVV"
         };
         
-        ThiefEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+        ThiefEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 30, int st = 3, int df = 0, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
         
         }
 };

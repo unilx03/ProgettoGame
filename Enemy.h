@@ -5,18 +5,15 @@ e classe base delle altre classi che definiscono gli altri tipi di nemici
 
 #include <ncurses/ncurses.h>
 #include <string.h>
-//#include "Character.h"
 #include "Hero.h"
 
 class Enemy: public Character{
 
     public:
-        //NOTA PER ME: aggiungere i seguenti attributi commentati al costruttore ecc.
-        //money_released //soldi rilasciati alla sconfitta (dipendono dall'attributo diff_level dell'eroe)
-        //score_released
-
-        //ogni tipo di nemico viene identificato da un numero
-        int enemy_type;
+        //NOTA PER ME: aggiungere i primi due attributi tra questi al costruttore di ogni nemico
+        int money_released; //soldi rilasciati dal nemico sconfitto
+        int score_released; //punteggio rilasciato dal nemico sconfitto
+        int enemy_type; //ogni tipo di nemico viene identificato da un numero
 
         const char* enemy_shape_right[2]= {
                 "  ( )( )",
@@ -42,10 +39,11 @@ class Enemy: public Character{
         };
 
         //costruttore dei nemici. Richiama il costruttore della classe Character.
-        //Enemy(WINDOW * win, int y, int x, int type, int r, char* right[], char* left[]):Character(win, y, x){
-        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 15, int df = 0, int r = 2):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             //wtimeout(win, 100); //permette al nemico di muoversi indipendentemente dagli input dell'utente
             enemy_type = type;
+            money_released = 10;
+            score_released = 25;
         }
 
         //funzione che fa muovere i nemici a destra e a sinistra
@@ -87,13 +85,9 @@ class Enemy: public Character{
         }
 
         //Funzione che controlla se un nemico è venuto a contatto con il personaggino.
-        //bool check_enemy_player_collision(Hero *p){
         void check_enemy_player_collision(Hero *p){
-            //bool not_hit = true;
-
             //se il nemico colpisce l'eroe da dx, quest'ultimo viene "spinto" verso sx
             if((p->xLoc >= xLoc - p->bound_right+1 && p->xLoc < xLoc) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
-                //not_hit = false;
                 p->is_hit = true;
                 p->hit_direction = 1;
                 if (p->check_map_collision(0))
@@ -103,7 +97,6 @@ class Enemy: public Character{
             }
             //se il nemico colpisce l'eroe da sx, quest'ultimo viene "spinto" verso dx
             else if((p->xLoc == xLoc + bound_right - 2) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
-                //not_hit = false;
                 p->is_hit = true;
                 p->hit_direction = 2;
                 if (p->check_map_collision(1))
@@ -113,7 +106,6 @@ class Enemy: public Character{
             }
             //se il nemico colpisce l'eroe dal basso, quest'ultimo viene "fatto rimbalzare" verso l'alto
             else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc + p->rows == yLoc)){
-                //not_hit = false;
                 p->is_hit = true;
                 p->hit_direction = 3;
                 p->isJumping = true;
@@ -123,7 +115,6 @@ class Enemy: public Character{
             }
             //se il nemico colpisce l'eroe dall'alto, quest'ultimo viene "fatto rimbalzare" verso il basso
             else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc == yLoc + rows)){
-                //not_hit = false;
                 p->is_hit = true;
                 p->hit_direction = 4;
                 p->isJumping = false;
@@ -132,38 +123,17 @@ class Enemy: public Character{
             }
             
             //Se l'eroe è entrato a contatto con un nemico, perde tanti punti vita (health) quanti sono i punti di forza (strenght) del nemico
-            if(p->is_hit && getHealth()>0){ //per una iterazione, il nemico morto rimane visibile sottoforma di fantasma; in quel contesto non è però in grado di causare danno all'eroe
-                p->setHealth(p->getHealth() - getStrenght());
+            if(enemy_type!=2 && p->is_hit && getHealth()>0){ //per una iterazione, il nemico morto rimane visibile sottoforma di fantasma; in quel contesto non è però in grado di causare danno all'eroe. Per questo devo controllare getHealth().
+                p->setHealth(p->getHealth() - getStrenght() + p->getDefense());
                 p->is_hit = false;
-    	        //p->hit_direction = 0;
             }
-
-            //return not_hit;
+            else if(enemy_type==2 && p->is_hit && getHealth()>0){ //nel caso in cui l'eroe venga a contatto con un nemico di tipo ladro, perde soldi invece che punti vita
+                p->setMoney(p->getMoney() - getStrenght());
+                if(p->getMoney()<0)
+                    p->setMoney(0);
+                p->is_hit = false;
+            }
         }
-
-        //Funzione che controlla se un nemico è venuto a contatto con un proiettile. (NOTA: non funziona)
-        /*void check_enemy_bullet_collision(Hero *p){
-            int y = yLoc;
-            chtype ch_bullet = '-';
-            while(y < yLoc+rows && !is_hit){
-                chtype ch_sx = mvwinch(curwin, y, xLoc-2) & A_CHARTEXT;
-                chtype ch_dx = mvwinch(curwin, y, xLoc+bound_right-1) & A_CHARTEXT;
-                //il nemico viene colpito da sx
-                if(ch_bullet == ch_sx){
-                    is_hit = true;
-                    hit_direction = 2;
-                }
-                //il nemico viene colpito da dx
-                else if(ch_bullet == ch_dx){
-                    is_hit = true;
-                    hit_direction = 1;
-                }
-                y++;
-            }
-            if(is_hit){
-                setHealth(getHealth() - p->getStrenght());
-            }
-        }*/
 
         //Funzione che controlla se un nemico è venuto a contatto con un proiettile.
         Hero::p_bullet check_enemy_bullet_collision(Hero *p, Hero::p_bullet h){
@@ -176,67 +146,58 @@ class Enemy: public Character{
 
                 //controllo il primo proiettile della lista di proiettili
                 while(y < yLoc+rows && !is_hit){
-                    //if(h->is_left_bullet){
-                        if((h->bullet_x >= x_sx && h->bullet_x <= x_dx) && h->bullet_y == y){    //se il nemico viene colpito da dx
-                            is_hit = true;
-                            hit_direction = 1;
-                            setHealth(getHealth() - p->getStrenght());
+                    if((h->bullet_x >= x_sx && h->bullet_x <= x_dx) && h->bullet_y == y){
+                        is_hit = true;
+                        hit_direction = 1;
+                        setHealth(getHealth() - p->getStrenght() + getDefense());
 
-                            //rimuovo il proiettile
-                            Hero::p_bullet h2 = h;
-                            h = h->next;
-                            delete(h2);
+                        //rimuovo il proiettile
+                        Hero::p_bullet h2 = h;
+                        h = h->next;
+                        delete(h2);
+
+                        if(getHealth() <= 0){
+                            //l'eroe guadagna soldi e punteggio
+                            p->setMoney(p->getMoney() + money_released);
+                            p->score += score_released;
                         }
-                    //}
-                    /*else{
-                        if(h->bullet_x == x_sx && h->bullet_y == y){    //se il nemico viene colpito da sx
-                            is_hit = true;
-                            hit_direction = 2;
-                            
-                            //rimuovo il proiettile
-                            Hero::p_bullet h2 = h;
-                            h = h->next;
-                            delete(h2);
+                        else{
+                            //l'eroe guadagna un pochino di punteggio
+                            p->score += score_released/5;
                         }
-                    }*/
+                    }
                     y++;
                 }
-                /*if(is_hit){
-                    setHealth(getHealth() - p->getStrenght());
-                }*/
                 //controllo dal secondo proiettile in poi
                 Hero::p_bullet tmp = h;
                 while(tmp!=NULL && (tmp->next)!=NULL){
                     is_hit = false;
                     y = yLoc;
                     while(y < yLoc+rows && !is_hit){
-                        //if((tmp->next)->is_left_bullet){
-                            if(((tmp->next)->bullet_x >= x_sx && (tmp->next)->bullet_x <= x_dx) && (tmp->next)->bullet_y == y){    //se il nemico viene colpito da dx
-                                is_hit = true;
-                                hit_direction = 1;
+                        if(((tmp->next)->bullet_x >= x_sx && (tmp->next)->bullet_x <= x_dx) && (tmp->next)->bullet_y == y){    //se il nemico viene colpito da dx
+                            is_hit = true;
+                            hit_direction = 1;
 
-                                //rimuovo il proiettile
-                                Hero::p_bullet tmp2 = tmp->next;
-                                tmp->next = (tmp->next)->next;
-                                delete tmp2;
-                            }
-                        //}
-                        /*else{
-                            if((tmp->next)->bullet_x == x_sx && (tmp->next)->bullet_y == y){    //se il nemico viene colpito da sx
-                                is_hit = true;
-                                hit_direction = 2;
-
-                                //rimuovo il proiettile
-                                Hero::p_bullet tmp2 = tmp->next;
-                                tmp->next = (tmp->next)->next;
-                                delete tmp2;
-                            }
-                        }*/
+                            //rimuovo il proiettile
+                            Hero::p_bullet tmp2 = tmp->next;
+                            tmp->next = (tmp->next)->next;
+                            delete tmp2;
+                        }
                         y++;
                     }
 
                     if(is_hit){
-                        setHealth(getHealth() - p->getStrenght());
+                        setHealth(getHealth() - p->getStrenght() + getDefense());
+                        
+                        if(getHealth() <= 0){
+                            //l'eroe guadagna soldi e punteggio
+                            p->setMoney(p->getMoney() + money_released);
+                            p->score += score_released;
+                        }
+                        else{
+                            //l'eroe guadagna un pochino di punteggio
+                            p->score += score_released/5;
+                        }
                     }
                     else{
                         tmp = tmp->next;

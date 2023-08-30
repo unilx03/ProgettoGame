@@ -201,8 +201,19 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
     return h;
 }
 
+void set_enemies_stats(p_nodo h, int diff_level){
+    while(h != NULL){
+        (h->e)->setStrenght((h->e)->getStrenght()+2*diff_level);
+        (h->e)->setDefense(((h->e)->getDefense())+diff_level);
+        (h->e)->setHealth(((h->e)->getHealth())+10*diff_level);
+        ((h->e)->money_released)+=5*diff_level;
+        ((h->e)->score_released)+=10*diff_level;
+        h = h->next;
+    }
+}
+
 //Funzione che prende in input il numero di nemici da generare e restituisce una lista di nemici posizionati sulla mappa
-p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map){
+p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map, int diff_level){
     p_nodo list = NULL;
     
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
@@ -255,5 +266,6 @@ p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map){
                 break;
         }
     }
+    set_enemies_stats(list, diff_level);
     return list;
 }
