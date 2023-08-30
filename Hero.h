@@ -98,7 +98,7 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 250, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 400, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             level = 1;
             diff_level = 0;

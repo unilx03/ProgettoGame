@@ -10,6 +10,9 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 
 //NOTA PER ME: fare una lista di costanti con i numeri identificativi dei nemici.
 
+const int NUM_ENEMIES_DEFAULT = 3;
+const int NUM_ENEMIES_GROWTH = 3;
+
 struct nodo{    
     Enemy *e;
     bool is_dead;
@@ -201,6 +204,7 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
     return h;
 }
 
+//NOTA PER ME: DA MODIFICARE (aumentano tutte troppo in fretta!)
 void set_enemies_stats(p_nodo h, int diff_level){
     while(h != NULL){
         (h->e)->setStrenght((h->e)->getStrenght()+2*diff_level);
@@ -213,8 +217,10 @@ void set_enemies_stats(p_nodo h, int diff_level){
 }
 
 //Funzione che prende in input il numero di nemici da generare e restituisce una lista di nemici posizionati sulla mappa
-p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map, int diff_level){
+p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     p_nodo list = NULL;
+    
+    int num_enemies = NUM_ENEMIES_DEFAULT + diff_level/NUM_ENEMIES_GROWTH; //ogni volta che diff_level aumenta di NUM_ENEMIES_GROWTH viene aggiunto un nemico
     
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
     random_shuffle(&v[0], &v[15]); //"scompiglia" gli elementi dell'array in modo casuale

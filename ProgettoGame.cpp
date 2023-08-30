@@ -1,4 +1,5 @@
 #include "SetEnemiesList.h"
+//#include "MenuInizialeInnovativo.h"
 #include "FinestraP.h"
 #include <string>
 
@@ -30,8 +31,7 @@ int main()
 
 	p_nodo h = NULL;
 	srand((unsigned) time(NULL));
-	int num_enemies = 3;
-	h = generate_enemies(num_enemies, win, mapManager, 0);
+	h = generate_enemies(win, mapManager, 0);
 
 	/*char key = ' ';
 	do
@@ -121,9 +121,7 @@ int main()
 			p_nodo h2 = h;
 			delete h2;
 			h = NULL;
-			if(num_enemies < ENEMYSPAWN && (player->diff_level) != 0 && (player->diff_level)%5 == 0)
-				num_enemies++;
-			h = generate_enemies(num_enemies, win, mapManager, player->diff_level);
+			h = generate_enemies(win, mapManager, player->diff_level);
 		}
 		//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente (a meno che non sia nella prima mappa)
 		else if(player->level!=1 && (player->yLoc == 19 && player->xLoc == 1) && player->is_left == true){

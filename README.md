@@ -43,9 +43,9 @@ Gerarchia classi:
 Breve descrizione classi:
 - Character non istanzia niente, serve solo come superclasse.
 - Hero istanzia il personaggio giocabile dall'utente -> può muoversi, saltare, sparare proiettili. In questa classe viene inoltre gestita la meccanica dei proiettili e l'interazione tra l'eroe e gli oggetti sulla mappa.
-- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx. Se raggiunge la fine di una piattaforma elevata, cambia direzione, rimanendo così sulla piattaforma. In questa classe viene inoltre gestita l'interazione tra i nemici e l'eroe.
-- JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx. Se raggiunge la fine di una piattaforma elevata, cade giù.
-- ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore. Se raggiunge la fine di una piattaforma elevata, cade giù.
+- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx. In questa classe viene inoltre gestita l'interazione tra i nemici e l'eroe.
+- JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx.
+- ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore.
 - FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
 - BossEnemy istanzia il boss -> è il più forte tra tutti i nemici
 
