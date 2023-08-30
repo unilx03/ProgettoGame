@@ -121,7 +121,7 @@ int main()
 			p_nodo h2 = h;
 			delete h2;
 			h = NULL;
-			if((player->diff_level) != 0 && (player->diff_level)%5 == 0)
+			if(num_enemies < ENEMYSPAWN && (player->diff_level) != 0 && (player->diff_level)%5 == 0)
 				num_enemies++;
 			h = generate_enemies(num_enemies, win, mapManager, player->diff_level);
 		}
@@ -163,7 +163,7 @@ int main()
 
 		player->hit_direction = 0;
 
-		wtimeout(win, 150); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
+		wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
 
 		flushinp();
 

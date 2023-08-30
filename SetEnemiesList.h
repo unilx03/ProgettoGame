@@ -221,13 +221,18 @@ p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map, int 
     
     for(int i = 0; i<num_enemies; i++){ //seleziono randomicamente un elemento dell'array e inserisco nella lista il nemico corrispondente
         int index = rand()%16;
+        int spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
 
-        /*int x = map->GetCurrentMapList()->GetTail()->GetMap()->spawnEnemies[v[index]].x;
-        int x = map->GetCurrentMapList()->GetTail()->GetMap()->spawnEnemies[v[index]].y;
-        list = head_insert(list, playwin, x, x, map, v[index]);*/
+        int x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
+        map->GetCurrentMapList()->GetTail()->GetPositionEnemies()[i].x = x;
+        int y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
+        map->GetCurrentMapList()->GetTail()->GetPositionEnemies()[i].y = y;
+
+        list = head_insert(list, playwin, y, x, map, v[index]);
+        (list->e)->yLoc -= (list->e)->rows;
 
         //NOTA: solo un esempio, da implementare un posizionamento più serio
-        int p;
+        /*int p;
         switch(v[index]){ 
             case 1:
                 p = rand()%2;
@@ -264,7 +269,7 @@ p_nodo generate_enemies(int num_enemies, WINDOW * playwin, MapManager* map, int 
                 else
                     list = head_insert(list, playwin, 4, 80, map, 0);
                 break;
-        }
+        }*/
     }
     set_enemies_stats(list, diff_level);
     return list;
