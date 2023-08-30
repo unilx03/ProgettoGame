@@ -54,10 +54,11 @@ Comandi da tastiera:
 - Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio
 - Barra spaziatrice -> l'eroe spara un proiettile
 - Freccia in su -> l'eroe salta
+- Freccia in giù -> se l'eroe sta già saltando, entra in modalità "attacco dall'alto"
 
 Meccanica di gioco:
-- L'eroe perde punteggio quando entra a contatto con i nemici (tranne nel caso del nemico ladro). Se vi entra a contatto da dx o sx, viene "spostato" rispettivamente verso dx o sx. Se vi entra a contatto dal basso, viene "spinto" in giù. Se vi salta sopra, viene fatto "rimbalzare" verso l'alto.
-- I nemici perdono punteggio quando vengono colpiti da un proiettile. Quando l'eroe colpisce il nemico guadagna un quinto del punteggio massimo che il nemico può rilasciare; quando il nemico muore, l'eroe guadagna soldi e il punteggio massimo che il nemico può rilasciare.
+- L'eroe perde punteggio quando entra a contatto con i nemici (tranne nel caso del nemico ladro). Se vi entra a contatto da dx o sx, viene "spostato" rispettivamente verso dx o sx. Se vi entra a contatto dal basso, viene "spinto" in giù. Se vi salta sopra, viene fatto "rimbalzare" verso l'alto, a meno che non sia in modalità "attacco dall'alto": in tal caso è il nemico a perdere vita, e non l'eroe.
+- I nemici perdono vita quando vengono colpiti da un proiettile. Quando l'eroe colpisce il nemico guadagna un quinto del punteggio massimo che il nemico può rilasciare; quando il nemico muore, l'eroe guadagna soldi e il punteggio massimo che il nemico può rilasciare.
 - I proiettili vengono distrutti (rimossi dalla lista) quando colpiscono una parete o un nemico.
 
 Difficoltà di gioco:

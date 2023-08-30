@@ -92,6 +92,11 @@ class Hero: public Character{
             "VVVVVVV"
         };
 
+        const char* player_shape_attack_down[2] = {
+            "/)'w'(\\",
+            "(\")_(\")"
+        };
+
         //costruttore del personaggio
         Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 250, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
@@ -247,7 +252,15 @@ class Hero: public Character{
             }
 
             if(isJumping){
-                jump();
+                if(choice != KEY_DOWN){
+                    jump();
+                }
+                else{
+                    isAttackingDown = true;
+                    isJumping = false;
+                    isFalling = true;
+                    fall();
+                }
             }
             else if(isFalling){
                 fall();

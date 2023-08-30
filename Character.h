@@ -22,6 +22,7 @@ class Character{
         bool isJumping;
         int jumpCounter;
         bool isFalling;
+        bool isAttackingDown; //è vero quando si sta eseguendo un attacco dall'alto verso il basso
 
         int bound_right;
         int rows; //numero di righe su cui viene disegnato il personaggio
@@ -82,6 +83,7 @@ class Character{
             isJumping = false;
             jumpCounter = 0;
             isFalling = false;
+            isAttackingDown = false;
         }
 
         //Stampa a video del personaggio, una riga per volta 
@@ -170,6 +172,7 @@ class Character{
                 else
                 {
                     isFalling = false;
+                    isAttackingDown = false;
                 }
             }
         }

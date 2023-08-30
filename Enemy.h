@@ -104,14 +104,35 @@ class Enemy: public Character{
                 if (p->check_map_collision(3))
                     p->isFalling = true;
             }
-            //se il nemico colpisce l'eroe dal basso, quest'ultimo viene "fatto rimbalzare" verso l'alto
+            //se il nemico colpisce l'eroe dal basso, quest'ultimo viene "fatto rimbalzare" verso l'alto; se l'eroe sta eseguendo un attacco dall'alto, allora è il nemico a subire danno
             else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc + p->rows == yLoc)){
-                p->is_hit = true;
-                p->hit_direction = 3;
-                p->isJumping = true;
-                p->isFalling = false;
-                p->jumpCounter = p->jumpForce;
-                p->jump();
+                if(!(p->isAttackingDown)){
+                    p->is_hit = true;
+                    p->hit_direction = 3;
+                    p->isJumping = true;
+                    p->isFalling = false;
+                    p->jumpCounter = p->jumpForce;
+                    p->jump();
+                }
+                else{
+                    hit_direction = 4;
+                    setHealth(getHealth() - p->getStrenght() + getDefense());
+                    if(getHealth() <= 0){
+                        //l'eroe guadagna soldi e punteggio
+                        p->setMoney(p->getMoney() + money_released);
+                        p->score += score_released;
+                    }
+                    else{
+                        //l'eroe guadagna un pochino di punteggio
+                        p->score += score_released/5;
+                    }
+                    p->isAttackingDown = false;
+                    
+                    p->isJumping = true;
+                    p->isFalling = false;
+                    p->jumpCounter = p->jumpForce;
+                    p->jump();
+                }
             }
             //se il nemico colpisce l'eroe dall'alto, quest'ultimo viene "fatto rimbalzare" verso il basso
             else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc == yLoc + rows)){

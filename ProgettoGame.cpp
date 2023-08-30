@@ -150,6 +150,9 @@ int main()
 			player->getmv(key);
 			if(player->hit_direction!=0)
 				player->display(player->player_shape_left_hit, player->player_shape_right_hit);
+			else if(player->isAttackingDown){
+				player->display(player->player_shape_attack_down, player->player_shape_attack_down);
+			}
 			else
 				player->display(player->player_shape_left, player->player_shape_right);
 		}
