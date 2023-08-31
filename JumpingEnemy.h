@@ -8,11 +8,16 @@ sottoclasse di Enemy.
 
 class JumpingEnemy: public Enemy{
     private:
-        const int JUMP_DELAY = 45; 
         const int JUMP_FORCE = 5; //"forza di salto", ossia numero di righe che costituisce l'altezza del salto
 
     public:
-    
+
+        const int DEF_SCORE = 40;
+        const int DEF_MONEY = 25;
+        const int DEF_HP = 60;
+        const int DEF_ST = 15;
+        const int DEF_DF = 0;
+
         const char* enemy_shape_right[2]= {
             "  /\\__/\\ ",
             "~( =^.^=)"
@@ -38,7 +43,7 @@ class JumpingEnemy: public Enemy{
             "VVVVVVVVV"
         };
 
-        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+        JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 60, int st = 15, int df = 0, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
         
         }
 

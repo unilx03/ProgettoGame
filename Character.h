@@ -128,6 +128,13 @@ class Character{
 
         //Funzione che fa saltare il personaggio
         void jump(){
+            
+            //NOTA PER ME: ragionare se ha senso tenere queste 4 righe
+            if(is_left && check_map_collision(0))
+                mvleft();
+            else if (!is_left && check_map_collision(1))
+                mvright();
+
             if (isJumping)
             {
                 bool stillJumping = true;

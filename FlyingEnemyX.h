@@ -12,6 +12,12 @@ class FlyingEnemyX: public Enemy{
         //la seguente variabile booleana serve per memorizzare quale è stata l'ultima direzione presa dal nemico (se su o giù)
         bool is_up;
 
+        const int DEF_SCORE = 20;
+        const int DEF_MONEY = 10;
+        const int DEF_HP = 40;
+        const int DEF_ST = 10;
+        const int DEF_DF = 0;
+
         const char* enemy_shape[3]= {
                 " ,__,",
                 "(O,O)",
@@ -30,8 +36,8 @@ class FlyingEnemyX: public Enemy{
                 "VVVVV"
         };        
         
-        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 10, int df = 0, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
-            is_up = up;
+        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 10, int df = 0, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
+            is_up = up; 
         }
 
         //Spostamento in su del nemico

@@ -15,6 +15,12 @@ class Enemy: public Character{
         int score_released; //punteggio rilasciato dal nemico sconfitto
         int enemy_type; //ogni tipo di nemico viene identificato da un numero
 
+        const int DEF_SCORE = 25;
+        const int DEF_MONEY = 10;
+        const int DEF_HP = 40;
+        const int DEF_ST = 15;
+        const int DEF_DF = 0;
+
         const char* enemy_shape_right[2]= {
                 "  ( )( )",
                 "_( _'w')_"
@@ -39,11 +45,11 @@ class Enemy: public Character{
         };
 
         //costruttore dei nemici. Richiama il costruttore della classe Character.
-        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 15, int df = 0, int r = 2):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 15, int df = 0, int r = 2, int score_rel = 25, int money_rel = 10):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             //wtimeout(win, 100); //permette al nemico di muoversi indipendentemente dagli input dell'utente
             enemy_type = type;
-            money_released = 10;
-            score_released = 25;
+            money_released = money_rel;
+            score_released = score_rel;
         }
 
         //funzione che fa muovere i nemici a destra e a sinistra

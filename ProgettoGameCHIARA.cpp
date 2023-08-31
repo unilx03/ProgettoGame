@@ -7,6 +7,7 @@
 
 //#include "oggetto.h"
 #include "MarketScreen.h"
+#include <ncurses/ncurses.h>
 
 int main() 
 {

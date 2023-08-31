@@ -196,11 +196,13 @@ class Hero: public Character{
         bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x){
             bool noCollision = true;
             if(is_left_bullet){
-                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER)
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER 
+                    || mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == FLOORCHARACTER)
                     noCollision = false;
             }
             else{
-                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER)
+                if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == WALLCHARACTER
+                    || mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x] == FLOORCHARACTER)
                     noCollision = false;
             }
             return noCollision;

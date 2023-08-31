@@ -11,7 +11,7 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 //NOTA PER ME: fare una lista di costanti con i numeri identificativi dei nemici.
 
 const int NUM_ENEMIES_DEFAULT = 3;
-const int NUM_ENEMIES_GROWTH = 3;
+const int NUM_ENEMIES_GROWTH = 5;
 
 struct nodo{    
     Enemy *e;
@@ -167,13 +167,12 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
         tmp = h;
         while(tmp != NULL){
             (tmp->e)->check_enemy_player_collision(player); 
-            //(tmp->e)->is_hit = false;
             player->h = (tmp->e)->check_enemy_bullet_collision(player, player->h);
 
-            //if((h->e)->check_enemy_player_collision(player)){ //il nemico si muove solo se non sta colpendo (quindi non è a contatto con) l'eroe.
             //switch-case che effettua il downcasting nella sottoclasse di Enemy corretta in base alla tipologia di nemico
             switch((tmp->e)->enemy_type){  
                 case 1:
+                    //il nemico saltellante si muove saltando a dx e a sx
                     ((JumpingEnemy *)(tmp -> e))->jump_and_fall();
                     break;
                 case 2:
@@ -204,14 +203,17 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
     return h;
 }
 
-//NOTA PER ME: DA MODIFICARE (aumentano tutte troppo in fretta!)
 void set_enemies_stats(p_nodo h, int diff_level){
     while(h != NULL){
-        (h->e)->setStrenght((h->e)->getStrenght()+2*diff_level);
-        (h->e)->setDefense(((h->e)->getDefense())+diff_level);
-        (h->e)->setHealth(((h->e)->getHealth())+10*diff_level);
-        ((h->e)->money_released)+=5*diff_level;
-        ((h->e)->score_released)+=10*diff_level;
+        if((h->e)->enemy_type != 2)
+            (h->e)->setStrenght((h->e)->DEF_ST + 4*diff_level);
+        else
+            (h->e)->setStrenght((h->e)->DEF_ST + 2*diff_level);
+        (h->e)->setDefense((h->e)->DEF_DF + diff_level);
+        (h->e)->setHealth((h->e)->DEF_HP + 10*diff_level);
+        ((h->e)->money_released) = (h->e)->DEF_MONEY + 5*diff_level;
+        ((h->e)->score_released) = (h->e)->DEF_SCORE + 10*diff_level;
+
         h = h->next;
     }
 }
@@ -236,46 +238,6 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
 
         list = head_insert(list, playwin, y, x, map, v[index]);
         (list->e)->yLoc -= (list->e)->rows;
-
-        //NOTA: solo un esempio, da implementare un posizionamento più serio
-        /*int p;
-        switch(v[index]){ 
-            case 1:
-                p = rand()%2;
-                if(p == 0)
-                    list = head_insert(list, playwin, 10, 140, map, 1);
-                else
-                    list = head_insert(list, playwin, 10, 120, map, 1);
-                break;
-            case 2:
-                p = rand()%2;
-                if(p == 0)
-                    list = head_insert(list, playwin, 9, 100, map, 2);
-                else
-                    list = head_insert(list, playwin, 15, 70, map, 2);
-                break;
-            case 3:
-                p = rand()%2;
-                if(p == 0)
-                    list = head_insert(list, playwin, 7, 30, map, 3);
-                else
-                    list = head_insert(list, playwin, 13, 80, map, 3);
-                break;
-            case 4:
-                p = rand()%2;
-                if(p == 0)
-                    list = head_insert(list, playwin, 17, 150, map, 4);
-                else
-                    list = head_insert(list, playwin, 15, 4, map, 4);
-                break;
-            default:
-                p = rand()%2;
-                if(p == 0)
-                    list = head_insert(list, playwin, 10, 150, map, 0);
-                else
-                    list = head_insert(list, playwin, 4, 80, map, 0);
-                break;
-        }*/
     }
     set_enemies_stats(list, diff_level);
     return list;
