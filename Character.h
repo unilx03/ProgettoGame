@@ -59,15 +59,12 @@ class Character{
             return defense;
         }
 
-
         //Costruttore del personaggio. Setta la finestra corrente e la posizione di partenza del personaggio.
-        //NOTA PER ME: i punti vita (attributo health) andranno modificati nei costruttori di ogni tipo di personaggio/nemico
         Character(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, int hp = 50, int st = 5, int df = 0, int r = 1, int jF = 5){
             curwin = win;
             yLoc = y;
             xLoc = x;
             getmaxyx(curwin, yMax, xMax);
-            //keypad(curwin, true);
             bound_right = bRight;
             is_left = isL;
             rows = r;
@@ -85,158 +82,11 @@ class Character{
             isFalling = false;
             isAttackingDown = false;
         }
-
-        //Stampa a video del personaggio, una riga per volta 
-        void display(const char* left[], const char* right[]){
-            if(is_left){
-                for (int i = 0; i < rows; i++) {
-                    mvwprintw(curwin, yLoc + i, xLoc, left[i]);
-                }
-            }
-            else{
-                for (int i = 0; i < rows; i++) {
-                    mvwprintw(curwin, yLoc + i, xLoc, right[i]);
-                }
-            }
-
-            //le righe seguenti ricreano la cornice della box ad ogni movimento del personaggio (necessario!)
-            box(curwin, 0, 0);
-            wrefresh(curwin);
-        }
-
-        //********** Nella seguente sezione si gestiscono i movimenti **********
-
-        //Spostamento a sinistra del personaggino
-        void mvleft(){
-            is_left = true;
-            xLoc--;
-            if(xLoc < 1){
-                xLoc = 1; //la costante 1 è necessario per non far fuoriuscire il personaggio dai bordi della box
-                is_left = false;
-            }
-        }
-
-        //Spostamento a destra del personaggino
-        void mvright(){
-            is_left = false;
-            xLoc++;
-            if(xLoc > xMax-bound_right){
-                xLoc = xMax-bound_right; //la costante bound_right è necessaria per non far fuoriuscire il personaggio dai bordi della box
-                is_left = true;
-            }
-        }
-
-        //Funzione che fa saltare il personaggio
-        void jump(){
-            
-            //NOTA PER ME: ragionare se ha senso tenere queste 4 righe
-            if(is_left && check_map_collision(0))
-                mvleft();
-            else if (!is_left && check_map_collision(1))
-                mvright();
-
-            if (isJumping)
-            {
-                bool stillJumping = true;
-                if (jumpCounter > 0)
-                {
-                    jumpCounter--;
-                    if (check_map_collision(2))
-                    {
-                        yLoc--;
-                    }
-                    else
-                        stillJumping = false;
-                }
-                else
-                    stillJumping = false;
-                
-                if (!stillJumping)
-                {
-                    isJumping = false;
-                    jumpCounter = 0;
-                    if (check_map_collision(3))
-                    {
-                        isFalling = true;
-                    }
-                    else
-                    {
-                        isFalling = false;
-                    }
-                }
-            }
-        }
-
-        //Funzione che fa cadere il personaggio
-        void fall(){
-            if (isFalling)
-            {
-                if (check_map_collision(3))
-                {
-                    yLoc++;
-                    //display(left, right);
-                }
-                else
-                {
-                    isFalling = false;
-                    isAttackingDown = false;
-                }
-            }
-        }
-
-        //Funzione che controlla le collisioni entità-mappa
-        bool check_map_collision(int direction) 
-        {
-            bool noCollision = true;
-            int checkY = 0;
-            switch (direction)
-            {
-                case 0: //left
-                    checkY = 0;
-                    while (checkY < rows)
-                    {
-                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == WALLCHARACTER ||
-                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][xLoc - 2] == FLOORCHARACTER)
-                            noCollision = false;
-                        checkY++;
-                    }
-                    break;
-                    
-                case 1: //right     (xLoc + bound_right - 1) limite a destra effettivo 
-                    checkY = 0;
-                    while (checkY < rows)
-                    {
-                        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == WALLCHARACTER ||
-                            mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc - checkY][(xLoc + bound_right - 1)] == FLOORCHARACTER)
-                            noCollision = false;
-                        checkY++;
-                    }
-                    break;
-
-                case 2: //top
-                    if ((yLoc - rows + 1) - 1 < 0)  //(yLoc - rows + 1) limite superiore effettivo
-                        noCollision = false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][xLoc - 1] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[(yLoc - rows + 1) - 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
-                        noCollision = false;
-                    break;
-
-                case 3: //bottom
-                    if (yLoc + 1 > ROW - 1)
-                        noCollision = false;
-                    else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][xLoc - 1] == FLOORCHARACTER ||
-                        mapManager->GetCurrentMapList()->GetTail()->GetMap()[yLoc + 1][(xLoc + bound_right - 1) - 1] == FLOORCHARACTER)
-                        noCollision = false;
-                    break;
-
-                default:
-                    noCollision = false;
-                    break;
-            }
-
-            //cout << "No Collision " << noCollision << endl;
-            return noCollision;
-        }
-       
+        void display(const char* left[], const char* right[]);
+        void mvleft();
+        void mvright();
+        void jump();
+        void fall();
+        bool check_map_collision(int direction);
 };
 

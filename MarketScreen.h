@@ -1,4 +1,7 @@
+
 #include "SetEnemiesList.h"
+
+
 #define ROWMARKET 30
 #define COLUMN 160
 #define HEIGHT 9
@@ -15,3 +18,4 @@ void changeHighlight(int choice, int & highlight, bool & cont);
 
 //Controlla la scelta
 bool checkChoice(int choice, int highlight, bool cont, WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDOW* item4, WINDOW* item5, WINDOW* item6, OggettoMarket* m[], Hero * h);
+

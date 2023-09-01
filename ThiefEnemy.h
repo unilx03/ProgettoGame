@@ -4,7 +4,7 @@ Implementazione della classe ThiefEnemy ("Nemico Ladro"), sottoclasse di Enemy
 
 #include <ncurses/ncurses.h>
 //#include "Enemy.h"
-#include "JumpingENemy.h"
+#include "JumpingEnemy.h"
 
 class ThiefEnemy: public Enemy{
     public:

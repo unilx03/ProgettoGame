@@ -16,11 +16,9 @@ class BossEnemy: public Enemy{
                 " (\") (\") "
         };
         
-        BossEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 5):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
+       /*BossEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 4, int st = 1, int df = 1, int r = 5):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r){
             
-        }
+        }*/
 
        
 };
-
-void create_boss_enemy(WINDOW * playwin, int y, int x);

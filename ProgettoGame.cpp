@@ -1,7 +1,4 @@
-#include "SetEnemiesList.h"
-//#include "MenuInizialeInnovativo.h"
-#include "FinestraP.h"
-#include <string>
+#include "ProgettoGame.h"
 
 int main() 
 {
@@ -14,6 +11,7 @@ int main()
 
 	//INSERIRE QUI LIVELLO MARKET
 	
+	//Inizializzazione finestra di gioco
 	WINDOW* win = newwin(ROW + 2, COLUMN + 2, 2, 5);
 	box(win, 0, 0);
 	refresh();
@@ -21,72 +19,47 @@ int main()
 	srand(time(NULL));
 	keypad(win, true);
 
+	//Inizializzazione prima mappa di gioco
 	MapManager* mapManager = new MapManager(win);
-	//MapManager* mapManager = new MapManager(newwin(ROW + 2, COLUMN + 2, 2, 5));
 	mapManager->GenerateNewMap();
 	//mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
 
+	//Inizializzazione eroe
 	string n = "Ettore";
 	Hero* player = new Hero(win, 19, 0, 7, mapManager, false, n);
 
+	//Inizializzazione lista di nemici
 	p_nodo h = NULL;
 	srand((unsigned) time(NULL));
 	h = generate_enemies(win, mapManager, 0);
 
-	/*char key = ' ';
-	do
-	{
-		cin >> key;
-		if (key != 'o' && key != ' ')
-		{
-			mapManager->GetCurrentMapList()->PrintMaps(mapManager->GetCurrentMapList()->GetTail());
-			player->getmv(key);
-			key = ' ';
-		}
-	}
-	while (key != 'o');*/
-
-	//mapManager->GetFullMapList()->printMaps(mapManager->GetFullMapList()->GetTail());
-	//mapManager->GetCurrentMapList()->printMaps(mapManager->GetCurrentMapList()->GetTail());
-
-	int gameState = 1; //start
+	//Inizio del loop di gioco
+	int gameState = 1;
 	while (gameState > 0)
 	{
-		//visualzzo box statistiche
+		h = game_loop(win, mapManager, player, h);
+		wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
+		flushinp();
+		//gameState = 0;
+	}
+	endwin();
+	
+	return 0;
+}
+
+p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
+	//visualzzo box statistiche
 		creaFinestra();
 		//salvo stato del giocatore su file (NOTA PER ME: salviamo il level o il diff_level? O, meglio, entrambi?)
-		saveCharacterStats(n, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
 		
+		//controllo se è avvenuto un game over
 		if(player->getHealth()<=0){
 			perdita();
 		}
-		
-		int key = wgetch(win);
 
-		//Game Over: gameState = 0
-		//gameState = 0;
-
-		//wclear(win);
+		int key = wgetch(win); //input da tastiera
 		mapManager->DrawCurrentMap();
-
-		/*if (key == 'a') //carica livello precedente, se non esiste mantiene livello corrente
-		{
-			mapManager->GetCurrentMapList()->PreviousMap();
-			mapManager->DrawCurrentMap();
-		}
-		else if (key == 'd') //carica livello successivo, se non esiste aggiungere un nuovo livello
-		{
-			if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL)
-			{
-				mapManager->GetCurrentMapList()->NextMap();
-				mapManager->DrawCurrentMap();
-			}
-			else
-			{
-				mapManager->GenerateNewMap();
-				mapManager->DrawCurrentMap();
-			}
-		}*/
 
 		//aggiornamento del livello di difficoltà se si ha raggiunto un certo score
 		if(player->score >= player->score_threshold){
@@ -128,7 +101,6 @@ int main()
 			mapManager->GetCurrentMapList()->PreviousMap();
 			mapManager->DrawCurrentMap();
 
-			//NOTA: bug nel primo livello; se vado in basso a sx, l'eroe viene spawnato a dx
 			player->yLoc = 19;
 			player->xLoc = 153;
 			player->is_left = true;
@@ -141,10 +113,12 @@ int main()
 			//(BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA PRECEDENTE!
 		}
 
+		//aggiornamento della posizione dei nemici
 		display_list(h);
         h = action_list(win, h, player);
 
-		if(player->getHealth()>0){ //NOTA: if ed else if provvisori. Giusto per capire quando avviene un gameover.
+		//selezione della giusta skin dell'eroe da visualizzare
+		if(player->getHealth()>0){
 			player->getmv(key);
 			if(player->hit_direction!=0)
 				player->display(player->player_shape_left_hit, player->player_shape_right_hit);
@@ -160,15 +134,6 @@ int main()
 		}
 
 		player->hit_direction = 0;
-
-		wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
-
-		flushinp();
-
-		//gameState = 0;
-	}
-	endwin();
-	//cout << "For now executed" << endl;
-	
-	return 0;
+		return h;
 }
+

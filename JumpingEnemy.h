@@ -46,20 +46,5 @@ class JumpingEnemy: public Enemy{
         JumpingEnemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 60, int st = 15, int df = 0, int r = 2):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
         
         }
-
-        void jump_and_fall(){
-            mv_left_right();
-
-            if (!isJumping && !isFalling){
-                isJumping = true;
-                jumpCounter = jumpForce;
-                jump();
-            }
-            else if (isJumping){
-                jump();
-            }
-            else if (isFalling){
-                fall();
-            }
-        }
+        void jump_and_fall();
 };

@@ -39,42 +39,7 @@ class FlyingEnemyX: public Enemy{
         FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 10, int df = 0, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
             is_up = up; 
         }
-
-        //Spostamento in su del nemico
-        void mvup(){
-            is_up = true;
-            yLoc--;
-            if(yLoc < 1){
-                yLoc = 1;
-                is_up = false;
-            }
-        }
-
-        //Spostamento in giù del nemico
-        void mvdown(){
-            is_up = false;
-            yLoc++;
-            if(yLoc > yMax-(rows+1)){
-                yLoc = yMax-(rows+1);
-                is_up = true;
-            }
-        }
-
-        //funzione che fa muovere il nemico su e giù
-        void mv_up_down(){
-            if(is_up)
-            {
-                if (check_map_collision(2))
-                    mvup();
-                else
-                    is_up = false;
-            }
-            else
-            {
-                if (check_map_collision(3))
-                    mvdown();
-                else
-                    is_up = true;
-            }
-        }
+        void mvup();
+        void mvdown();
+        void mv_up_down();
 };
