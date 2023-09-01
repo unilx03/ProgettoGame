@@ -43,7 +43,7 @@ void stampaConiglio(WINDOW *f, int n){
 }
 
 void creaFile(){
-string nome="Bunny";
+string nome="Ettore";
 string punteggio="0";
  ofstream fout;
  fout.open("Datis.txt"); // apre il file in scrittura
@@ -52,7 +52,7 @@ string punteggio="0";
  fout.close();
 }
 
-int cercaRecord(string v[], int n){
+/*int cercaRecord(string v[], int n){
     int j=1;
     int cont=1;
     while(j<n-2){
@@ -62,15 +62,15 @@ int cercaRecord(string v[], int n){
     j+=2;
     }
     return cont-1;
-}
+}*/
 
 
-int main(int argc, char ** argv){
+void create_menu(){
     //NCURSES START
-    initscr();
+    /*initscr();
     noecho();
     cbreak();
-    curs_set(0);
+    curs_set(0);*/
 
     string v[50];
     int p=0;
@@ -93,28 +93,13 @@ int main(int argc, char ** argv){
     }
     f.close();
 
-
     //misure dello screen
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
 
-
     Menu G(0,1,xMax,yMax);
-
     Menu S(15,8,105,6);
-
     Menu K(22,8,105,7);
-
-   // WINDOW *menuwin= newwin(6,105, xMax=15, yMax=8);
-
-    //WINDOW *menup= newwin(7,105, xMax=22, yMax=8);
-
-
-
-
-
-    //wrefresh() copia la finestra indicata sullo schermo fisico del terminale,
-    //tenendo presente quanto vi si trova gi� allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
     mvwprintw(G.getW(),1,1,"        |||||||     ||     ||  |||        || |||        ||  |||     |||     ||||||||||  ||     || ||||||  |||     |||");
@@ -140,22 +125,18 @@ int main(int argc, char ** argv){
     mvwprintw(K.getW(), 2,80,"Record");
 
     //PRENDO LE INFO DAL VETTORE PRESO DAI FILE
-    int tmp=cercaRecord(v,n);
+    /*int tmp=cercaRecord(v,n);
     while(p<2){
     mvwprintw(K.getW(), 4,p*66+12,"%s ",v[tmp].c_str());
     p++;
     tmp++;
     }
-    p=0;
+    p=0;*/
 
     //wrefresh(menuwinG);
     G.wrW();
-
     S.wrW();
-
     K.wrW();
-
-
 
     //lo creo in modo tale da poter usare parole chiave
     //LAVORO SULLA FINESTRA DI SELEZIONE
@@ -203,10 +184,6 @@ int main(int argc, char ** argv){
     }
 
     //LAVORO SULLA FINESTRA RECORD
-
-
-
-
 
     //PER ORA FACCIO UNA SEMPLICE FRASE, SUCCESSIVAMENTE DEVO CREARE DELLE PAGINE
     mvwprintw(G.getW(), 25,1,"La tua scelta �: %s ", choices[highlight].c_str());

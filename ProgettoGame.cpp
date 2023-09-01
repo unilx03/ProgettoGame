@@ -7,7 +7,7 @@ int main()
 	cbreak();
 	curs_set(FALSE);
 
-	//INSERIRE QUI MENU' PRINCIPALE
+	create_menu(); //visualizzo il menù principale all'apertura del gioco
 
 	//INSERIRE QUI LIVELLO MARKET
 	
@@ -26,7 +26,7 @@ int main()
 
 	//Inizializzazione eroe
 	string n = "Ettore";
-	Hero* player = new Hero(win, 19, 0, 7, mapManager, false, n);
+	Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
 
 	//Inizializzazione lista di nemici
 	p_nodo h = NULL;
@@ -37,10 +37,18 @@ int main()
 	int gameState = 1;
 	while (gameState > 0)
 	{
-		h = game_loop(win, mapManager, player, h);
-		wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
-		flushinp();
-		//gameState = 0;
+		while (player->getHealth() > 0)
+		{
+			h = game_loop(win, mapManager, player, h);
+			wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
+			flushinp();
+			//gameState = 0;
+		}
+		napms(2000);
+		perdita();
+		napms(5000);
+		player->setHealth(400);
+		create_menu();
 	}
 	endwin();
 	
@@ -54,9 +62,9 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
 		
 	//controllo se è avvenuto un game over
-	if(player->getHealth()<=0){
+	/*if(player->getHealth()<=0){
 		perdita();
-	}
+	}*/
 
 	int key = wgetch(win); //input da tastiera
 	mapManager->DrawCurrentMap();
@@ -100,7 +108,7 @@ void player_skin_select(int key, Hero* player){
 
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
-	if((player->yLoc == 19 && player->xLoc == 153) && player->is_left == false){
+	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
 		//carica livello successivo, se non esiste aggiungere un nuovo livello
 		if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL){
 			mapManager->GetCurrentMapList()->NextMap();
@@ -126,7 +134,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		h = generate_enemies(win, mapManager, player->diff_level);
 	}
 	//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente (a meno che non sia nella prima mappa)
-	else if(player->level!=1 && (player->yLoc == 19 && player->xLoc == 1) && player->is_left == true){
+	else if(player->level!=1 && (player->yLoc == 19 && player->xLoc <= 1) && player->is_left == true){
 		mapManager->GetCurrentMapList()->PreviousMap();
 		mapManager->DrawCurrentMap();
 
