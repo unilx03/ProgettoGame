@@ -117,11 +117,11 @@ class Hero: public Character{
         bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x);
         void getmv(int choice);
 
-        /*void setStatChange(OggettoMarket o);
+        void setStatChange(OggettoMarket o);
         const char * purchase(OggettoMarket o);
         void setStatTemporary(OggettoMappa o);
         void setStatPermanent(OggettoMappa o);
-        void setStatChange(OggettoMappa o);*/
+        void setStatChange(OggettoMappa o);
 };
 
 

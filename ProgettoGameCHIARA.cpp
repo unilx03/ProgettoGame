@@ -7,6 +7,7 @@
 
 //#include "oggetto.h"
 #include "MarketScreen.h"
+#include "FinestraP.h"
 
 int main() 
 {
@@ -35,8 +36,9 @@ int main()
 	//inizializzazione MapManager, Hero e Market
     MapManager* mapManager = new MapManager(win);
     char n[] = "Ettore";
-	Hero* h = new Hero(win, 19, 0, 7, mapManager, false, n);
-    h -> setMoney(100);
+	Hero* player = new Hero(win, 19, 0, 7, mapManager, false, n);
+    player -> setMoney(100);
+    
 
 	//Inizializzazione finestre item + continue
     WINDOW* item1 = newwin(HEIGHT, WIDTH, 16, 2);
@@ -54,7 +56,9 @@ int main()
 
 	//stampa schermo
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
-
+    creaFinestra();
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+		
 	while(1){
         refresh();
 
@@ -68,8 +72,11 @@ int main()
         
         //controlla la scelta e agisce di conseguenza
         //se la funzione ritorna true significa che è stata premuta Y
-        if(checkChoice(choice, highlight, cont, win, item1, item2, item3, item4, item5, item6, item, h))
+        if(checkChoice(choice, highlight, cont, win, item1, item2, item3, item4, item5, item6, item, player))
             break;
+            creaFinestra();
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+		
     }
 	endwin();
 	
