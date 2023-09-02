@@ -10,7 +10,7 @@ class ThiefEnemy: public Enemy{
     public:
 
         const int DEF_SCORE = 15;
-        const int DEF_MONEY = 10;
+        const int DEF_MONEY = 20;
         const int DEF_HP = 30;
         const int DEF_ST = 3;
         const int DEF_DF = 0;

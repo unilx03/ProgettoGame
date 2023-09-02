@@ -130,6 +130,8 @@ class Hero: public Character{
         void setStatTemporary(OggettoMappa o);
         void setStatPermanent(OggettoMappa o);
         void setStatChange(OggettoMappa o);
+        
+        void hero_object_collision(OggettoMappa o);
 };
 
 

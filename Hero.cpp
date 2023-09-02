@@ -12,7 +12,7 @@ Hero::p_bullet Hero::bullet_insert(Hero::p_bullet h, int x, int y, bool left){
     return tmp;
 }
 
-//Funzione di attacco (permette al personaggio di "sparare proiettili") (NOTA: dà coredump)
+//Funzione di attacco (permette al personaggio di "sparare proiettili")
 Hero::p_bullet Hero::attack(Hero::p_bullet h){
     if(this->isAttacking){
         if(h == NULL) //controllo se ci sono ancora proiettili nella lista
@@ -179,6 +179,7 @@ const char * Hero::purchase(OggettoMarket o){
     if(this->getMoney()>=o.getPrice()){
         this->setMoney(this->getMoney()-(o.getPrice()));
         this->setStatChange(o);
+        (this->diff_level)++;
         return "ACQUISTO    AVVENUTO";
     }
     else{
@@ -199,7 +200,7 @@ void Hero::setStatPermanent(OggettoMappa o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
     if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
-        this->setHealth((int)(this->getHealth() + h.getMaxHp()*boost));
+        this->setHealth((int)(this->getHealth() + this->getMaxHp()*boost));
    else if(strcmp(o.getStatAffected(), "strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
     else if(strcmp(o.getStatAffected(), "defense")==0)
@@ -232,6 +233,19 @@ void Hero::setStatChange(OggettoMappa o){
     }
     else
         this->setStatPermanent(o);
+}
 
-
+//NOTA: dove la richiamiamo questa funzione??? Come capiamo qual è l'oggetto da passare??? Magari ogni mappa dovrebbe avere un attributo oggetto?
+void Hero::hero_object_collision(OggettoMappa o){
+    if(o.yOgg == (this->yLoc) || o.yOgg == (this->yLoc)+1){
+        if(o.xOgg >= (this->xLoc) - 2 && o.xOgg <= (this->xLoc) + (this->bound_right) - 1){
+            //CHIARA rimuovere l'oggetto (IDEA: attributo "used" in OggettoMappa: se è false (caso A), usare l'oggetto sull'eroe; 
+            //se è true (caso B), non fare più la print dell'oggetto e non applicare l'effetto all'eroe)
+            
+            //Nota: le successive righe vanno eseguite SOLO nel caso A descritto prima.
+            if(!(o.isTemporary())){
+                (this->diff_level)++;
+            }
+        }
+    }
 }

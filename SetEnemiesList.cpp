@@ -25,11 +25,6 @@ p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, in
             //nemico volante di tipo X
             tmp->e = new FlyingEnemyX(playwin, y, x, 4, 6, map, left);
             break;
-        //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
-        /*case 5:
-            //nemico boss
-            tmp->e = new BossEnemy(playwin, y, x, 5, 11, map, left);
-            break;*/
         default:
             //nemico base
             tmp->e = new Enemy(playwin, y, x, 0, 10, map, left);
@@ -94,10 +89,6 @@ void display_list(p_nodo h){
                         ((FlyingEnemyX *)(h-> e))->display(((FlyingEnemyX *)(h-> e))->enemy_shape_dead, ((FlyingEnemyX *)(h-> e))->enemy_shape_dead);
                     }
                     break;
-                //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
-                /*case 5:
-                    ((BossEnemy *)(h-> e))->display(((BossEnemy *)(h-> e))->enemy_shape, ((BossEnemy *)(h-> e))->enemy_shape);
-                    break;*/
                 default:
                     if((h->e)->getHealth()>0){
                         if((h->e)->hit_direction==0)
@@ -167,10 +158,6 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
                     //il nemico volante di tipo X fluttua in aria, muovendosi su e giù (quindi mantenendo invariata l'ascissa X).
                     ((FlyingEnemyX *)(tmp-> e))->mv_up_down();
                     break;
-                //NOTA PER ME: forse conviene gestire i boss nel file BossEnemy.cpp, e toglierli da questo switch case
-                /*case 5:
-                    ((BossEnemy *)(h-> e))->display(((BossEnemy *)(h-> e))->enemy_shape, ((BossEnemy *)(h-> e))->enemy_shape);
-                    break;*/
                 default:
                     //il nemico base si muove a destra e a sinistra.
                     (tmp->e)->mv_left_right();

@@ -3,7 +3,7 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 ----------------------------------------------------------------------------------*/
 
 #include <ncurses/ncurses.h>
-#include "BossEnemy.h"
+#include "FlyingEnemyX.h"
 #include <algorithm>    // std::random_shuffle
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand

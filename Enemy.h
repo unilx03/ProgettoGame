@@ -10,7 +10,6 @@ e classe base delle altre classi che definiscono gli altri tipi di nemici
 class Enemy: public Character{
 
     public:
-        //NOTA PER ME: aggiungere i primi due attributi tra questi al costruttore di ogni nemico
         int money_released; //soldi rilasciati dal nemico sconfitto
         int score_released; //punteggio rilasciato dal nemico sconfitto
         int enemy_type; //ogni tipo di nemico viene identificato da un numero

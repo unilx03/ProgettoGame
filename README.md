@@ -37,28 +37,28 @@ cliccato l'apposito tasto]
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-PERSONAGGI E NEMICI:
+EROE E NEMICI:
 
 Gerarchia classi:
 - Classe base -> Character
 - Classi che ereditano Character -> Enemy, Hero
-- Classi che ereditano Enemy -> JumpingEnemy, ThiefEnemy, FlyingEnemyY, FlyingEnemyX, BossEnemy
+- Classi che ereditano Enemy -> JumpingEnemy, ThiefEnemy, FlyingEnemyY, FlyingEnemyX
 
 Breve descrizione classi:
 - Character non istanzia niente, serve solo come superclasse.
 - Hero istanzia il personaggio giocabile dall'utente -> può muoversi, saltare, sparare proiettili. In questa classe viene inoltre gestita la meccanica dei proiettili e l'interazione tra l'eroe e gli oggetti sulla mappa.
-- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx. In questa classe viene inoltre gestita l'interazione tra i nemici e l'eroe.
+- Enemy istanzia il nemico di tipo "base" -> si muove a dx e a sx. In questa classe viene inoltre gestita l'interazione tra i nemici e l'eroe e tra i proiettili e i nemici.
 - JumpingEnemy istanzia il nemico di tipo "saltellante" -> saltella a dx e a sx.
 - ThiefEnemy istanzia il nemico di tipo "ladro" -> fa perdere soldi invece che punti vita al giocatore.
-- FlyingEnemyX/Y istanzia il nemico di tipo "volante X/Y" -> il tipo X fluttua in verticale (mantiene la x), il tipo Y fluttua in orizzontale (mantiene la y)
-- BossEnemy istanzia il boss -> è il più forte tra tutti i nemici
+- FlyingEnemyX istanzia il nemico di tipo "volante X" -> fluttua in verticale (mantiene la x).
+- FlyingEnemyY istanzia il nemico di tipo "volante Y" -> fluttua in orizzontale (mantiene la y).
 
 Comandi da tastiera:
-- Freccia dx/sx -> l'eroe fa un passo verso dx/sx
-- Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio
-- Barra spaziatrice -> l'eroe spara un proiettile
-- Freccia in su -> l'eroe salta
-- Freccia in giù -> se l'eroe sta già saltando, entra in modalità "attacco dall'alto"
+- Freccia dx/sx -> l'eroe fa un passo verso dx/sx.
+- Freccia dx/sx premuta -> l'eroe continua a muoversi verso dx/sx fino al rilascio, aumentando inoltre la velocità d'esecuzione del loop di gioco (temporaneo aumento di difficoltà di gioco).
+- Barra spaziatrice -> l'eroe spara un proiettile.
+- Freccia in su -> l'eroe salta. Raggiunta la massima forza di salto, cade fino a toccare terra. Durante le azioni di salto/caduta è possibile continuare a sparare proiettili e cambiare direzione.
+- Freccia in giù -> se l'eroe sta già saltando, entra in modalità "attacco dall'alto".
 
 Meccanica di gioco:
 - L'eroe perde punteggio quando entra a contatto con i nemici (tranne nel caso del nemico ladro). Se vi entra a contatto da dx o sx, viene "spostato" rispettivamente verso dx o sx. Se vi entra a contatto dal basso, viene "spinto" in giù. Se vi salta sopra, viene fatto "rimbalzare" verso l'alto, a meno che non sia in modalità "attacco dall'alto": in tal caso è il nemico a perdere vita, e non l'eroe.
@@ -70,7 +70,7 @@ Difficoltà di gioco:
 - Ogni score_count punti raccolti (valore di default = 100), diff_level aumenta di 1.
 - Quando l'eroe acquista un oggetto dal mercato/raccoglie un oggetto dalla mappa, diff_level aumenta di 1 (nota: vale solo per gli oggetti che attuano modifiche permanenti sulle statistiche dell'eroe. Gli altri non modificano diff_level). 
 - Quando diff_level aumenta di 5, viene aggiunto un nuovo nemico sulla mappa.
-- Le statistiche dei nemici istanziati su una nuova mappa dipendono da diff_level: strenght += 2* diff_level, hp += 10* diff_level, defense += diff_level, money_released += 5* diff_level, score_released += 10* diff_level.
+- Le statistiche dei nemici istanziati su una nuova mappa dipendono da diff_level e sono regolate dalla funzione set_enemies_stats();
 
 Altre note implementative:
 - I nemici vengono istanziati e gestiti per mezzo di una lista. Ogni nodo contiene un nemico di classe Enemy; in ogni funzione è presente uno switch-case che permette di effetturare il downcasting dalla classe Enemy alla corretta sottoclasse del nemico considerato. Quando un nemico muore, per una frazione di secondo assume le sembianze di un fantasma, poi viene rimosso dalla lista.

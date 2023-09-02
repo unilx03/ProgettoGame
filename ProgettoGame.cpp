@@ -27,6 +27,8 @@ int main()
 		create_menu(); //visualizzo il menù principale all'apertura del gioco
 		erase(); //cancella tutto ciò che c'è sullo schermo
 
+		//NOTA: (BRUNI) se nel menù ho premuto "esci" o simile, gameState = 0 ed uscire dal while;
+
 		//Inizializzazione eroe (BRUNI se il giocatore ha selezionato "continua" nel menù, caricare i dati del giocatore salvato su file e ignorare queste due successive righe)
 		string n = "Ettore";
 		Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
@@ -43,7 +45,7 @@ int main()
 		{	
 			//visualzzo box statistiche
 			creaFinestra();
-			//salvo stato del giocatore su file (NOTA PER ME: salviamo il level o il diff_level? O, meglio, entrambi?)
+			//salvo stato del giocatore su file (NOTA PER ME e per BRUNI: salviamo il level o il diff_level? O, meglio, entrambi?)
 			saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
 			creaFinestra();	
 
@@ -51,13 +53,13 @@ int main()
 
 			wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
 			flushinp();
-			//gameState = 0;
 		}
 		napms(2000);
 		perdita();
 		napms(3000);
-		player->setHealth(400);
+		player->setHealth(player->getMaxHp());
 	}
+
 	endwin();
 	
 	return 0;
@@ -151,7 +153,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		p_nodo h2 = h;
 		delete h2;
 		h = NULL;
-		//(BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA PRECEDENTE!
+		//(BRUNI) CARICARE DA FILE LISTA NEMICI DELLA MAPPA PRECEDENTE!
 	}
 	return h;
 }
