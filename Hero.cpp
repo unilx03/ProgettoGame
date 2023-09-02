@@ -199,7 +199,7 @@ void Hero::setStatPermanent(OggettoMappa o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
     if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
-        this->setHealth((int)(this->getHealth() /*+ h.getMaxHp()*/    *boost));
+        this->setHealth((int)(this->getHealth() + h.getMaxHp()*boost));
    else if(strcmp(o.getStatAffected(), "strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
     else if(strcmp(o.getStatAffected(), "defense")==0)

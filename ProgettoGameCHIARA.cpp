@@ -58,7 +58,8 @@ int main()
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
     creaFinestra();
     saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
-		
+	creaFinestra();	
+
 	while(1){
         refresh();
 
@@ -74,9 +75,10 @@ int main()
         //se la funzione ritorna true significa che è stata premuta Y
         if(checkChoice(choice, highlight, cont, win, item1, item2, item3, item4, item5, item6, item, player))
             break;
-            creaFinestra();
-    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
-		
+
+        saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+		creaFinestra();
+        
     }
 	endwin();
 	

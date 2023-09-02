@@ -190,6 +190,6 @@ void create_menu(){
     wrefresh(G.getW());
     //G.wW();
 
-    getch();
+    //getch();
 
 }

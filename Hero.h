@@ -16,6 +16,7 @@ class Hero: public Character{
         bool invincibility;
         bool doubleMoney;
         bool doubleScore;
+        int maxHp;
 
     public:
         //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
@@ -67,6 +68,12 @@ class Hero: public Character{
         bool getDoubleScore(){
             return doubleScore;
         }
+        void setMaxHp(int n){
+            maxHp = n;
+        }
+        int getMaxHp(){
+            return maxHp;
+        }
 
         //il personaggio viene disegnato su più righe utilizzando un array
         const char* player_shape_right[2] = {
@@ -111,6 +118,7 @@ class Hero: public Character{
             doubleMoney = dM;
             doubleScore = dS;
             isAttacking = false;
+            maxHp = hp;
         }
         p_bullet bullet_insert(p_bullet h, int x, int y, bool left);
         p_bullet attack(p_bullet h);

@@ -1,4 +1,4 @@
-#include "SetEnemiesList.h"
+#include "MarketScreen.h"
 #include "Menu.h"
 #include "FinestraP.h"
 #include <string>
@@ -7,3 +7,4 @@
 p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h);
 void player_skin_select(int key, Hero* player);
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h);
+void create_market(Hero* player);
