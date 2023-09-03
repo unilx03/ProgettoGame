@@ -38,5 +38,8 @@ class MapManager
 
         //Funzioni di salvataggio riguardo i livelli
         void LoadSavedMaps();
+
+        //Funzione per generare un oggetto all'interno della mappa
+        void generateDrop(WINDOW * playwin, OggettoMappa* item[]);
 };
 

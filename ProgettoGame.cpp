@@ -89,6 +89,18 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	h = map_change(win, mapManager, player, h); //controlla se devo cambiare mappa (e, in tal caso, la cambia)
 
 	//aggiornamento della posizione dei nemici
+	
+	/*OggettoMappa* item[M];
+            item[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
+            item[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght");
+            item[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense");
+            item[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney", true);
+            item[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore", true);
+            item[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility", true);
+            item[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce");
+            item[7] = new OggettoMappa("Sale", "££", 0.2, "sale", false, true);
+	mapManager -> generateDrop(win, item);
+	napms(10000);*/
 	display_list(h);
     h = action_list(win, h, player);
 

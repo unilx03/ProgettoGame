@@ -39,3 +39,8 @@ int OggettoMappa::getYOgg(){
 void OggettoMappa::setYOgg(int yOgg){
     this -> yOgg = yOgg;
 }
+
+OggettoMappa * OggettoMappa::newObject(OggettoMappa* ogg){
+    OggettoMappa * newOgg = new OggettoMappa(ogg -> name, ogg -> skin, ogg -> boostStat, ogg -> statAffected, ogg -> xOgg, ogg -> yOgg, ogg -> temporary, ogg -> special);
+    return newOgg;
+}

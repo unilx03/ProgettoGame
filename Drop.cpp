@@ -1,9 +1,9 @@
 #include "Drop.h"
-OggettoMappa* Drop::getItemDrop(int i){
+OggettoMappa* getItemDrop(int i, OggettoMappa* item[]){
     return item[i];
 }
 
-int Drop::chosenIndex(){
+OggettoMappa* chosenObject(OggettoMappa* item[]){
     int num = rand()%100;
     int index = 0;
     switch (num){
@@ -34,5 +34,5 @@ int Drop::chosenIndex(){
         default:
             break;
     }
-    return index;
+    return item[index];
 }

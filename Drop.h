@@ -1,27 +1,20 @@
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
 #include "OggettoMappa.h"
+/*
+OggettoMappa* item[M];
+            item[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
+            item[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght");
+            item[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense");
+            item[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney", true);
+            item[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore", true);
+            item[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility", true);
+            item[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce");
+            item[7] = new OggettoMappa("Sale", "££", 0.2, "sale", false, true);
+*/
 
-class Drop{
-    protected:
-        OggettoMappa* item[M];
-    
-    public:
-        Drop(){
-            item[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health", 0.3);
-            item[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght", 0.15);
-            item[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense", 0.15);
-            item[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney", 0.1, true);
-            item[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore", 0.1, true);
-            item[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility", 0.8, true);
-            item[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce", 0.05);
-            item[7] = new OggettoMappa("Sale", "££", 0.2, "sale", 0.02, false, true);
-        }
-        //Riempie il vettore con i 8 oggetti droppabili durante la run
+OggettoMappa* getItemDrop(int i, OggettoMappa* item[]);
+//Dato un indice ritorna l'oggetto corrispondente
 
-        OggettoMappa* getItemDrop(int i);
-        //Dato un indice ritorna l'oggetto corrispondente
-
-        int chosenIndex();
-        //Ritorna l'indice dell'oggetto scelto in base alle probabilità
-};
+OggettoMappa* chosenObject(OggettoMappa* item[]);
+//Ritorna l'indice dell'oggetto scelto in base alle probabilità

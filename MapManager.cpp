@@ -146,3 +146,17 @@ void MapManager::LoadSavedMaps()
 	
 	inputFile.close();
 }
+
+void MapManager::generateDrop(WINDOW * playwin, OggettoMappa* item[]){
+	//scelgo un punto di spawn in modo randomico
+	int spawn = rand() % this->GetCurrentMapList()->GetTail()->GetNumSpawnItems();
+	OggettoMappa * drop;
+	drop -> newObject(chosenObject(item));
+	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItems()[spawn].x;
+    drop -> setXOgg(x);
+    int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItems()[spawn].y;
+	drop -> setYOgg(y);
+	mvwprintw(playwin, drop->getYOgg(), drop->getXOgg(), drop -> getSkin());
+	box(playwin, 0, 0);
+	wrefresh(playwin);
+}

@@ -2,7 +2,6 @@
 
 class OggettoMappa : Oggetto{
     protected:
-        double probability; //probabilità in percentuale dello spawn dell'oggetto
         bool temporary; //vero quando l'effetto è temporaneo (dura solo per la stanza corrente)
         bool special; //vero quando oggetto ha effetto nella run successiva
         
@@ -12,7 +11,7 @@ class OggettoMappa : Oggetto{
 
     public:
 
-        OggettoMappa(const char * name, const char * skin, double boostStat, const char * statAffected, double probability, int xOgg = 0, int yOgg = 0, bool temporary = false, bool special = false){
+        OggettoMappa(const char * name, const char * skin, double boostStat, const char * statAffected, int xOgg = 0, int yOgg = 0, bool temporary = false, bool special = false){
             
             this -> name = new char[LEN];
             this -> name = name;
@@ -20,7 +19,6 @@ class OggettoMappa : Oggetto{
             this -> skin = skin;
             this -> statAffected = new char[LEN];
             this -> statAffected = statAffected;
-            this -> probability = probability;
             this -> boostStat = boostStat;
             this -> xOgg = xOgg;
             this -> yOgg = yOgg;
@@ -45,5 +43,7 @@ class OggettoMappa : Oggetto{
 
         int getYOgg();
         void setYOgg(int yOgg);
-  
+
+        //costruttore copia
+        OggettoMappa * newObject(OggettoMappa* ogg);
 };
