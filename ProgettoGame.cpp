@@ -37,7 +37,7 @@ int main()
 		p_nodo h = NULL;
 		srand((unsigned) time(NULL));
 		h = generate_enemies(win, mapManager, 0);
-
+		player -> setMoney(100);
 		create_market(player); //visualizzo il market
 		erase(); //cancella tutto ciò che c'è sullo schermo
 
@@ -171,11 +171,11 @@ void create_market(Hero* player){
 
 	//Inizializzazione array oggetti market
 	OggettoMarket * item[N];
-	item[0] = new OggettoMarket ("BISCOTTO VITA","<3", 0.05,"health",55);
-    item[1] = new OggettoMarket("SPINACI", "YY", 0.03,"strenght",44);
+	item[0] = new OggettoMarket ("BISCOTTO VITA","<3", 0.1,"health",55);
+    item[1] = new OggettoMarket("SPINACI", "YY", 0.05,"strenght",44);
     item[2] = new OggettoMarket("POZIONE SALTO", "()", 0.02,"JumpForce",22);
     item[3] = new OggettoMarket("SCUDO CAROTA", "][", 0.05,"defense",11);
-    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 0.01,"luck",100);
+    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 0.3,"luck",100);
 
 	//Inizializzazione finestre item + continue
     WINDOW* item1 = newwin(HEIGHT, WIDTH, 16, 2);

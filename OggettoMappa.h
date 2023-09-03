@@ -5,12 +5,12 @@ class OggettoMappa : Oggetto{
         double probability; //probabilità in percentuale dello spawn dell'oggetto
         bool temporary; //vero quando l'effetto è temporaneo (dura solo per la stanza corrente)
         bool special; //vero quando oggetto ha effetto nella run successiva
-
-    public:
-
+        
         //coordinate dell'oggetto nella mappa
         int xOgg;  
         int yOgg;
+
+    public:
 
         OggettoMappa(const char * name, const char * skin, double boostStat, const char * statAffected, double probability, int xOgg = 0, int yOgg = 0, bool temporary = false, bool special = false){
             
@@ -39,5 +39,11 @@ class OggettoMappa : Oggetto{
         
         void setStatAffected(const char * statAffected);
         const char * getStatAffected();
+
+        int getXOgg();
+        void setXOgg(int xOgg);
+
+        int getYOgg();
+        void setYOgg(int yOgg);
   
 };

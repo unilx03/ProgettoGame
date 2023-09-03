@@ -25,3 +25,17 @@ void OggettoMappa::setStatAffected(const char * statAffected){
 const char * OggettoMappa::getStatAffected(){
     return statAffected;
 }
+
+int OggettoMappa::getXOgg(){
+    return xOgg;
+}
+void OggettoMappa::setXOgg(int xOgg){
+    this -> xOgg = xOgg;
+}
+
+int OggettoMappa::getYOgg(){
+    return yOgg;
+}
+void OggettoMappa::setYOgg(int yOgg){
+    this -> yOgg = yOgg;
+}

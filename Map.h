@@ -3,7 +3,7 @@
 #include <ctime>
 #include <fstream>
 #include <ncurses/ncurses.h>
-#include "OggettoMappa.h"
+#include "Drop.h"
 
 using namespace std;
 

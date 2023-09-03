@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/39388/Desktop/PROGETTO/ProgettoGame",
-      "program": "c:/Users/39388/Desktop/PROGETTO/ProgettoGame/build/Debug/outDebug",
+      "cwd": "c:/Users/39388/Desktop/ProgettoProgrammazione/ProgettoGame",
+      "program": "c:/Users/39388/Desktop/ProgettoProgrammazione/ProgettoGame/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

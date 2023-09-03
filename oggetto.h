@@ -6,7 +6,7 @@
 using namespace std;
 #define LEN 15
 #define N 5 //lunghezza vettore Market
-#define M 9 //Lunghezza vettore dei drop (oggetti durante la run)
+#define M 8 //Lunghezza vettore dei drop (oggetti durante la run)
 
 class Oggetto{
     protected:
