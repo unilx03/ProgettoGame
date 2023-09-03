@@ -41,6 +41,11 @@ int main()
 		create_market(player); //visualizzo il market
 		erase(); //cancella tutto ciò che c'è sullo schermo
 
+		refresh();	//Importante!!
+		wrefresh(win); //Importante!!
+		//mvwpri
+
+
 		while (player->getHealth() > 0)
 		{	
 			//visualzzo box statistiche
@@ -55,6 +60,7 @@ int main()
 			flushinp();
 		}
 		napms(2000);
+		creaFinestra();
 		perdita();
 		napms(3000);
 		player->setHealth(player->getMaxHp());
@@ -68,6 +74,7 @@ int main()
 p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 
 	int key = wgetch(win); //input da tastiera
+
 	mapManager->DrawCurrentMap();
 
 	//aggiornamento del livello di difficoltà se si ha raggiunto un certo score
@@ -210,8 +217,9 @@ void create_market(Hero* player){
         
         //controlla la scelta e agisce di conseguenza
         //se la funzione ritorna true significa che è stata premuta Y
-        if(checkChoice(choice, highlight, cont, win, item1, item2, item3, item4, item5, item6, item, player))
+        if(checkChoice(choice, highlight, cont, win, item1, item2, item3, item4, item5, item6, item, player)){
             break;
+		}
 		
 		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
 		creaFinestra();
