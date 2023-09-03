@@ -41,9 +41,11 @@ int main()
 		create_market(player); //visualizzo il market
 		erase(); //cancella tutto ciò che c'è sullo schermo
 
+		box(win, 0, 0);
 		refresh();	//Importante!!
 		wrefresh(win); //Importante!!
-		//mvwpri
+		char message[] = "Press any key to start!";
+		mvwprintw(win, 11, 70, message);
 
 
 		while (player->getHealth() > 0)
