@@ -40,6 +40,6 @@ class MapManager
         void LoadSavedMaps();
 
         //Funzione per generare un oggetto all'interno della mappa
-        void generateDrop(WINDOW * playwin, OggettoMappa* item[]);
+        void GenerateDrop(WINDOW * playwin, OggettoMappa* item[]);
 };
 

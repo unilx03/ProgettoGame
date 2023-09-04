@@ -136,6 +136,12 @@ void player_skin_select(int key, Hero* player){
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
 	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
+		player->yLoc = 19;
+		player->xLoc = 1;
+		player->is_left = false;
+		(player->level)++;
+
+		bool newMap = false;
 		//carica livello successivo, se non esiste aggiungere un nuovo livello
 		if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL){
 			mapManager->GetCurrentMapList()->NextMap();
@@ -144,12 +150,8 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		else{
 			mapManager->GenerateNewMap();
 			mapManager->DrawCurrentMap();
+			newMap = true;
 		}
-
-		player->yLoc = 19;
-		player->xLoc = 1;
-		player->is_left = false;
-		(player->level)++;
 
 		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
 		//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!)
@@ -158,17 +160,19 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		p_nodo h2 = h;
 		delete h2;
 		h = NULL;
-		h = generate_enemies(win, mapManager, player->diff_level);
+
+		if (newMap)
+			h = generate_enemies(win, mapManager, player->diff_level);
 	}
 	//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente (a meno che non sia nella prima mappa)
 	else if(player->level!=1 && (player->yLoc == 19 && player->xLoc <= 1) && player->is_left == true){
-		mapManager->GetCurrentMapList()->PreviousMap();
-		mapManager->DrawCurrentMap();
-
 		player->yLoc = 19;
 		player->xLoc = 153;
 		player->is_left = true;
 		(player->level)--;
+		
+		mapManager->GetCurrentMapList()->PreviousMap();
+		mapManager->DrawCurrentMap();
 
 		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
 		p_nodo h2 = h;

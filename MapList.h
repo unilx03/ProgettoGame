@@ -24,7 +24,8 @@ class MapList
         Map* LoadMapFromID (Map* tail, int id);
         int CountMaps (Map* tail);
 
-        void PrintMaps(Map* tail);
+        //debug
+        //void PrintMaps(Map* tail);
 
         void NextMap ();
         void PreviousMap ();

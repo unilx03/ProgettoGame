@@ -51,7 +51,8 @@ void MapList::PreviousMap()
 		this->SetTail(this->tail->GetPrev());
 }
 
-void MapList::PrintMaps(Map* t)
+//debug
+/*void MapList::PrintMaps(Map* t)
 {
 	if (t != NULL)
 	{
@@ -92,4 +93,4 @@ void MapList::PrintMaps(Map* t)
 		cout << endl << endl;
 		PrintMaps(t->GetPrev());
 	}
-}
+}*/

@@ -5,15 +5,12 @@ Map::Map(int** map, int id, bool mirrored)
 	this->id = id;
 	this->mirrored = mirrored;
 
-	this->numSpawnEnemies = 0;
 	this->spawnEnemies = new point[ENEMYSPAWN];
-	this->numSpawnItems = 0;
-	this->spawnItems = new point[ITEMSPAWN];
+	this->numSpawnEnemies = 0;
+	this->spawnFlyingEnemies = new point[ENEMYSPAWN];
+	this->numSpawnFlyingEnemies = 0;
 
-	this->numPositionEnemies = 0;
-	this->positionEnemies = new point[ENEMYSPAWN];
-	this->numPositionItems = 0;
-	this->positionItems = new point[ITEMSPAWN];
+	this->itemPicked = false;
 
 	this->map = new int*[ROW];
 	for (int i = 0; i < ROW; i++)
@@ -23,17 +20,22 @@ Map::Map(int** map, int id, bool mirrored)
 		{
 			this->map[i][j] = map[i][j];
 
-			if (map[i][j] == ENEMYMAPNUMBER) //spawn nemici livello normale
+			if (map[i][j] == ENEMYMAPCHARACTER) //spawn nemici
 			{
 				this->spawnEnemies[numSpawnEnemies].x = j + 1;
 				this->spawnEnemies[numSpawnEnemies].y = i + 1;
-				this->numSpawnEnemies++;
+				numSpawnEnemies++;
 			}
-			else if (map[i][j] == ITEMMAPNUMBER) //spawn oggetti livello normale
+			else if (map[i][j] == FLYINGMAPCHARACTER) //spawn nemici volanti
 			{
-				this->spawnItems[numSpawnItems].x = j + 1;
-				this->spawnItems[numSpawnItems].y = i + 1;
-				this->numSpawnItems++;
+				this->spawnFlyingEnemies[numSpawnFlyingEnemies].x = j + 1;
+				this->spawnFlyingEnemies[numSpawnFlyingEnemies].y = i + 1;
+				numSpawnFlyingEnemies++;
+			}
+			else if (map[i][j] == ITEMMAPCHARACTER) //spawn oggetto
+			{
+				this->spawnItem.x = j + 1;
+				this->spawnItem.y = i + 1;
 			}
 		}
 	}
@@ -47,15 +49,14 @@ Map::Map(Map* m)
 	this->id = m->GetID();
 	this->mirrored = m->GetMirrored();
 
-	this->numSpawnEnemies = m->GetNumSpawnEnemies();
 	this->spawnEnemies = m->GetSpawnEnemies();
-	this->numSpawnItems = m->GetNumSpawnItems();
-	this->spawnItems = m->GetSpawnItems();
+	this->numSpawnEnemies = m->GetNumSpawnEnemies();
+	this->spawnFlyingEnemies = m->GetSpawnFlyingEnemies();	
+	this->numSpawnFlyingEnemies = m->GetNumSpawnFlyingEnemies();
 
-	this->numPositionEnemies = m->GetNumPositionEnemies();
-	this->positionEnemies = m->GetPositionEnemies();
-	this->numPositionItems = m->GetNumPositionItems();
-	this->positionItems = m->GetPositionItems();
+	this->itemDrop = m->GetItemDrop();
+	this->spawnItem = m->GetSpawnItem();
+	this->itemPicked = m->GetItemPicked();
 
 	this->map = m->GetMap();
 
@@ -78,50 +79,21 @@ void Map::SetSpawnEnemies(point* se) { this->spawnEnemies = se; }
 int Map::GetNumSpawnEnemies() { return this->numSpawnEnemies; }
 void Map::SetNumSpawnEnemies(int n) { this->numSpawnEnemies = n; }
 
-point* Map::GetPositionEnemies() { return this->positionEnemies; }
-void Map::SetPositionEnemies(point* pe) { this->positionEnemies = pe; }
+point* Map::GetSpawnFlyingEnemies() { return this->spawnFlyingEnemies; }
+void Map::SetSpawnFlyingEnemies(point* se) { this->spawnFlyingEnemies = se; }
 
-int Map::GetNumPositionEnemies() { return this->numPositionEnemies; }
-void Map::SetNumPositionEnemies(int n) { this->numPositionEnemies = n; }
+int Map::GetNumSpawnFlyingEnemies() { return this->numSpawnFlyingEnemies; }
+void Map::SetNumSpawnFlyingEnemies(int n) { this->numSpawnFlyingEnemies = n; }
 
-point* Map::GetSpawnItems() { return this->spawnItems; }
-void Map::SetSpawnItems(point* si) { this->spawnItems = si; }
+OggettoMappa* Map::GetItemDrop() { return this->itemDrop; }
 
-int Map::GetNumSpawnItems() { return this->numSpawnItems; }
-void Map::SetNumSpawnItems(int n) { this->numSpawnItems = n; }
+point Map::GetSpawnItem() { return this->spawnItem; }
 
-point* Map::GetPositionItems() { return this->positionItems; }
-void Map::SetPositionItems(point* pi) { this->positionItems = pi; }
-
-int Map::GetNumPositionItems() { return this->numPositionItems; }
-void Map::SetNumPositionItems(int n) { this->numPositionItems = n; }
+bool Map::GetItemPicked() { return this->itemPicked; }
+void Map::SetItemPicked(bool ip) { this->itemPicked = ip; }
 
 Map* Map::GetPrev() { return this->prev; }
 void Map::SetPrev(Map* p) { this->prev = p; }
 
 Map* Map::GetNext() { return this->next; }
 void Map::SetNext(Map* n) { this->next = n; }
-
-void Map::GenerateEnemies ()
-{
-	//numPositionEnemies = rand() % ENEMYSPAWN;
-	numPositionEnemies = 0;
-	for (int i = 0; i < numPositionEnemies; i++)
-	{
-		int randomEnemy = rand() % numSpawnEnemies;
-		positionEnemies[i].x = spawnEnemies[randomEnemy].x;
-		positionEnemies[i].y = spawnEnemies[randomEnemy].y;
-	}
-}
-
-void Map::GenerateItems ()
-{
-	//numPositionItems = rand() % ITEMSPAWN;
-	numPositionItems = 0;
-	for (int i = 0; i < numPositionItems; i++)
-	{
-		int randomItem = rand() % numSpawnItems;
-		positionItems[i].x = spawnItems[randomItem].x;
-		positionItems[i].y = spawnItems[randomItem].y;
-	}
-}

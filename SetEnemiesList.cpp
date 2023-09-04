@@ -190,18 +190,41 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     p_nodo list = NULL;
     
     int num_enemies = NUM_ENEMIES_DEFAULT + diff_level/NUM_ENEMIES_GROWTH; //ogni volta che diff_level aumenta di NUM_ENEMIES_GROWTH viene aggiunto un nemico
-    
+    bool* isPositionTaken = new bool[ENEMYSPAWN];
+
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
     random_shuffle(&v[0], &v[15]); //"scompiglia" gli elementi dell'array in modo casuale
     
     for(int i = 0; i<num_enemies; i++){ //seleziono randomicamente un elemento dell'array e inserisco nella lista il nemico corrispondente
         int index = rand()%16;
-        int spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+        int spawn = 0;
 
-        int x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
-        map->GetCurrentMapList()->GetTail()->GetPositionEnemies()[i].x = x;
-        int y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
-        map->GetCurrentMapList()->GetTail()->GetPositionEnemies()[i].y = y;
+        int x = 0, y = 0;
+
+        if (v[index] != 4) //non nemico volante verticale
+        {
+            do
+            {
+                spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+            }
+            while (isPositionTaken[spawn]);
+            isPositionTaken[spawn] = true;
+
+            x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
+            y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
+        }
+        else
+        {
+            do
+            {
+                spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies();
+            }
+            while (isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()]);
+            isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()] = true;
+
+            x = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].x;
+            y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
+        }
 
         list = head_insert(list, playwin, y, x, map, v[index]);
         (list->e)->yLoc -= (list->e)->rows;

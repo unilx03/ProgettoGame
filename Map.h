@@ -10,15 +10,15 @@ using namespace std;
 #define ROW 20
 #define COLUMN 160
 
+#define EMPTYCHARACTER 0
 #define WALLCHARACTER 2
 #define FLOORCHARACTER 1
 
 #define ENEMYSPAWN 30 //numero massimo di nemici e oggetti che possono essere generati
-#define ITEMSPAWN 1
 
-#define ENEMYMAPNUMBER 3 //carattere che indica uno spawn di nemici o oggetti nella mappa
-#define FLYINGMAPNUMBER 4
-#define ITEMMAPNUMBER 9
+#define ENEMYMAPCHARACTER 3 //carattere che indica uno spawn di nemici o oggetti nella mappa
+#define FLYINGMAPCHARACTER 4
+#define ITEMMAPCHARACTER 9
 
 struct point{
     int x;
@@ -33,14 +33,13 @@ class Map
     	int** map; //caselle mappa segnate come in map.txt
 
     	point* spawnEnemies; //punti possibili di spawn dei nemici presi dalla mappa
-		int numSpawnEnemies; //numero massimo di spawn nemici presenti nella mappa
-		point* positionEnemies; //punti di spawn effettivi dei nemici
-		int numPositionEnemies; //numero effettivo di nemci
+		int numSpawnEnemies; //numero di spawn nemici
+		point* spawnFlyingEnemies; //punti possibili di spawn dei nemici volanti verticali
+		int numSpawnFlyingEnemies; //numero di spawn nemici volanti
 	
-    	point* spawnItems; //analogo ai nemici
-		int numSpawnItems;
-		point* positionItems;
-		int numPositionItems;
+		OggettoMappa* itemDrop;
+    	point spawnItem; //punto di spawn oggetto
+		bool itemPicked;
 
 		Map* prev;
 		Map* next;
@@ -64,30 +63,23 @@ class Map
 		int GetNumSpawnEnemies();
 		void SetNumSpawnEnemies(int n);
 
-		point* GetPositionEnemies();
-		void SetPositionEnemies(point* pe);
+		point* GetSpawnFlyingEnemies();
+		void SetSpawnFlyingEnemies(point* se);
 
-		int GetNumPositionEnemies();
-		void SetNumPositionEnemies(int n);
+		int GetNumSpawnFlyingEnemies();
+		void SetNumSpawnFlyingEnemies(int n);
 
-		point* GetSpawnItems();
-		void SetSpawnItems(point* si);
+		OggettoMappa* GetItemDrop();
 
-		int GetNumSpawnItems();
-		void SetNumSpawnItems(int n);
+		point GetSpawnItem();
+		void SetSpawnItem(point si);
 
-		point* GetPositionItems();
-		void SetPositionItems(point* pi);
-
-		int GetNumPositionItems();
-		void SetNumPositionItems(int n);
-
+		bool GetItemPicked();
+		void SetItemPicked(bool ip);
+		
 		Map* GetPrev();
 		void SetPrev(Map* p);
 
 		Map* GetNext();
 		void SetNext(Map* p);
-
-		void GenerateEnemies();
-		void GenerateItems();
 };

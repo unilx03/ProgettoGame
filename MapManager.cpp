@@ -72,12 +72,8 @@ void MapManager::SetCurrentMapList(MapList* cml) { this->currentMapList = cml; }
 void MapManager::GenerateNewMap()
 {
     int levelToLoadID = rand() % numMaps;
-	//int levelToLoadID = this->numMaps - 1;
-	//int levelToLoadID = this->numMaps - 1; //debug
-    //this->numMaps--;
     this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
-	this->currentMapList->GetTail()->GenerateEnemies();
-	this->currentMapList->GetTail()->GenerateItems();
+	//GenerateDrop();
 }
 
 void MapManager::DrawCurrentMap()
@@ -90,10 +86,10 @@ void MapManager::DrawCurrentMap()
 		for (int j = 0; j < COLUMN; j++)
 		{
 			char character = ' ';
-			if (this->currentMapList->GetTail()->GetMap()[i][j] == 0)
+			if (this->currentMapList->GetTail()->GetMap()[i][j] == EMPTYCHARACTER)
 				character = ' ';
 			else if (this->currentMapList->GetTail()->GetMap()[i][j] == FLOORCHARACTER)
-				character = '_';
+				character = '-';
 			else if (this->currentMapList->GetTail()->GetMap()[i][j] == WALLCHARACTER)
 				character = '|';
 			else
@@ -101,22 +97,12 @@ void MapManager::DrawCurrentMap()
 			mvwprintw(this->window, i + 1, j + 1, "%c", character);
 		}
 	}
-	
-	/*for (int i = 0; i < this->currentMapList->GetTail()->GetNumPositionEnemies(); i++)
-	{
-		mvwprintw(this->window, this->currentMapList->GetTail()->GetPositionEnemies()[i].y, this->currentMapList->GetTail()->GetPositionEnemies()[i].x, 
-					"%c", 'N');
-	}
-	
-	for (int i = 0; i < this->currentMapList->GetTail()->GetNumPositionItems(); i++)
-	{
-		mvwprintw(this->window, this->currentMapList->GetTail()->GetPositionItems()[i].y, this->currentMapList->GetTail()->GetPositionItems()[i].x, 
-					"%c", 'O');
-	}*/
+
+	//per disegnare l'oggetto
+	//if (!this->currentMapList->GetTail()->GetItemPicked())
+	//	mvwprintw(this->window, this->currentMapList->GetTail()->GetItemDrop()->getYOgg(), this->currentMapList->GetTail()->GetItemDrop()->getXOgg(), this->currentMapList->GetTail()->GetItemDrop() -> getSkin());
 
 	wrefresh(this->window);
-
-	//this->player->display(this->player->player_shape_left, this->player->player_shape_right);
 }
 
 /*
@@ -147,16 +133,12 @@ void MapManager::LoadSavedMaps()
 	inputFile.close();
 }
 
-void MapManager::generateDrop(WINDOW * playwin, OggettoMappa* item[]){
-	//scelgo un punto di spawn in modo randomico
-	int spawn = rand() % this->GetCurrentMapList()->GetTail()->GetNumSpawnItems();
-	OggettoMappa * drop;
-	drop -> newObject(chosenObject(item));
-	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItems()[spawn].x;
-    drop -> setXOgg(x);
-    int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItems()[spawn].y;
-	drop -> setYOgg(y);
-	mvwprintw(playwin, drop->getYOgg(), drop->getXOgg(), drop -> getSkin());
-	box(playwin, 0, 0);
-	wrefresh(playwin);
+void MapManager::GenerateDrop(WINDOW * playwin, OggettoMappa* item[])
+{
+	this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
+
+	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem().x;
+    this->currentMapList->GetTail()->GetItemDrop() -> setXOgg(x);
+    int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItem().y;
+	this->currentMapList->GetTail()->GetItemDrop() -> setYOgg(y);
 }
