@@ -28,5 +28,7 @@ void set_enemies_stats(p_nodo h, int diff_level);
 //Prende in input il numero di nemici da generare e restituisce una lista di nemici con le loro coordinate sulla mappa.
 p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level);
 
-void salvaListaSuFile(p_nodo h, int numeroLista, const string &nomeFile);
-p_nodo leggiListaDaFile(int numeroLista, const string &nomeFile);
+void scriviEnemy(ofstream &file, Enemy *enemy);
+void leggiEnemy(ifstream &file, Enemy *enemy);
+void salvaListaSuFile(p_nodo h, const string &nomeFile);
+p_nodo leggiListaDaFile(const string &nomeFile);

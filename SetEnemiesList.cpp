@@ -233,28 +233,35 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     return list;
 }
 
-// Funzione per salvare la lista 'h' in un file binario con un numero identificativo
-void salvaListaSuFile(p_nodo h, int numeroLista, const string &nomeFile) {
-    ofstream file(nomeFile,ios::binary);
+// Funzione per scrivere un oggetto Enemy nel file binario
+void scriviEnemy(ofstream &file, Enemy *enemy) {
+    file.write(reinterpret_cast<char *>(enemy), sizeof(Enemy));
+}
+
+// Funzione per leggere un oggetto Enemy dal file binario
+void leggiEnemy(ifstream &file, Enemy *enemy) {
+    file.read(reinterpret_cast<char *>(enemy), sizeof(Enemy));
+}
+
+// Funzione per salvare la lista 'h' in un file binario
+void salvaListaSuFile(p_nodo h, const string &nomeFile) {
+    ofstream file(nomeFile, ios::binary);
 
     if (!file.is_open()) {
         cerr << "Impossibile aprire il file." << endl;
         return;
     }
 
-    // Scrivi il numero identificativo della lista
-    file.write(reinterpret_cast<char *>(&numeroLista), sizeof(int));
-
     p_nodo current = h;
 
     while (current != nullptr) {
-        // Scrivi il puntatore Enemy 'e' nell'array di caratteri come rappresentazione binaria
-        file.write(reinterpret_cast<char *>(current->e), sizeof(Enemy));
+        // Scrivi il puntatore Enemy 'e' nel file
+        scriviEnemy(file, current->e);
 
-        // Scrivi l'attributo "is_dead"
-        file.write(reinterpret_cast<char *>(current->is_dead), sizeof(bool));
+        // Scrivi il valore di is_dead nel file
+        file.write(reinterpret_cast<char *>(&current->is_dead), sizeof(bool));
 
-        // Scrivi l'indirizzo del prossimo nodo 'next' nell'array di caratteri
+        // Scrivi l'indirizzo del prossimo nodo 'next' nel file
         file.write(reinterpret_cast<char *>(&current->next), sizeof(p_nodo));
 
         current = current->next;
@@ -263,9 +270,9 @@ void salvaListaSuFile(p_nodo h, int numeroLista, const string &nomeFile) {
     file.close();
 }
 
-// Funzione per leggere una lista specifica dal file binario in base al numero identificativo
-p_nodo leggiListaDaFile(int numeroLista, const string &nomeFile) {
-    ifstream file(nomeFile, std::ios::binary);
+// Funzione per leggere la lista dal file binario
+p_nodo leggiListaDaFile(const string &nomeFile) {
+    ifstream file(nomeFile, ios::binary);
 
     if (!file.is_open()) {
         cerr << "Impossibile aprire il file." << endl;
@@ -276,52 +283,50 @@ p_nodo leggiListaDaFile(int numeroLista, const string &nomeFile) {
     p_nodo current = nullptr;
 
     while (true) {
-        int listaNumero;
-        // Leggi il numero identificativo della lista
-        file.read(reinterpret_cast<char *>(&listaNumero), sizeof(int));
+        // Leggi un nuovo oggetto Enemy dal file
+        Enemy *enemy = NULL;
+        leggiEnemy(file, enemy);
+
+        // Leggi il valore di is_dead dal file
+        bool is_dead;
+        file.read(reinterpret_cast<char *>(&is_dead), sizeof(bool));
+
+        // Leggi l'indirizzo del prossimo nodo 'next' dal file
+        p_nodo next = nullptr;
+        file.read(reinterpret_cast<char *>(&next), sizeof(p_nodo));
 
         // Se siamo alla fine del file, esci dal ciclo
         if (file.eof()) {
             break;
         }
 
-        // Leggi il puntatore Enemy 'e' dall'array di caratteri
-        Enemy *enemy = NULL;
-        file.read(reinterpret_cast<char *>(enemy), sizeof(Enemy));
+        // Crea un nuovo nodo e aggiungilo alla lista
+        p_nodo nodo = NULL;
+        nodo->e = enemy;
+        nodo->is_dead = is_dead;
+        nodo->next = next;
 
-        //Leggi l'attributo is_dead
-        bool dead = true;
-        file.read(reinterpret_cast<char *>(dead), sizeof(bool));
-
-        // Leggi l'indirizzo del prossimo nodo 'next' dall'array di caratteri
-        p_nodo next = nullptr;
-        file.read(reinterpret_cast<char *>(&next), sizeof(p_nodo));
-
-        // Se il numero identificativo corrisponde, crea un nuovo nodo e aggiungilo alla lista
-        if (listaNumero == numeroLista) {
-            p_nodo nodo = NULL;
-            nodo->e = enemy;
-            nodo->is_dead = dead;
-            nodo->next = next;
-
-            if (h == nullptr) {
-                h = nodo;
-            }
-
-            if (current != nullptr) {
-                current->next = nodo;
-            }
-
-            current = nodo;
-        } else {
-            // Altrimenti, ignoriamo questo blocco di dati nel file
-            delete enemy;
-            if (next != nullptr) {
-                delete next;
-            }
+        if (h == nullptr) {
+            h = nodo;
         }
+
+        if (current != nullptr) {
+            current->next = nodo;
+        }
+
+        current = nodo;
     }
 
     file.close();
     return h;
 }
+
+// Funzione per liberare la memoria della lista
+/*void liberareLista(p_nodo h) {
+    while (h != nullptr) {
+        p_nodo temp = h;
+        h = h->next;
+        delete temp->e; // Libera la memoria dell'Enemy
+        delete temp;    // Libera la memoria del Nodo
+    }
+}*/

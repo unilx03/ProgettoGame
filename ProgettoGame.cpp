@@ -180,13 +180,13 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		mapManager->DrawCurrentMap();
 
 		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
-		//salvaListaSuFile(h, mapManager->GetCurrentMapList()->GetTail()->GetID(),"salvaLista.bin");
+		//salvaListaSuFile(h, "salvaLista.bin");
 
 		p_nodo h2 = h;
 		delete h2;
 		h = NULL;
 		//(BRUNI) CARICARE DA FILE LISTA NEMICI DELLA MAPPA PRECEDENTE!
-		//h = leggiListaDaFile(mapManager->GetCurrentMapList()->GetTail()->GetPrev()->GetID(), "salvaLista.bin");
+		//h = leggiListaDaFile("salvaLista.bin");
 	}
 	return h;
 }

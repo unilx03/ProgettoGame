@@ -241,7 +241,7 @@ void Hero::hero_object_collision(OggettoMappa o){
         if(o.getXOgg() >= (this->xLoc) - 2 && o.getXOgg() <= (this->xLoc) + (this->bound_right) - 1){
             //CHIARA rimuovere l'oggetto (IDEA: attributo "used" in OggettoMappa: se è false (caso A), usare l'oggetto sull'eroe; 
             //se è true (caso B), non fare più la print dell'oggetto e non applicare l'effetto all'eroe)
-
+            
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
             
             //Nota: le successive righe vanno eseguite SOLO nel caso A descritto prima.

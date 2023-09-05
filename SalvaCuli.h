@@ -99,14 +99,3 @@ void liberareLista(Nodo *h) {
         delete temp;    // Libera la memoria del Nodo
     }
 }
-
-
-// Funzione per scrivere un oggetto Enemy nel file binario
-void scriviEnemy(std::ofstream &file, Enemy *enemy) {
-    file.write(reinterpret_cast<char *>(enemy), sizeof(Enemy));
-}
-
-// Funzione per leggere un oggetto Enemy dal file binario
-void leggiEnemy(std::ifstream &file, Enemy *enemy) {
-    file.read(reinterpret_cast<char *>(enemy), sizeof(Enemy));
-}
