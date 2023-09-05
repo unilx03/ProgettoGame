@@ -189,9 +189,10 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     if (num_enemies > ENEMYSPAWN)
         num_enemies = ENEMYSPAWN;
     bool* isPositionTaken = new bool[ENEMYSPAWN];
+    for (int i = 0; i < ENEMYSPAWN; i++)
+        isPositionTaken[i] = false;
 
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
-    //int v[] = {0, 0, 0, 0, 0, 3, 1, 1, 2, 4, 4, 4, 4, 4, 4, 4};
     random_shuffle(&v[0], &v[15]); //"scompiglia" gli elementi dell'array in modo casuale
     
     for(int i = 0; i<num_enemies; i++){ //seleziono randomicamente un elemento dell'array e inserisco nella lista il nemico corrispondente
@@ -202,60 +203,41 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
 
         index = rand()%16;
 
-       //do
-       // {
-            spawn = rand() % ENEMYSPAWN;
-       // }
-        //while (isPositionTaken[spawn]);
-        isPositionTaken[spawn] = true;
-        //validSpawn = true;
-
-        x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
-        y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
-
-        /*bool validSpawn = false;
-        while (!validSpawn)
+        if (v[index] != 4) //non nemico volante verticale
         {
-            index = rand()%16;
-
-            do
+            spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+                
+            while (isPositionTaken[spawn])
             {
-                spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+                spawn++;
+                if (spawn >= map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies())
+                    spawn = 0;
+
+                if (!isPositionTaken[spawn])
+                    isPositionTaken[spawn] = true;
             }
-            while (isPositionTaken[spawn]);
-            isPositionTaken[spawn] = true;
-            validSpawn = true;
 
             x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
             y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
-
-            if (v[index] != 4) //non nemico volante verticale
+        }
+        else
+        {
+            spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies();
+                
+            while (isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()])
             {
-                do
-                {
-                    spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
-                }
-                while (isPositionTaken[spawn]);
-                isPositionTaken[spawn] = true;
-                validSpawn = true;
+                spawn++;
+                if (spawn >= map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies())
+                    spawn = 0;
 
-                x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
-                y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
+                if (!isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()])
+                    isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()] = true;
             }
-            else
-            {
-                do
-                {
-                    spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies();
-                }
-                while (isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()]);
-                isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()] = true;
-                validSpawn = true;
 
-                x = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].x;
-                y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
-            }
-        }*/
+            x = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].x;
+            y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
+        }
+
         int left_or_right = rand()%2; //decido randomicamente se il nemico si muove a dx o a sx (per i tipi 0, 1, 2, 3)
         bool left = false;
         if(left_or_right == 0)
@@ -266,67 +248,3 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     set_enemies_stats(list, diff_level);
     return list;
 }
-
-/*void salvoNemiciFile(p_nodo h, MapManager* mapManager, int level, const string& filename) {
-    ofstream outputFile(filename);
-
-    if (!outputFile.is_open()) {
-        cerr << "Impossibile aprire il file " << filename <<endl;
-        return;
-    }
-
-    p_nodo current = h;
-
-    while (current != nullptr) {
-        // Scrivi il livello e le informazioni dell'enemy nel file
-        outputFile <<  level << endl;
-        outputFile <<  current->e.yLoc <<endl;
-        outputFile <<  current->e.xLoc <<endl;
-        outputFile <<  current->e.enemy_type <<endl;
-        outputFile <<  current->e.health <<endl;
-        outputFile <<  current->e.strength << std::endl;
-        outputFile <<  current->e.defense << endl;
-        outputFile <<  current->e.score_released <<endl;
-        outputFile <<  current->e.money_released << endl;
-        outputFile <<  current->e.is_left << endl;
-
-
-        // Vai al prossimo nodo
-        current = current->next;
-    }
-
-    outputFile.close();
-}*/
-
-/*p_nodo creoListaNuova(WINDOW * playwin, MapManager* map, int level, const string& filename) {
-    p_nodo h = NULL;
-    ifstream inputFile(filename);
-    if (!inputFile.is_open()) {
-        cerr << "Impossibile aprire il file " << filename << endl;
-        return 1; // Uscita con errore
-    }
-
-    string line;
-    int value[50];
-
-    while(getline(inputFile, line){
-        if (stoi(line) == level) {
-             //controllo se � il livello desiderato
-             for(int j=0;j<8;j++){
-             getline(inputFile, line);
-             value[j] = stoi(line);
-             }
-             getline(inputFile, line);
-             bool boolvalue=(line == "true");
-             h = head_insert(h, playwin, value[0], value[1], map, value[2], boolvalue, value[3], value[4], value[5], value[6], value[7]);
-        }
-        else{
-             for(int j=0;j<8;j++){
-                 getline(inputFile, line);
-             }
-        }
-    }
-
-    return h;
-
-}*/

@@ -82,6 +82,16 @@ void MapManager::SetCurrentMapList(MapList* cml) { this->currentMapList = cml; }
 void MapManager::GenerateNewMap(bool lucky)
 {
     int levelToLoadID = rand() % numMaps;
+	if (this->currentMapList->GetTail() != NULL && this->currentMapList->GetTail()->GetPrev() != NULL)
+	{
+		if (levelToLoadID == this->currentMapList->GetTail()->GetPrev()->GetID())
+		{
+			levelToLoadID += 2;
+			if (levelToLoadID >= (MAPNUMBER * 2))
+				levelToLoadID -= (MAPNUMBER * 2);
+		}
+	}
+
     this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
 	this->currentMapList->GetTail()->SetItemDrop(GenerateDrop(this->itemList, lucky));
 }
