@@ -137,7 +137,6 @@ int create_menu(){
     mvwprintw(G.getW(),8,1," |||   |||   |||   |||  ||       |||| ||       ||||      |||         |||         |||   ||| ||    ||    |||           ");
     mvwprintw(G.getW(),9,1,"||||||||      |||||    ||        ||| ||        |||      |||         |||           |||||   ||     ||   |||            ");
 
-    mvwprintw(K.getW(), 1,10,"King Bunny");
 
     mvwprintw(K.getW(), 1,35,"    || ||  ||  ||    ||   |||||");
     mvwprintw(K.getW(), 2,35,"   ||||   ||  ||||  ||  ||| ");
@@ -146,7 +145,7 @@ int create_menu(){
     mvwprintw(K.getW(), 5,35,"||  || ||  ||    ||     |||||");
 
 
-    mvwprintw(K.getW(), 3,12,"Name");
+    mvwprintw(K.getW(), 2,12,"Name");
     mvwprintw(K.getW(), 2,80,"Record");
 
     //PRENDO LE INFO DAL VETTORE PRESO DAI FILE
@@ -157,7 +156,7 @@ int create_menu(){
     string t[2];
     selezionoScore(t);
     while(p<2){
-    mvwprintw(K.getW(), 4,p*66+12,"%s ",t[p].c_str());
+    mvwprintw(K.getW(), 4,p*68+12,"%s ",t[p].c_str());
     p++;
     }
     p=0;

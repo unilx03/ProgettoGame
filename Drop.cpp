@@ -30,7 +30,7 @@ OggettoMappa* chosenObject(OggettoMappa* item[], bool lucky){
                 index = 6;
                 break;
             case 99: //Sale 1%
-                index = 8;
+                index = 7;
                 break;
             default:
                 break;
@@ -60,11 +60,11 @@ OggettoMappa* chosenObject(OggettoMappa* item[], bool lucky){
                 index = 6;
                 break;
             case 95 ... 99: //Sale 5%
-                index = 8;
+                index = 7;
                 break;
             default:
                 break;
-        }      
+        }     
     }
     return item[index];
 }
