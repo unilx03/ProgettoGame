@@ -24,7 +24,7 @@ int main()
 		MapManager* mapManager = new MapManager(win);
 		mapManager->GenerateNewMap(false);
 
-		create_menu(); //visualizzo il menù principale all'apertura del gioco
+		int x = create_menu(); //visualizzo il menù principale all'apertura del gioco
 		erase(); //cancella tutto ciò che c'è sullo schermo
 
 		//NOTA: (BRUNI) se nel menù ho premuto "esci" o simile, gameState = 0 ed uscire dal while;
@@ -160,7 +160,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		else{
 			if(player -> getLuck()>0){
 				mapManager->GenerateNewMap(true); //ho ancora punti fortuna da utilizzare
-				playr -> setLuck((player -> getLuck())-1); //rimuovo il punto fortuna utilizzato
+				player -> setLuck((player -> getLuck())-1); //rimuovo il punto fortuna utilizzato
 			}
 			else
 				mapManager->GenerateNewMap(false); //non ho più punti fortuna da utilizzare

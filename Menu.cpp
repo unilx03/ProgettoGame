@@ -43,7 +43,7 @@ void stampaConiglio(WINDOW *f, int n){
 }
 
 void creaFile(){
-string nome="Bunny;
+string nome="Bunny";
 string difesa="0";
 string vita="25";
 string attacco="1";
@@ -65,15 +65,16 @@ fout.close();
 }
 
 void selezionoScore(string v[]){
-    f.open("Personaggio.txt");
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
     string line;
     getline(file, line);
     v[0]=line;
-    for(int i=0, i<6;i++){
+    for(int i=0; i<7;i++){
         getline(file, line);
     }
     v[1]=line;
-    f.close();
+    file.close();
 }
 
 /*int cercaRecord(string v[], int n){
@@ -153,10 +154,10 @@ int create_menu(){
 
 
     //PROVO A STAMPARE LO SCORE
-    string v[2];
-    selezionoScore(v);
+    string t[2];
+    selezionoScore(t);
     while(p<2){
-    mvwprintw(K.getW(), 4,p*66+12,"%s ",v[p].c_str());
+    mvwprintw(K.getW(), 4,p*66+12,"%s ",t[p].c_str());
     p++;
     }
     p=0;
@@ -229,5 +230,5 @@ int create_menu(){
     }
 
     //getch();
-
+    }
 }

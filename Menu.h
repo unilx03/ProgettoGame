@@ -57,5 +57,5 @@ class Menu {
 void stampaConiglio(WINDOW *f, int n);
 void creaFile();
 //int cercaRecord(string v[], int n);
-void create_menu();
+int create_menu();
 
