@@ -34,8 +34,8 @@ class Map
 
     	point* spawnEnemies; //punti possibili di spawn dei nemici presi dalla mappa
 		int numSpawnEnemies; //numero di spawn nemici
-		point* spawnFlyingEnemies; //punti possibili di spawn dei nemici volanti verticali
-		int numSpawnFlyingEnemies; //numero di spawn nemici volanti
+		//point* spawnFlyingEnemies; //punti possibili di spawn dei nemici volanti verticali
+		//int numSpawnFlyingEnemies; //numero di spawn nemici volanti
 	
 		OggettoMappa* itemDrop;
     	point* spawnItem; //punto di spawn oggetto
@@ -63,11 +63,11 @@ class Map
 		int GetNumSpawnEnemies();
 		void SetNumSpawnEnemies(int n);
 
-		point* GetSpawnFlyingEnemies();
-		void SetSpawnFlyingEnemies(point* se);
+		//point* GetSpawnFlyingEnemies();
+		//void SetSpawnFlyingEnemies(point* se);
 
-		int GetNumSpawnFlyingEnemies();
-		void SetNumSpawnFlyingEnemies(int n);
+		//int GetNumSpawnFlyingEnemies();
+		//void SetNumSpawnFlyingEnemies(int n);
 
 		OggettoMappa* GetItemDrop();
 		void SetItemDrop(OggettoMappa* i);
