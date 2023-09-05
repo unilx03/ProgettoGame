@@ -115,39 +115,12 @@ void MapManager::DrawCurrentMap()
 	wrefresh(this->window);
 }
 
-/*
-Oltre alle informazioni relative ad ogni livello, salvare il numero di livelli caricati e statistiche del protagonista
-*/
-
-void MapManager::LoadSavedMaps()
-{
-	ifstream inputFile; /* Dichiarazione di tipo */
-	char path[100] = "mapSaveFile.txt";
-	inputFile.open(path);
-
-	if(!inputFile.fail())
-	{
-		while (!inputFile.eof())
-		{
-			int id;
-			inputFile >> id;
-
-			Map* temp = this->fullMapList->LoadMapFromID(fullMapList->GetTail(), id);
-
-			//aggiornare mappa a seconda dei nemici e oggetti spawnati
-
-			this->fullMapList->AddMap(temp);
-			//caricare oggetto
-		}
-	}
-	
-	inputFile.close();
-}
-
 OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[], bool lucky)
 {
 	//this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
+	int index = -1;
 	OggettoMappa * p = new OggettoMappa(chosenObject(item, lucky));
+	this->GetCurrentMapList()->GetTail()->SetItemID(index);
 	
 	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem()->x;
     p->setXOgg(x);

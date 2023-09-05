@@ -1,12 +1,8 @@
 #include "SetEnemiesList.h"
 
-p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type){
+p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type, bool left){
     p_nodo tmp = new nodo;
 
-    int left_or_right = rand()%2; //decido randomicamente se il nemico si muove a dx o a sx (per i tipi 0, 1, 2, 3)
-    bool left = false;
-    if(left_or_right == 0)
-        left = true;
     //ogni tipologia di nemico viene identificata da un codice (un numero).
     switch(enemy_type){
         case 1:
@@ -260,107 +256,77 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
                 y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
             }
         }*/
-        list = head_insert(list, playwin, y, x, map, v[index]);
+        int left_or_right = rand()%2; //decido randomicamente se il nemico si muove a dx o a sx (per i tipi 0, 1, 2, 3)
+        bool left = false;
+        if(left_or_right == 0)
+            left = true;
+        list = head_insert(list, playwin, y, x, map, v[index], left);
         (list->e)->yLoc -= (list->e)->rows;
     }
     set_enemies_stats(list, diff_level);
     return list;
 }
 
-// Funzione per scrivere un oggetto Enemy nel file binario
-void scriviEnemy(ofstream &file, Enemy *enemy) {
-    file.write(reinterpret_cast<char *>(enemy), sizeof(Enemy));
-}
+/*void salvoNemiciFile(p_nodo h, MapManager* mapManager, int level, const string& filename) {
+    ofstream outputFile(filename);
 
-// Funzione per leggere un oggetto Enemy dal file binario
-void leggiEnemy(ifstream &file, Enemy *enemy) {
-    file.read(reinterpret_cast<char *>(enemy), sizeof(Enemy));
-}
-
-// Funzione per salvare la lista 'h' in un file binario
-void salvaListaSuFile(p_nodo h, const string &nomeFile) {
-    ofstream file(nomeFile, ios::binary);
-
-    if (!file.is_open()) {
-        cerr << "Impossibile aprire il file." << endl;
+    if (!outputFile.is_open()) {
+        cerr << "Impossibile aprire il file " << filename <<endl;
         return;
     }
 
     p_nodo current = h;
 
     while (current != nullptr) {
-        // Scrivi il puntatore Enemy 'e' nel file
-        scriviEnemy(file, current->e);
+        // Scrivi il livello e le informazioni dell'enemy nel file
+        outputFile <<  level << endl;
+        outputFile <<  current->e.yLoc <<endl;
+        outputFile <<  current->e.xLoc <<endl;
+        outputFile <<  current->e.enemy_type <<endl;
+        outputFile <<  current->e.health <<endl;
+        outputFile <<  current->e.strength << std::endl;
+        outputFile <<  current->e.defense << endl;
+        outputFile <<  current->e.score_released <<endl;
+        outputFile <<  current->e.money_released << endl;
+        outputFile <<  current->e.is_left << endl;
 
-        // Scrivi il valore di is_dead nel file
-        file.write(reinterpret_cast<char *>(&current->is_dead), sizeof(bool));
 
-        // Scrivi l'indirizzo del prossimo nodo 'next' nel file
-        file.write(reinterpret_cast<char *>(&current->next), sizeof(p_nodo));
-
+        // Vai al prossimo nodo
         current = current->next;
     }
 
-    file.close();
-}
+    outputFile.close();
+}*/
 
-// Funzione per leggere la lista dal file binario
-p_nodo leggiListaDaFile(const string &nomeFile) {
-    ifstream file(nomeFile, ios::binary);
-
-    if (!file.is_open()) {
-        cerr << "Impossibile aprire il file." << endl;
-        return nullptr;
+/*p_nodo creoListaNuova(WINDOW * playwin, MapManager* map, int level, const string& filename) {
+    p_nodo h = NULL;
+    ifstream inputFile(filename);
+    if (!inputFile.is_open()) {
+        cerr << "Impossibile aprire il file " << filename << endl;
+        return 1; // Uscita con errore
     }
 
-    p_nodo h = nullptr;
-    p_nodo current = nullptr;
+    string line;
+    int value[50];
 
-    while (true) {
-        // Leggi un nuovo oggetto Enemy dal file
-        Enemy *enemy = NULL;
-        leggiEnemy(file, enemy);
-
-        // Leggi il valore di is_dead dal file
-        bool is_dead;
-        file.read(reinterpret_cast<char *>(&is_dead), sizeof(bool));
-
-        // Leggi l'indirizzo del prossimo nodo 'next' dal file
-        p_nodo next = nullptr;
-        file.read(reinterpret_cast<char *>(&next), sizeof(p_nodo));
-
-        // Se siamo alla fine del file, esci dal ciclo
-        if (file.eof()) {
-            break;
+    while(getline(inputFile, line){
+        if (stoi(line) == level) {
+             //controllo se � il livello desiderato
+             for(int j=0;j<8;j++){
+             getline(inputFile, line);
+             value[j] = stoi(line);
+             }
+             getline(inputFile, line);
+             bool boolvalue=(line == "true");
+             h = head_insert(h, playwin, value[0], value[1], map, value[2], boolvalue, value[3], value[4], value[5], value[6], value[7]);
         }
-
-        // Crea un nuovo nodo e aggiungilo alla lista
-        p_nodo nodo = NULL;
-        nodo->e = enemy;
-        nodo->is_dead = is_dead;
-        nodo->next = next;
-
-        if (h == nullptr) {
-            h = nodo;
+        else{
+             for(int j=0;j<8;j++){
+                 getline(inputFile, line);
+             }
         }
-
-        if (current != nullptr) {
-            current->next = nodo;
-        }
-
-        current = nodo;
     }
 
-    file.close();
     return h;
-}
 
-// Funzione per liberare la memoria della lista
-/*void liberareLista(p_nodo h) {
-    while (h != nullptr) {
-        p_nodo temp = h;
-        h = h->next;
-        delete temp->e; // Libera la memoria dell'Enemy
-        delete temp;    // Libera la memoria del Nodo
-    }
 }*/

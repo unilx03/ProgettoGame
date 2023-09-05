@@ -10,6 +10,7 @@ Map::Map(int** map, int id, bool mirrored)
 	//this->spawnFlyingEnemies = new point[ENEMYSPAWN];
 	//this->numSpawnFlyingEnemies = 0;
 
+	this->itemID = -1;
 	this->spawnItem = new point;
 	this->itemPicked = false;
 
@@ -59,6 +60,7 @@ Map::Map(Map* m)
 	//this->numSpawnFlyingEnemies = m->GetNumSpawnFlyingEnemies();
 
 	this->itemDrop = m->GetItemDrop();
+	this->itemID = m->GetItemID();
 	this->spawnItem = m->GetSpawnItem();
 	this->itemPicked = m->GetItemPicked();
 
@@ -91,6 +93,9 @@ void Map::SetNumSpawnEnemies(int n) { this->numSpawnEnemies = n; }
 
 OggettoMappa* Map::GetItemDrop() { return this->itemDrop; }
 void Map::SetItemDrop(OggettoMappa* i) { this->itemDrop = i; }
+
+int Map::GetItemID() { return this->itemID; }
+void Map::SetItemID(int id) { this->itemID = id; }
 
 point* Map::GetSpawnItem() { return this->spawnItem; }
 

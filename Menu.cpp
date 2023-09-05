@@ -231,4 +231,5 @@ int create_menu(){
 
     //getch();
     }
+    return 0;
 }

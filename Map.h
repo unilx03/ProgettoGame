@@ -38,6 +38,7 @@ class Map
 		//int numSpawnFlyingEnemies; //numero di spawn nemici volanti
 	
 		OggettoMappa* itemDrop;
+		int itemID;
     	point* spawnItem; //punto di spawn oggetto
 		bool itemPicked;
 
@@ -71,6 +72,9 @@ class Map
 
 		OggettoMappa* GetItemDrop();
 		void SetItemDrop(OggettoMappa* i);
+		
+		int GetItemID();
+		void SetItemID(int id);
 
 		point* GetSpawnItem();
 		void SetSpawnItem(point* si);

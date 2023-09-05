@@ -10,7 +10,7 @@ int main()
 	
 	//Inizio del loop di gioco
 	int gameState = 1;
-	while (gameState > 0)
+	while (gameState > 0 )
 	{
 		//Inizializzazione finestra di gioco
 		WINDOW* win = newwin(ROW + 2, COLUMN + 2, 2, 5);
@@ -24,53 +24,67 @@ int main()
 		MapManager* mapManager = new MapManager(win);
 		mapManager->GenerateNewMap(false);
 
-		int x = create_menu(); //visualizzo il menù principale all'apertura del gioco
+		int menu_choice = create_menu(); //visualizzo il menù principale all'apertura del gioco
+		if(menu_choice == 0)
+			gameState = 0;
 		erase(); //cancella tutto ciò che c'è sullo schermo
+	
+		if(gameState > 0){
 
-		//NOTA: (BRUNI) se nel menù ho premuto "esci" o simile, gameState = 0 ed uscire dal while;
+			//NOTA: (BRUNI) se nel menù ho premuto "esci" o simile, gameState = 0 ed uscire dal while;
 
-		//Inizializzazione eroe (BRUNI se il giocatore ha selezionato "continua" nel menù, caricare i dati del giocatore salvato su file e ignorare queste due successive righe)
-		string n = "Ettore";
-		Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
+			//Inizializzazione eroe (BRUNI se il giocatore ha selezionato "continua" nel menù, caricare i dati del giocatore salvato su file e ignorare queste due successive righe)
+			string n = "Ettore";
+			Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
 
-		//Inizializzazione lista di nemici
-		p_nodo h = NULL;
-		srand((unsigned) time(NULL));
-		h = generate_enemies(win, mapManager, 0);
-		player -> setMoney(100);
-		create_market(player); //visualizzo il market
-		erase(); //cancella tutto ciò che c'è sullo schermo
+			/*if(menu_choice == 1){
+				
+			}
+			else if(menu_choice == 2){
+				//carico personaggio da file
 
-		box(win, 0, 0);
-		refresh();	//Importante!!
-		wrefresh(win); //Importante!!
-		char message[] = "Press any key to start!";
-		mvwprintw(win, 11, 70, message);
+			}*/
+
+			//Inizializzazione lista di nemici
+			p_nodo h = NULL;
+			srand((unsigned) time(NULL));
+			h = generate_enemies(win, mapManager, 0);
+			p_en_list list = tail_insert(list, h);
+			player -> setMoney(100);
+			create_market(player); //visualizzo il market
+			erase(); //cancella tutto ciò che c'è sullo schermo
+
+			box(win, 0, 0);
+			refresh();	//Importante!!
+			wrefresh(win); //Importante!!
+			char message[] = "Press any key to start!";
+			mvwprintw(win, 11, 70, message);
 
 
-		while (player->getHealth() > 0)
-		{	
-			//visualzzo box statistiche
+			while (player->getHealth() > 0)
+			{	
+				//visualzzo box statistiche
+				creaFinestra();
+				//salvo stato del giocatore su file
+				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+				creaFinestra();	
+
+				h = game_loop(win, mapManager, player, h, list);
+
+				wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
+				flushinp();
+			}
+			napms(2000);
 			creaFinestra();
-			//salvo stato del giocatore su file
-			saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
-			creaFinestra();	
+			perdita();
+			napms(3000);
+			
+			player->setHealth(player->getMaxHp());
 
-			h = game_loop(win, mapManager, player, h);
-
-			wtimeout(win, 100); //se l'utente non preme alcun tasto entro tot millisecondi, procede (IMPORTANTE!!!)
-			flushinp();
+			p_nodo h2 = h;
+			delete h2;
+			h = NULL;
 		}
-		napms(2000);
-		creaFinestra();
-		perdita();
-		napms(3000);
-		
-		player->setHealth(player->getMaxHp());
-
-		p_nodo h2 = h;
-		delete h2;
-		h = NULL;
 	}
 
 	endwin();
@@ -78,7 +92,7 @@ int main()
 	return 0;
 }
 
-p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
+p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_en_list list){
 
 	int key = wgetch(win); //input da tastiera
 
@@ -90,7 +104,7 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		(player->score_count) += (player->score_count)*0.05;
 		player->score_threshold = player->score + player->score_count;
 	}
-	h = map_change(win, mapManager, player, h); //controlla se devo cambiare mappa (e, in tal caso, la cambia)
+	h = map_change(win, mapManager, player, list); //controlla se devo cambiare mappa (e, in tal caso, la cambia)
 
 	//aggiornamento della posizione dei nemici
 	
@@ -133,7 +147,8 @@ void player_skin_select(int key, Hero* player){
 	}
 }
 
-p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
+p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list list){
+	p_nodo h;
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
 	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
 		//tolgo gli effetti degli oggetti temporanei
@@ -168,16 +183,18 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 			newMap = true;
 		}
 
-		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
-		//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!
-
-		//le seguenti righe gestiscono il caso in cui nel file non sia già stata salvata la lista di nemici associata alla mappa successiva
-		p_nodo h2 = h;
-		delete h2;
-		h = NULL;
-
-		if (newMap)
+		//se non esiste una lista associata al livello successivo
+		if(list->next == NULL){
 			h = generate_enemies(win, mapManager, player->diff_level);
+			list = tail_insert(list, h);
+		}
+		//se esiste già una lista associata al livello successivo
+		else{
+			h = search_enemies(list, player->level)->list;
+		}
+
+		/*if (newMap)
+			h = generate_enemies(win, mapManager, player->diff_level);*/
 	}
 	//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente (a meno che non sia nella prima mappa)
 	else if(player->level!=1 && (player->yLoc == 19 && player->xLoc <= 1) && player->is_left == true){
@@ -194,14 +211,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		mapManager->GetCurrentMapList()->PreviousMap();
 		mapManager->DrawCurrentMap();
 
-		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
-		//salvaListaSuFile(h, "salvaLista.bin");
-
-		p_nodo h2 = h;
-		delete h2;
-		h = NULL;
-		//(BRUNI) CARICARE DA FILE LISTA NEMICI DELLA MAPPA PRECEDENTE!
-		//h = leggiListaDaFile("salvaLista.bin");
+		h = search_enemies(list, player->level)->list;
 	}
 	return h;
 }

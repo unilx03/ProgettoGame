@@ -1,5 +1,7 @@
 
-#include "SetEnemiesList.h"
+//#include "SetEnemiesList.h"
+
+#include "EnemiesManager.h"
 
 
 #define ROWMARKET 30

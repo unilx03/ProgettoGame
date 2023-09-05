@@ -37,9 +37,6 @@ class MapManager
 
         void DrawCurrentMap();
 
-        //Funzioni di salvataggio riguardo i livelli
-        void LoadSavedMaps();
-
         //Funzione per generare un oggetto all'interno della mappa
         OggettoMappa* GenerateDrop(OggettoMappa* item[], bool lucky);
 };
