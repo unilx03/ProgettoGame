@@ -22,12 +22,6 @@ Map::Map(int** map, int id, bool mirrored)
 		{
 			this->map[i][j] = map[i][j];
 
-			/*if (map[i][j] == ENEMYMAPCHARACTER || map[i][j] == FLYINGMAPCHARACTER) //spawn nemici
-			{
-				this->spawnEnemies[numSpawnEnemies].x = j + 1;
-				this->spawnEnemies[numSpawnEnemies].y = i + 1;
-				numSpawnEnemies++;
-			}*/
 			if (map[i][j] == ENEMYMAPCHARACTER) //spawn nemici
 			{
 				this->spawnEnemies[numSpawnEnemies].x = j + 1;
