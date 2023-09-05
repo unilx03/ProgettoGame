@@ -41,8 +41,7 @@ void stampaConiglio(WINDOW *f, int n){
 
 
 }
-
-void creaFile(){
+void creaFileStat(){
 string nome="Bunny";
 string difesa="0";
 string vita="25";
@@ -51,6 +50,9 @@ string soldi="0";
 string puntif="0";
 string score="0";
 string livello="1";
+string dif_lev="0";
+string sconto="0";
+string maxhp="600"; //devo inserire il valore giusto
 ofstream fout;
 fout.open("Personaggio.txt"); // apre il file in scrittura
 fout << nome << endl; // scrive sul file
@@ -61,6 +63,9 @@ fout << attacco << endl;
 fout << puntif << endl;
 fout << livello << endl;
 fout << score << endl;
+fout << dif_lev << endl;
+fout << sconto << endl;
+fout << maxhp << endl;
 fout.close();
 }
 
