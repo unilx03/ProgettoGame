@@ -28,14 +28,17 @@ Map::Map(int** map, int id, bool mirrored)
 				this->spawnEnemies[numSpawnEnemies].y = i + 1;
 				numSpawnEnemies++;
 			}
-			/*else if (map[i][j] == FLYINGMAPCHARACTER) //spawn nemici volanti
+			/*if (map[i][j] == ENEMYMAPCHARACTER) //spawn nemici
 			{
-				//this->spawnFlyingEnemies[numSpawnFlyingEnemies].x = j + 1;
-				//this->spawnFlyingEnemies[numSpawnFlyingEnemies].y = i + 1;
-				//numSpawnFlyingEnemies++;
 				this->spawnEnemies[numSpawnEnemies].x = j + 1;
 				this->spawnEnemies[numSpawnEnemies].y = i + 1;
 				numSpawnEnemies++;
+			}
+			else if (map[i][j] == FLYINGMAPCHARACTER) //spawn nemici volanti
+			{
+				this->spawnFlyingEnemies[numSpawnFlyingEnemies].x = j + 1;
+				this->spawnFlyingEnemies[numSpawnFlyingEnemies].y = i + 1;
+				numSpawnFlyingEnemies++;
 			}*/
 			else if (map[i][j] == ITEMMAPCHARACTER) //spawn oggetto
 			{

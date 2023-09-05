@@ -63,7 +63,6 @@ int main()
 			char message[] = "Press any key to start!";
 			mvwprintw(win, 11, 70, message);
 
-
 			while (player->getHealth() > 0)
 			{	
 				//visualzzo box statistiche
@@ -158,6 +157,7 @@ void player_skin_select(int key, Hero* player){
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list list){
 	p_nodo h = NULL;
 	h = (search_enemies(list, player->level))->list;
+	
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
 	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
 		//tolgo gli effetti degli oggetti temporanei
@@ -175,11 +175,12 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list l
 		delete b;
 		player->h = NULL;
 
-		bool newMap = false;
 		//carica livello successivo, se non esiste aggiungere un nuovo livello
 		if (mapManager->GetCurrentMapList()->GetTail()->GetNext() != NULL){
 			mapManager->GetCurrentMapList()->NextMap();
 			mapManager->DrawCurrentMap();
+
+			h = search_enemies(list, player->level)->list;
 		}
 		else{
 			if(player -> getLuck()>0){
@@ -189,10 +190,12 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list l
 			else
 				mapManager->GenerateNewMap(false); //non ho più punti fortuna da utilizzare
 			mapManager->DrawCurrentMap();
-			newMap = true;
+
+			h = generate_enemies(win, mapManager, player->diff_level);
+			list = tail_insert(list, h);
 		}
 
-		//se non esiste una lista associata al livello successivo
+		/*//se non esiste una lista associata al livello successivo
 		if(list->next == NULL){
 			h = generate_enemies(win, mapManager, player->diff_level);
 			list = tail_insert(list, h);
@@ -200,7 +203,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list l
 		//se esiste già una lista associata al livello successivo
 		else{
 			h = search_enemies(list, player->level)->list;
-		}
+		}*/
 
 		/*if (newMap)
 			h = generate_enemies(win, mapManager, player->diff_level);*/
