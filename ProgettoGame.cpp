@@ -22,7 +22,7 @@ int main()
 
 		//Inizializzazione prima mappa di gioco 
 		MapManager* mapManager = new MapManager(win);
-		mapManager->GenerateNewMap(false);
+		mapManager->GenerateNewMap(true);
 
 		int menu_choice = create_menu(); //visualizzo il menù principale all'apertura del gioco
 		if(menu_choice == 0)
