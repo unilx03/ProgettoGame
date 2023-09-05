@@ -29,7 +29,7 @@ void Enemy::mv_left_right(){
 //Funzione che controlla se un nemico è venuto a contatto con il personaggino.
 void Enemy::check_enemy_player_collision(Hero *p){
     //se il nemico colpisce l'eroe da dx, quest'ultimo viene "spinto" verso sx
-    if((p->xLoc >= xLoc - p->bound_right+1 && p->xLoc < xLoc) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
+    if((p->xLoc >= xLoc - p->bound_right+1 && p->xLoc < xLoc) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)&&!(p->getInvincibility())){
         p->is_hit = true;
         p->hit_direction = 1;
         if (p->check_map_collision(0))
@@ -38,7 +38,7 @@ void Enemy::check_enemy_player_collision(Hero *p){
             p->isFalling = true;
     }
     //se il nemico colpisce l'eroe da sx, quest'ultimo viene "spinto" verso dx
-    else if((p->xLoc == xLoc + bound_right - 2) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)){
+    else if((p->xLoc == xLoc + bound_right - 2) && (p->yLoc >= yLoc && p->yLoc <= yLoc + rows)&&!(p->getInvincibility())){
         p->is_hit = true;
         p->hit_direction = 2;
         if (p->check_map_collision(1))
@@ -47,7 +47,7 @@ void Enemy::check_enemy_player_collision(Hero *p){
             p->isFalling = true;
     }
     //se il nemico colpisce l'eroe dal basso, quest'ultimo viene "fatto rimbalzare" verso l'alto; se l'eroe sta eseguendo un attacco dall'alto, allora è il nemico a subire danno
-    else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc + p->rows == yLoc)){
+    else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc + p->rows == yLoc)&&!(p->getInvincibility())){
         if(!(p->isAttackingDown)){
             p->is_hit = true;
             p->hit_direction = 3;
@@ -61,8 +61,14 @@ void Enemy::check_enemy_player_collision(Hero *p){
             setHealth(getHealth() - p->getStrenght() + getDefense());
             if(getHealth() <= 0){
                 //l'eroe guadagna soldi e punteggio
-                p->setMoney(p->getMoney() + money_released);
-                p->score += score_released;
+                if(p->getDoubleMoney())
+                    p->setMoney((p->getMoney() + money_released)*2);
+                else if(p->getDoubleScore())
+                    p->score += score_released*2;
+                else{ //caso in cui non sia stato preso nessun oggeto
+                    p->setMoney(p->getMoney() + money_released);
+                    p->score += score_released;
+                }
             }
             else{
                 //l'eroe guadagna un pochino di punteggio
@@ -77,7 +83,7 @@ void Enemy::check_enemy_player_collision(Hero *p){
         }
     }
     //se il nemico colpisce l'eroe dall'alto, quest'ultimo viene "fatto rimbalzare" verso il basso
-    else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc == yLoc + rows)){
+    else if((p->xLoc >= xLoc - p->bound_right+2 && p->xLoc <= xLoc + bound_right - 3) && (p->yLoc == yLoc + rows)&&!(p->getInvincibility())){
         p->is_hit = true;
         p->hit_direction = 4;
         p->isJumping = false;
@@ -121,8 +127,15 @@ Hero::p_bullet Enemy::check_enemy_bullet_collision(Hero *p, Hero::p_bullet h){
 
                 if(getHealth() <= 0){
                     //l'eroe guadagna soldi e punteggio
-                    p->setMoney(p->getMoney() + money_released);
-                    p->score += score_released;
+                    if(p->getDoubleMoney()){
+                        p->setMoney(p->getMoney() + money_released*2);
+                    }
+                    else
+                        p->setMoney(p->getMoney() + money_released);
+                    if(p->getDoubleScore())
+                        p->score += score_released*2;
+                    else
+                        p->score += score_released;
                 }
                 else{
                     //l'eroe guadagna un pochino di punteggio
@@ -154,8 +167,15 @@ Hero::p_bullet Enemy::check_enemy_bullet_collision(Hero *p, Hero::p_bullet h){
                         
                 if(getHealth() <= 0){
                     //l'eroe guadagna soldi e punteggio
-                    p->setMoney(p->getMoney() + money_released);
-                    p->score += score_released;
+                    if(p->getDoubleMoney()){
+                        p->setMoney(p->getMoney() + money_released*2);
+                    }
+                    else
+                        p->setMoney(p->getMoney() + money_released);
+                    if(p->getDoubleScore())
+                        p->score += score_released*2;
+                    else
+                        p->score += score_released;
                 }
                 else{
                     //l'eroe guadagna un pochino di punteggio

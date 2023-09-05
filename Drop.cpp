@@ -19,7 +19,7 @@ OggettoMappa* chosenObject(OggettoMappa* item[]){
         case 70 ... 81: //Greedy carrot 12%
             index = 3;
             break;
-        case 82 ... 93: //Carrot points 12%
+        case 82 ... 93: //Carrot points 12% 
             index = 4;
             break;
         case 94 ... 96: //Magic carrot 3%
