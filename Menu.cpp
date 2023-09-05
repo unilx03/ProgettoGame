@@ -41,7 +41,7 @@ void stampaConiglio(WINDOW *f, int n){
 
 
 }
-void creaFileStat(){
+void creaFileStatMenu(){
 string nome="Bunny";
 string difesa="0";
 string vita="25";
@@ -111,7 +111,7 @@ int create_menu(){
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
-        creaFile();
+        creaFileStatMenu ();
         f.open("Personaggio.txt");
     }
 

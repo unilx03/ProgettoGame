@@ -39,18 +39,18 @@ int main()
 				erase();
 			}
 			else if(menu_choice == 2){
-				//BRUNI: caricare dati del personaggio da file!!!
-				//Prima di tutto, controllare che esista un file da cui caricare i dati; altrimenti eseguire le due righe dell'if qua sopra
-				/*
-				player->player_name = NOME
-				player->setDefence(DIFESA);
-				player->setMaxHp(VITA MASSIMA);
-				player->setStrenght(ATTACCO);
-				player->setMoney(SOLDI);
-				player->setLuck(PUNTI FORTUNA);
-				player->score = PUNTEGGIO;
-				player->diff_level = LIVELLO DIFFICOLTA?
-				*/
+				//Carico gli ultimi dati di salvataggio da file
+				player->player_name = selezionenome();
+				int player_data[10];
+				vettoredati(player_data);
+
+				player->setDefense(player_data[2]);
+				player->setMaxHp(player_data[9]);
+				player->setStrenght(player_data[3]);
+				player->setMoney(player_data[1]);
+				player->setLuck(player_data[4]);
+				player->score = 0;
+				player->diff_level = player_data[7];
 			}
 
 			//Inizializzazione lista di nemici
