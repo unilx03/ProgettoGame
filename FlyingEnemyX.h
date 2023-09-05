@@ -36,8 +36,8 @@ class FlyingEnemyX: public Enemy{
                 "VVVVV"
         };        
         
-        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 10, int df = 0, bool up = true, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
-            is_up = up; 
+        FlyingEnemyX(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 10, int df = 0, int r = 3):Enemy(win, y, x, type, bRight, map, isL, hp, st, df, r, DEF_SCORE, DEF_MONEY){
+            is_up = true; 
         }
         void mvup();
         void mvdown();
