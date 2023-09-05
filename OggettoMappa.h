@@ -27,6 +27,17 @@ class OggettoMappa : Oggetto{
 
         }
 
+        OggettoMappa(OggettoMappa * obj){
+            this -> name = obj->name;
+            this -> skin = obj->skin;
+            this -> statAffected = obj->statAffected;
+            this -> boostStat = obj->boostStat;
+            this -> xOgg = obj->xOgg;
+            this -> yOgg = obj->yOgg;
+            this -> temporary = obj->temporary;
+            this -> special = obj->special;
+        }
+
         const char * getSkin(); 
         //ritorna la skin dell'oggetto  
         bool isTemporary();
@@ -43,6 +54,12 @@ class OggettoMappa : Oggetto{
 
         int getYOgg();
         void setYOgg(int yOgg);
+
+        const char * getName();
+
+        bool getTemporary();
+
+        bool getSpecial();
 
         //costruttore copia
         OggettoMappa * newObject(OggettoMappa* ogg);

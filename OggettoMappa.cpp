@@ -44,3 +44,15 @@ OggettoMappa * OggettoMappa::newObject(OggettoMappa* ogg){
     OggettoMappa * newOgg = new OggettoMappa(ogg -> name, ogg -> skin, ogg -> boostStat, ogg -> statAffected, ogg -> xOgg, ogg -> yOgg, ogg -> temporary, ogg -> special);
     return newOgg;
 }
+
+const char * OggettoMappa::getName(){
+    return name;
+}
+
+bool OggettoMappa::getTemporary(){
+    return temporary;
+}
+
+bool OggettoMappa::getSpecial(){
+    return special;
+}
