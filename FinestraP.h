@@ -56,14 +56,14 @@ string selezionenome(){
     return line;
 }
 
-void vettoredati(int dati[]){
+void vettoredati(string dati[]){
     //f.open("Personaggio.txt");
     ifstream file ("Personaggio.txt");
     string line;
     int i=0;
     getline(file, line);
     while( getline(file, line)){
-    dati[i]=stoi(line);
+    dati[i]=line;
     i++;
     }
     file.close();
@@ -126,8 +126,10 @@ void creaFinestra(){
         mvwprintw(menuwinG, 15,14,"LEV:");
         mvwprintw(menuwinG, 20,2,"SCORE:");
 
-        if(i==5)
+        if(i==5){
             mvwprintw(menuwinG, (i-1)*5, n*14+9, "%s ",t.c_str());
+            n++;
+        }
         else
             mvwprintw(menuwinG, (i-1)*5, n*14+6,"%s ",t.c_str());
 
@@ -167,7 +169,7 @@ void perdita(){
     wrefresh(menuwinG);
 }
 
-string inseriscinome() {
+void inseriscinome() {
 
     // Crea una finestra per l'input
     WINDOW *namewin = newwin(22, 162, 2, 5);
@@ -186,9 +188,7 @@ string inseriscinome() {
 
     string str(nome, sizeof(nome) / sizeof(nome[0]));
 
-    //saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
+    saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
 
     wrefresh(namewin);
-
-    return str;
 }
