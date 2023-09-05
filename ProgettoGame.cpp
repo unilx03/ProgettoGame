@@ -31,20 +31,27 @@ int main()
 	
 		if(gameState > 0){
 
-			//NOTA: (BRUNI) se nel menù ho premuto "esci" o simile, gameState = 0 ed uscire dal while;
-
-			//Inizializzazione eroe (BRUNI se il giocatore ha selezionato "continua" nel menù, caricare i dati del giocatore salvato su file e ignorare queste due successive righe)
 			string n = "Ettore";
 			Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
 
-			/*if(menu_choice == 1){
+			if(menu_choice == 1){
 				player->player_name = inseriscinome();
 				erase();
 			}
 			else if(menu_choice == 2){
-				//carico personaggio da file
-
-			}*/
+				//BRUNI: caricare dati del personaggio da file!!!
+				//Prima di tutto, controllare che esista un file da cui caricare i dati; altrimenti eseguire le due righe dell'if qua sopra
+				/*
+				player->player_name = NOME
+				player->setDefence(DIFESA);
+				player->setMaxHp(VITA MASSIMA);
+				player->setStrenght(ATTACCO);
+				player->setMoney(SOLDI);
+				player->setLuck(PUNTI FORTUNA);
+				player->score = PUNTEGGIO;
+				player->diff_level = LIVELLO DIFFICOLTA?
+				*/
+			}
 
 			//Inizializzazione lista di nemici
 			p_nodo h = NULL;
