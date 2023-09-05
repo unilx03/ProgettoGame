@@ -83,14 +83,13 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	int key = wgetch(win); //input da tastiera
 
 	mapManager->DrawCurrentMap();
-
+	player->hero_object_collision(mapManager->GetCurrentMapList()->GetTail()->GetItemDrop());
 	//aggiornamento del livello di difficoltà se si ha raggiunto un certo score
 	if(player->score >= player->score_threshold){
 		(player->diff_level)++;
 		(player->score_count) += (player->score_count)*0.05;
 		player->score_threshold = player->score + player->score_count;
 	}
-
 	h = map_change(win, mapManager, player, h); //controlla se devo cambiare mappa (e, in tal caso, la cambia)
 
 	//aggiornamento della posizione dei nemici
@@ -108,8 +107,6 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	napms(10000);*/
 	display_list(h);
     h = action_list(win, h, player);
-
-	player->hero_object_collision(mapManager->GetCurrentMapList()->GetTail()->GetItemDrop());
 
 	player_skin_select(key, player); //selezione della giusta skin dell'eroe da visualizzare
 
@@ -150,6 +147,11 @@ void player_skin_select(int key, Hero* player){
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
 	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
+		//tolgo gli effetti degli oggetti temporanei
+		player -> setInvincibility(false);
+		player -> setDoubleMoney(false);
+		player ->setDoubleScore(false);
+
 		player->yLoc = 19;
 		player->xLoc = 1;
 		player->is_left = false;

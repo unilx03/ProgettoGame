@@ -35,7 +35,8 @@ class Character{
         MapManager* mapManager;
 
         void setJumpForce(int n){
-            jumpForce = n;
+            if(n<=8)
+                jumpForce = n;
         }
         int getJumpForce(){
             return jumpForce;

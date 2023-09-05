@@ -200,7 +200,7 @@ void Hero::setStatPermanent(OggettoMappa o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
     if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
-        this->setHealth((int)(this->getHealth() + this->getMaxHp()*boost));
+        this->setHealth(getMaxHp());
    else if(strcmp(o.getStatAffected(), "strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
     else if(strcmp(o.getStatAffected(), "defense")==0)
@@ -242,11 +242,10 @@ void Hero::hero_object_collision(OggettoMappa o){
 
     if(o.getYOgg() == (this->yLoc) || o.getYOgg() == (this->yLoc)+1){
         if(o.getXOgg() >= (this->xLoc) - 2 && o.getXOgg() <= (this->xLoc) + (this->bound_right) - 1){
-            //CHIARA usare l'oggetto sull'eroe
+            this->setStatChange(o);
             this->has_found_obj = true;
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
             
-            //Nota: le successive righe vanno eseguite SOLO nel caso A descritto prima.
             if(!(o.isTemporary())){
                 (this->diff_level)++;
             }
