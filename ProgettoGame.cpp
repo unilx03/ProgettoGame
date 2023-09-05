@@ -65,7 +65,12 @@ int main()
 		creaFinestra();
 		perdita();
 		napms(3000);
+		
 		player->setHealth(player->getMaxHp());
+
+		p_nodo h2 = h;
+		delete h2;
+		h = NULL;
 	}
 
 	endwin();
