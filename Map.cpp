@@ -10,6 +10,7 @@ Map::Map(int** map, int id, bool mirrored)
 	this->spawnFlyingEnemies = new point[ENEMYSPAWN];
 	this->numSpawnFlyingEnemies = 0;
 
+	this->spawnItem = new point;
 	this->itemPicked = false;
 
 	this->map = new int*[ROW];
@@ -34,8 +35,8 @@ Map::Map(int** map, int id, bool mirrored)
 			}
 			else if (map[i][j] == ITEMMAPCHARACTER) //spawn oggetto
 			{
-				this->spawnItem.x = j + 1;
-				this->spawnItem.y = i + 1;
+				this->spawnItem->x = j + 1;
+				this->spawnItem->y = i + 1;
 			}
 		}
 	}
@@ -86,8 +87,9 @@ int Map::GetNumSpawnFlyingEnemies() { return this->numSpawnFlyingEnemies; }
 void Map::SetNumSpawnFlyingEnemies(int n) { this->numSpawnFlyingEnemies = n; }
 
 OggettoMappa* Map::GetItemDrop() { return this->itemDrop; }
+void Map::SetItemDrop(OggettoMappa* i) { this->itemDrop = i; }
 
-point Map::GetSpawnItem() { return this->spawnItem; }
+point* Map::GetSpawnItem() { return this->spawnItem; }
 
 bool Map::GetItemPicked() { return this->itemPicked; }
 void Map::SetItemPicked(bool ip) { this->itemPicked = ip; }

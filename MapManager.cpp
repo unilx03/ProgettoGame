@@ -5,6 +5,16 @@ MapManager::MapManager(WINDOW* win)
     this->window = win;
     InitializeFullMapList();
     this->currentMapList = new MapList();
+
+	this->itemList = new OggettoMappa*[8];
+    this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
+    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght");
+    this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense");
+    this->itemList[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney", true);
+    this->itemList[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore", true);
+    this->itemList[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility", true);
+    this->itemList[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce");
+    this->itemList[7] = new OggettoMappa("Sale", "££", 0.2, "sale", false, true);
 }
 
 void MapManager::InitializeFullMapList()
@@ -73,7 +83,7 @@ void MapManager::GenerateNewMap()
 {
     int levelToLoadID = rand() % numMaps;
     this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
-	//GenerateDrop();
+	this->currentMapList->GetTail()->SetItemDrop(GenerateDrop(this->itemList));
 }
 
 void MapManager::DrawCurrentMap()
@@ -99,8 +109,8 @@ void MapManager::DrawCurrentMap()
 	}
 
 	//per disegnare l'oggetto
-	//if (!this->currentMapList->GetTail()->GetItemPicked())
-	//	mvwprintw(this->window, this->currentMapList->GetTail()->GetItemDrop()->getYOgg(), this->currentMapList->GetTail()->GetItemDrop()->getXOgg(), this->currentMapList->GetTail()->GetItemDrop() -> getSkin());
+	if (!this->currentMapList->GetTail()->GetItemPicked())
+		mvwprintw(this->window, this->currentMapList->GetTail()->GetItemDrop()->getYOgg(), this->currentMapList->GetTail()->GetItemDrop()->getXOgg(), this->currentMapList->GetTail()->GetItemDrop()->getSkin());
 
 	wrefresh(this->window);
 }
@@ -127,18 +137,21 @@ void MapManager::LoadSavedMaps()
 			//aggiornare mappa a seconda dei nemici e oggetti spawnati
 
 			this->fullMapList->AddMap(temp);
+			//caricare oggetto
 		}
 	}
 	
 	inputFile.close();
 }
 
-void MapManager::GenerateDrop(WINDOW * playwin, OggettoMappa* item[])
+OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[])
 {
-	this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
-
-	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem().x;
-    this->currentMapList->GetTail()->GetItemDrop() -> setXOgg(x);
-    int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItem().y;
-	this->currentMapList->GetTail()->GetItemDrop() -> setYOgg(y);
+	//this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
+	OggettoMappa * p = new OggettoMappa(chosenObject(item));
+	
+	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem()->x;
+    p->setXOgg(x);
+    int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItem()->y;
+	p->setYOgg(y);
+	return p;
 }

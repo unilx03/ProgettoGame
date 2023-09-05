@@ -15,6 +15,7 @@ class MapManager
         MapList* fullMapList;
         int numMaps;
         MapList* currentMapList;
+        OggettoMappa** itemList;
 
     public:
         MapManager(WINDOW* win);
@@ -40,6 +41,6 @@ class MapManager
         void LoadSavedMaps();
 
         //Funzione per generare un oggetto all'interno della mappa
-        void GenerateDrop(WINDOW * playwin, OggettoMappa* item[]);
+        OggettoMappa* GenerateDrop(OggettoMappa* item[]);
 };
 
