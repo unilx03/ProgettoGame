@@ -173,11 +173,11 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player){
 void set_enemies_stats(p_nodo h, int diff_level){
     while(h != NULL){
         if((h->e)->enemy_type != 2)
-            (h->e)->setStrenght((h->e)->DEF_ST + 4*diff_level);
-        else
             (h->e)->setStrenght((h->e)->DEF_ST + 2*diff_level);
+        else
+            (h->e)->setStrenght((h->e)->DEF_ST + diff_level);
         (h->e)->setDefense((h->e)->DEF_DF + diff_level);
-        (h->e)->setHealth((h->e)->DEF_HP + 10*diff_level);
+        (h->e)->setHealth((h->e)->DEF_HP + 5*diff_level);
         ((h->e)->money_released) = (h->e)->DEF_MONEY + 5*diff_level;
         ((h->e)->score_released) = (h->e)->DEF_SCORE + 10*diff_level;
 

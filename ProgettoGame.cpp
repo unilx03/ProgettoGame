@@ -52,8 +52,8 @@ int main()
 		{	
 			//visualzzo box statistiche
 			creaFinestra();
-			//salvo stato del giocatore su file (NOTA PER ME e per BRUNI: salviamo il level o il diff_level? O, meglio, entrambi?)
-			saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+			//salvo stato del giocatore su file
+			saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
 			creaFinestra();	
 
 			h = game_loop(win, mapManager, player, h);
@@ -116,8 +116,8 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	player->hit_direction = 0;
 	player->has_found_obj = false;
 
-	//salvo stato del giocatore su file (NOTA PER ME: salviamo il level o il diff_level? O, meglio, entrambi?)
-	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+	//salvo stato del giocatore su file
+	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
 	//visualzzo box statistiche
 	creaFinestra();	
 
@@ -246,7 +246,7 @@ void create_market(Hero* player){
 	//stampa schermo
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
     creaFinestra();
-    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
 	creaFinestra();	
 
 	while(1){
@@ -266,7 +266,7 @@ void create_market(Hero* player){
             break;
 		}
 		
-		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
+		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
 		creaFinestra();
         
     }
