@@ -38,7 +38,8 @@ int main()
 			Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
 
 			/*if(menu_choice == 1){
-				
+				player->player_name = inseriscinome();
+				erase();
 			}
 			else if(menu_choice == 2){
 				//carico personaggio da file
@@ -68,7 +69,7 @@ int main()
 				//visualzzo box statistiche
 				creaFinestra();
 				//salvo stato del giocatore su file
-				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
 				creaFinestra();	
 
 				h = game_loop(win, mapManager, player, h, list);
@@ -124,7 +125,7 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_
 	player->has_found_obj = false;
 
 	//salvo stato del giocatore su file
-	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
 	//visualzzo box statistiche
 	creaFinestra();	
 
@@ -260,7 +261,7 @@ void create_market(Hero* player){
 	//stampa schermo
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
     creaFinestra();
-    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
 	creaFinestra();	
 
 	while(1){
@@ -280,7 +281,7 @@ void create_market(Hero* player){
             break;
 		}
 		
-		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level);
+		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
 		creaFinestra();
         
     }

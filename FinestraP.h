@@ -24,11 +24,11 @@ fout << attacco << endl;
 fout << puntif << endl;
 fout << livello << endl;
 fout << score << endl;
-fout << dif_lev << endl
+fout << dif_lev << endl;
 fout.close();
 }
 
-void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int def_lev) {
+void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev) {
     ofstream fout;
     fout.open("Personaggio.txt"); // apre il file in scrittura
     fout << nome << endl; // scrive sul file
@@ -39,7 +39,7 @@ void saveCharacterStats(string nome, int difesa, int vita, int attacco, int sold
     fout << puntif << endl;
     fout << livello << endl;
     fout << score << endl;
-    fout << def_lev << endl;
+    fout << dif_lev << endl;
     fout.close();
 }
 
@@ -144,7 +144,7 @@ void inseriscinome() {
 
     // Crea una finestra per l'input
     WINDOW *namewin = newwin(22, 162, 2, 5);
-    box(win, 0, 0);
+    box(namewin, 0, 0);
     refresh();
 
     // Stampa un prompt

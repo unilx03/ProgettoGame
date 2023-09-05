@@ -66,7 +66,7 @@ void creaFinestra(){
     refresh();
 
     //wrefresh() copia la finestra indicata sullo schermo fisico del terminale,
-    //tenendo presente quanto vi si trova già allo scopo di ottimizzare
+    //tenendo presente quanto vi si trova giï¿½ allo scopo di ottimizzare
 
     //LAVORO SULLA FINESTRA DI SFONDO
     mvwprintw(menuwinG,1,2,"Player:");
