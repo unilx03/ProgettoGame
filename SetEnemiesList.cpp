@@ -189,6 +189,8 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     if (num_enemies > ENEMYSPAWN)
         num_enemies = ENEMYSPAWN;
     bool* isPositionTaken = new bool[ENEMYSPAWN];
+    for (int i = 0; i < ENEMYSPAWN; i++)
+        isPositionTaken[i] = false;
 
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
     //int v[] = {0, 0, 0, 0, 0, 3, 1, 1, 2, 4, 4, 4, 4, 4, 4, 4};
@@ -202,60 +204,41 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
 
         index = rand()%16;
 
-       //do
-       // {
-            spawn = rand() % ENEMYSPAWN;
-       // }
-        //while (isPositionTaken[spawn]);
-        isPositionTaken[spawn] = true;
-        //validSpawn = true;
-
-        x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
-        y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
-
-        /*bool validSpawn = false;
-        while (!validSpawn)
+        if (v[index] != 4) //non nemico volante verticale
         {
-            index = rand()%16;
-
-            do
+            spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+                
+            while (isPositionTaken[spawn])
             {
-                spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
+                spawn++;
+                if (spawn >= map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies())
+                    spawn = 0;
+
+                if (!isPositionTaken[spawn])
+                    isPositionTaken[spawn] = true;
             }
-            while (isPositionTaken[spawn]);
-            isPositionTaken[spawn] = true;
-            validSpawn = true;
 
             x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
             y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
-
-            if (v[index] != 4) //non nemico volante verticale
+        }
+        else
+        {
+            spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies();
+                
+            while (isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()])
             {
-                do
-                {
-                    spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies();
-                }
-                while (isPositionTaken[spawn]);
-                isPositionTaken[spawn] = true;
-                validSpawn = true;
+                spawn++;
+                if (spawn >= map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies())
+                    spawn = 0;
 
-                x = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].x;
-                y = map->GetCurrentMapList()->GetTail()->GetSpawnEnemies()[spawn].y;
+                if (!isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()])
+                    isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()] = true;
             }
-            else
-            {
-                do
-                {
-                    spawn = rand() % map->GetCurrentMapList()->GetTail()->GetNumSpawnFlyingEnemies();
-                }
-                while (isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()]);
-                isPositionTaken[spawn + map->GetCurrentMapList()->GetTail()->GetNumSpawnEnemies()] = true;
-                validSpawn = true;
 
-                x = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].x;
-                y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
-            }
-        }*/
+            x = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].x;
+            y = map->GetCurrentMapList()->GetTail()->GetSpawnFlyingEnemies()[spawn].y;
+        }
+
         int left_or_right = rand()%2; //decido randomicamente se il nemico si muove a dx o a sx (per i tipi 0, 1, 2, 3)
         bool left = false;
         if(left_or_right == 0)
