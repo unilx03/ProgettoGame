@@ -170,9 +170,9 @@ void Hero::setStatChange(OggettoMarket o){
     else if(strcmp(o.getStatAffected(), "strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
     else if(strcmp(o.getStatAffected(), "defense")==0)
-        this->setDefense((int)(this->getDefense() * boost));
-    else if(strcmp(o.getStatAffected(), "luck")==0)
-        this->setLuck((int)(this->getLuck() * boost));
+        this->setDefense((int)(this->getDefense()+1)); //aggiungo 1 alla difesa attuale
+    else if(strcmp(o.getStatAffected(), "luck")==0) 
+        this->setLuck((this->getLuck()+1)); //aggiungo 1 ai punti fortuna attuali
 }     
         
 const char * Hero::purchase(OggettoMarket o){
@@ -204,11 +204,11 @@ void Hero::setStatPermanent(OggettoMappa o){
    else if(strcmp(o.getStatAffected(), "strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
     else if(strcmp(o.getStatAffected(), "defense")==0)
-        this->setDefense((int)(this->getDefense() * boost));
+        this->setDefense(this->getDefense()+1);
     else if(strcmp(o.getStatAffected(), "luck")==0)
-        this->setLuck((int)(this->getLuck() * boost));
+        this->setLuck(this->getLuck()+1);
     else if(strcmp(o.getStatAffected(), "jumpForce")==0)
-        this->setJumpForce((int)(this->getJumpForce() * boost));  
+        this->setJumpForce(this->getJumpForce()+1);  
 }
 
 void Hero::setStatChange(OggettoMappa o){
