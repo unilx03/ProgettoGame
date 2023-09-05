@@ -43,13 +43,37 @@ void stampaConiglio(WINDOW *f, int n){
 }
 
 void creaFile(){
-string nome="Ettore";
-string punteggio="0";
- ofstream fout;
- fout.open("Datis.txt"); // apre il file in scrittura
- fout << nome << endl; // scrive sul file
- fout << punteggio;
- fout.close();
+string nome="Bunny;
+string difesa="0";
+string vita="25";
+string attacco="1";
+string soldi="0";
+string puntif="0";
+string score="0";
+string livello="1";
+ofstream fout;
+fout.open("Personaggio.txt"); // apre il file in scrittura
+fout << nome << endl; // scrive sul file
+fout << vita << endl;
+fout << soldi << endl;
+fout << difesa << endl;
+fout << attacco << endl;
+fout << puntif << endl;
+fout << livello << endl;
+fout << score << endl;
+fout.close();
+}
+
+void selezionoScore(string v[]){
+    f.open("Personaggio.txt");
+    string line;
+    getline(file, line);
+    v[0]=line;
+    for(int i=0, i<6;i++){
+        getline(file, line);
+    }
+    v[1]=line;
+    f.close();
 }
 
 /*int cercaRecord(string v[], int n){
@@ -65,7 +89,7 @@ string punteggio="0";
 }*/
 
 
-void create_menu(){
+int create_menu(){
     //NCURSES START
     /*initscr();
     noecho();
@@ -77,12 +101,12 @@ void create_menu(){
     int n=0;
 
     ifstream f;
-    f.open("Datis.txt");
+    f.open("Personaggio.txt");
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
         creaFile();
-        f.open("Datis.txt");
+        f.open("Personaggio.txt");
     }
 
     while(!f.eof()||n<2){   //METTO TUTTE LE RIGHE DEL FILE DENTRO UN VETTORE DI STRINGHE       RICORDA: Riga-->0: Nome; Riga-->1: Punteggio;
@@ -125,13 +149,17 @@ void create_menu(){
     mvwprintw(K.getW(), 2,80,"Record");
 
     //PRENDO LE INFO DAL VETTORE PRESO DAI FILE
-    /*int tmp=cercaRecord(v,n);
+    /*int tmp=cercaRecord(v,n);*/
+
+
+    //PROVO A STAMPARE LO SCORE
+    string v[2];
+    selezionoScore(v);
     while(p<2){
-    mvwprintw(K.getW(), 4,p*66+12,"%s ",v[tmp].c_str());
+    mvwprintw(K.getW(), 4,p*66+12,"%s ",v[p].c_str());
     p++;
-    tmp++;
     }
-    p=0;*/
+    p=0;
 
     //wrefresh(menuwinG);
     G.wrW();
@@ -185,10 +213,20 @@ void create_menu(){
 
     //LAVORO SULLA FINESTRA RECORD
 
-    //PER ORA FACCIO UNA SEMPLICE FRASE, SUCCESSIVAMENTE DEVO CREARE DELLE PAGINE
-    mvwprintw(G.getW(), 25,1,"La tua scelta �: %s ", choices[highlight].c_str());
-    wrefresh(G.getW());
-    //G.wW();
+    if(choices[highlight] == "Exit"){
+        return 0;
+    }
+    else{
+        if(choices[highlight] == "New Game"){
+
+            return 1;
+        }
+        else{
+                if(choices[highlight] == "Continue"){
+                return 2;
+        }
+
+    }
 
     //getch();
 

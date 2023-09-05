@@ -33,7 +33,7 @@ class MapManager
         MapList* GetCurrentMapList();
         void SetCurrentMapList(MapList* cml);
 
-        void GenerateNewMap();
+        void GenerateNewMap(bool lucky);
 
         void DrawCurrentMap();
 
@@ -41,6 +41,6 @@ class MapManager
         void LoadSavedMaps();
 
         //Funzione per generare un oggetto all'interno della mappa
-        OggettoMappa* GenerateDrop(OggettoMappa* item[]);
+        OggettoMappa* GenerateDrop(OggettoMappa* item[], bool lucky);
 };
 

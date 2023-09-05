@@ -22,7 +22,7 @@ int main()
 
 		//Inizializzazione prima mappa di gioco 
 		MapManager* mapManager = new MapManager(win);
-		mapManager->GenerateNewMap();
+		mapManager->GenerateNewMap(false);
 
 		create_menu(); //visualizzo il menù principale all'apertura del gioco
 		erase(); //cancella tutto ciò che c'è sullo schermo
@@ -94,17 +94,6 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 
 	//aggiornamento della posizione dei nemici
 	
-	/*OggettoMappa* item[M];
-            item[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
-            item[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght");
-            item[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense");
-            item[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney", true);
-            item[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore", true);
-            item[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility", true);
-            item[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce");
-            item[7] = new OggettoMappa("Sale", "££", 0.2, "sale", false, true);
-	mapManager -> generateDrop(win, item);
-	napms(10000);*/
 	display_list(h);
     h = action_list(win, h, player);
 
@@ -169,7 +158,12 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 			mapManager->DrawCurrentMap();
 		}
 		else{
-			mapManager->GenerateNewMap();
+			if(player -> getLuck()>0){
+				mapManager->GenerateNewMap(true); //ho ancora punti fortuna da utilizzare
+				playr -> setLuck((player -> getLuck())-1); //rimuovo il punto fortuna utilizzato
+			}
+			else
+				mapManager->GenerateNewMap(false); //non ho più punti fortuna da utilizzare
 			mapManager->DrawCurrentMap();
 			newMap = true;
 		}
@@ -226,10 +220,10 @@ void create_market(Hero* player){
 	//Inizializzazione array oggetti market
 	OggettoMarket * item[N];
 	item[0] = new OggettoMarket ("BISCOTTO VITA","<3", 0.1,"health",55);
-    item[1] = new OggettoMarket("SPINACI", "YY", 0.05,"strenght",44);
+    item[1] = new OggettoMarket("SPINACI", "YY", 0.1,"strenght",44);
     item[2] = new OggettoMarket("POZIONE SALTO", "()", 0.02,"JumpForce",22);
-    item[3] = new OggettoMarket("SCUDO CAROTA", "][", 0.05,"defense",11);
-    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 0.3,"luck",100);
+    item[3] = new OggettoMarket("SCUDO CAROTA", "][", 1,"defense",11);
+    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 1,"luck",100);
 
 	//Inizializzazione finestre item + continue
     WINDOW* item1 = newwin(HEIGHT, WIDTH, 16, 2);

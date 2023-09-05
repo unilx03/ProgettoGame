@@ -8,8 +8,8 @@ MapManager::MapManager(WINDOW* win)
 
 	this->itemList = new OggettoMappa*[8];
     this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
-    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.1, "strenght");
-    this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 0.1, "defense");
+    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.2, "strenght");
+    this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 1.0, "defense");
     this->itemList[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney",0, 0, true);
     this->itemList[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore",0, 0, true);
     this->itemList[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility",0, 0, true);
@@ -79,11 +79,11 @@ void MapManager::SetNumMaps(int nm) { this->numMaps = nm; }
 MapList* MapManager::GetCurrentMapList() { return this->currentMapList; }
 void MapManager::SetCurrentMapList(MapList* cml) { this->currentMapList = cml; }
 
-void MapManager::GenerateNewMap()
+void MapManager::GenerateNewMap(bool lucky)
 {
     int levelToLoadID = rand() % numMaps;
     this->currentMapList->AddMap(this->fullMapList->LoadMapFromID(this->fullMapList->GetTail(), levelToLoadID));
-	this->currentMapList->GetTail()->SetItemDrop(GenerateDrop(this->itemList));
+	this->currentMapList->GetTail()->SetItemDrop(GenerateDrop(this->itemList, lucky));
 }
 
 void MapManager::DrawCurrentMap()
@@ -144,10 +144,10 @@ void MapManager::LoadSavedMaps()
 	inputFile.close();
 }
 
-OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[])
+OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[], bool lucky)
 {
 	//this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
-	OggettoMappa * p = new OggettoMappa(chosenObject(item));
+	OggettoMappa * p = new OggettoMappa(chosenObject(item, lucky));
 	
 	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem()->x;
     p->setXOgg(x);
