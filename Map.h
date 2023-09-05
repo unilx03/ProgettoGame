@@ -14,7 +14,7 @@ using namespace std;
 #define WALLCHARACTER 2
 #define FLOORCHARACTER 1
 
-#define ENEMYSPAWN 30 //numero massimo di nemici e oggetti che possono essere generati
+#define ENEMYSPAWN 20 //numero massimo di nemici e oggetti che possono essere generati
 
 #define ENEMYMAPCHARACTER 3 //carattere che indica uno spawn di nemici o oggetti nella mappa
 #define FLYINGMAPCHARACTER 4
