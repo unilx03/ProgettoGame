@@ -1,4 +1,46 @@
 #include "Hero.h"
+//********** Funzioni che servono per modificare e prendere info dal file *************
+
+
+void saveCharacterStats2(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev,int sconto, int maxhp) {
+    ofstream fout;
+    fout.open("Personaggio.txt"); // apre il file in scrittura
+    fout << nome << endl; // scrive sul file
+    fout << vita << endl;
+    fout << soldi << endl;
+    fout << difesa << endl;
+    fout << attacco << endl;
+    fout << puntif << endl;
+    fout << livello << endl;
+    fout << score << endl;
+    fout << dif_lev << endl;
+    fout << sconto << endl;
+    fout << maxhp << endl;
+    fout.close();
+}
+
+string selezionenome2(){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    getline(file, line);
+    file.close();
+    return line;
+}
+
+void vettoredati2(string dati[]){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    int i=0;
+    getline(file, line);
+    while( getline(file, line)){
+    dati[i]=line;
+    i++;
+    }
+    file.close();
+}
+
 
 //********** Nella seguente sezione si gestisce l'attacco con i proiettili **********
 
@@ -25,7 +67,7 @@ Hero::p_bullet Hero::attack(Hero::p_bullet h){
                     mvwprintw(curwin, h->bullet_y, h->bullet_x, this->bullet);
                 }
                 else{
-                    //rimuovo il proiettile dalla lista                                
+                    //rimuovo il proiettile dalla lista
                     Hero::p_bullet h2 = h;
                     h = h->next;
                     delete(h2);
@@ -83,7 +125,7 @@ Hero::p_bullet Hero::attack(Hero::p_bullet h){
 bool Hero::check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x){
     bool noCollision = true;
     if(is_left_bullet){
-        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER 
+        if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == WALLCHARACTER
             || mapManager->GetCurrentMapList()->GetTail()->GetMap()[bullet_y][bullet_x-2] == FLOORCHARACTER)
             noCollision = false;
     }
@@ -177,10 +219,10 @@ void Hero::setStatChange(OggettoMarket o){
         this->setDefense((int)(this->getDefense()+1)); //aggiungo 1 alla difesa attuale
         (this->diff_level)++;
     }
-    else if(strcmp(o.getStatAffected(), "luck")==0) 
+    else if(strcmp(o.getStatAffected(), "luck")==0)
         this->setLuck((this->getLuck()+1)); //aggiungo 1 ai punti fortuna attuali
-}     
-        
+}
+
 const char * Hero::purchase(OggettoMarket o){
     if(this->getMoney()>=o.getPrice()){
         this->setMoney(this->getMoney()-(o.getPrice()));
@@ -191,7 +233,7 @@ const char * Hero::purchase(OggettoMarket o){
     else{
         return "MONETE INSUFFICIENTI";
     }
-}  
+}
 
 void Hero::setStatTemporary(OggettoMappa o){
     if(strcmp(o.getStatAffected(), "Invincibility")==0)
@@ -218,7 +260,7 @@ void Hero::setStatPermanent(OggettoMappa o){
     else if(strcmp(o.getStatAffected(), "Luck")==0)
         this->setLuck(this->getLuck()+1);
     else if(strcmp(o.getStatAffected(), "Jump Force")==0)
-        this->setJumpForce(this->getJumpForce()+1);  
+        this->setJumpForce(this->getJumpForce()+1);
 }
 
 void Hero::setStatChange(OggettoMappa o){
@@ -226,8 +268,13 @@ void Hero::setStatChange(OggettoMappa o){
         this->setStatTemporary(o);
     //La rimozione dell'effetto viene eseguita quando il personaggio passa al livello successivo
     else if(o.isSpecial()){ //CASO SCONTI
-        //Parte di salvataggio su file 
-        /* ifstream inputFile;  Dichiarazione di tipo 
+                string nomep= selezionenome();
+				int datiuser[10];
+				vettoredati(dattiuser);
+				saveCharacterStats2(nomep,datiuser[2], datiuser[0], datiuser[3], datiuser[1], datiuser[4], datiuser[6], datiuser[5], datiuser[7], 1, datiuser[9])
+
+        //Parte di salvataggio su file
+        /* ifstream inputFile;  Dichiarazione di tipo
 	    char path[100] = "stat.txt"; //file dove vengono salvate le statistiche
         inputFile.open(path);
         string word;
@@ -255,7 +302,7 @@ void Hero::hero_object_collision(OggettoMappa o){
             this->setStatChange(o);
             this->has_found_obj = true;
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
-            
+
             /*if(!(o.isTemporary())){
                 (this->diff_level)++;
             }*/

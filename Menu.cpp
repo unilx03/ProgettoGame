@@ -41,7 +41,7 @@ void stampaConiglio(WINDOW *f, int n){
 
 
 }
-void creaFileStatMenu(){
+void creaFileStat(){
 string nome="Bunny";
 string difesa="0";
 string vita="25";
@@ -111,7 +111,7 @@ int create_menu(){
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
-        creaFileStatMenu ();
+        creaFile();
         f.open("Personaggio.txt");
     }
 
@@ -151,7 +151,7 @@ int create_menu(){
 
 
     mvwprintw(K.getW(), 2,12,"Name");
-    mvwprintw(K.getW(), 2,80,"Record");
+    mvwprintw(K.getW(), 2,80,"Last Score");
 
     //PRENDO LE INFO DAL VETTORE PRESO DAI FILE
     /*int tmp=cercaRecord(v,n);*/

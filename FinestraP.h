@@ -32,7 +32,7 @@ fout << maxhp << endl;
 fout.close();
 }
 
-void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev) {
+void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev, int sconto, int maxhp) {
     ofstream fout;
     fout.open("Personaggio.txt"); // apre il file in scrittura
     fout << nome << endl; // scrive sul file
@@ -44,6 +44,8 @@ void saveCharacterStats(string nome, int difesa, int vita, int attacco, int sold
     fout << livello << endl;
     fout << score << endl;
     fout << dif_lev << endl;
+    fout << sconto << endl;
+    fout << maxhp << endl;
     fout.close();
 }
 
