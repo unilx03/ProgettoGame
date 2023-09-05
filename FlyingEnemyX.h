@@ -42,4 +42,5 @@ class FlyingEnemyX: public Enemy{
         void mvup();
         void mvdown();
         void mv_up_down();
+        //bool check_map_collision(int direction);
 };

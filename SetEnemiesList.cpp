@@ -232,3 +232,96 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
     set_enemies_stats(list, diff_level);
     return list;
 }
+
+// Funzione per salvare la lista 'h' in un file binario con un numero identificativo
+void salvaListaSuFile(p_nodo h, int numeroLista, const string &nomeFile) {
+    ofstream file(nomeFile,ios::binary);
+
+    if (!file.is_open()) {
+        cerr << "Impossibile aprire il file." << endl;
+        return;
+    }
+
+    // Scrivi il numero identificativo della lista
+    file.write(reinterpret_cast<char *>(&numeroLista), sizeof(int));
+
+    p_nodo current = h;
+
+    while (current != nullptr) {
+        // Scrivi il puntatore Enemy 'e' nell'array di caratteri come rappresentazione binaria
+        file.write(reinterpret_cast<char *>(current->e), sizeof(Enemy));
+
+        // Scrivi l'attributo "is_dead"
+        file.write(reinterpret_cast<char *>(current->is_dead), sizeof(bool));
+
+        // Scrivi l'indirizzo del prossimo nodo 'next' nell'array di caratteri
+        file.write(reinterpret_cast<char *>(&current->next), sizeof(p_nodo));
+
+        current = current->next;
+    }
+
+    file.close();
+}
+
+// Funzione per leggere una lista specifica dal file binario in base al numero identificativo
+p_nodo leggiListaDaFile(int numeroLista, const string &nomeFile) {
+    ifstream file(nomeFile, std::ios::binary);
+
+    if (!file.is_open()) {
+        cerr << "Impossibile aprire il file." << endl;
+        return nullptr;
+    }
+
+    p_nodo h = nullptr;
+    p_nodo current = nullptr;
+
+    while (true) {
+        int listaNumero;
+        // Leggi il numero identificativo della lista
+        file.read(reinterpret_cast<char *>(&listaNumero), sizeof(int));
+
+        // Se siamo alla fine del file, esci dal ciclo
+        if (file.eof()) {
+            break;
+        }
+
+        // Leggi il puntatore Enemy 'e' dall'array di caratteri
+        Enemy *enemy = NULL;
+        file.read(reinterpret_cast<char *>(enemy), sizeof(Enemy));
+
+        //Leggi l'attributo is_dead
+        bool dead = true;
+        file.read(reinterpret_cast<char *>(dead), sizeof(bool));
+
+        // Leggi l'indirizzo del prossimo nodo 'next' dall'array di caratteri
+        p_nodo next = nullptr;
+        file.read(reinterpret_cast<char *>(&next), sizeof(p_nodo));
+
+        // Se il numero identificativo corrisponde, crea un nuovo nodo e aggiungilo alla lista
+        if (listaNumero == numeroLista) {
+            p_nodo nodo = NULL;
+            nodo->e = enemy;
+            nodo->is_dead = dead;
+            nodo->next = next;
+
+            if (h == nullptr) {
+                h = nodo;
+            }
+
+            if (current != nullptr) {
+                current->next = nodo;
+            }
+
+            current = nodo;
+        } else {
+            // Altrimenti, ignoriamo questo blocco di dati nel file
+            delete enemy;
+            if (next != nullptr) {
+                delete next;
+            }
+        }
+    }
+
+    file.close();
+    return h;
+}

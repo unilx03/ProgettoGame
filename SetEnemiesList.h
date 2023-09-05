@@ -18,7 +18,7 @@ struct nodo{
 typedef nodo* p_nodo;
 
 //Inserisce un nuovo nemico in testa alla lista.
-p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type, int left, int hp, int st, int df, int scr, int mn);
+p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type);
 //Stampa sulla mappa tutti i nemici istanziati.
 void display_list(p_nodo h);
 //Fa muovere tutti i nemici nella lista di un "passo", in base alla funzione di movimento associata a ciascuna tipologia.
@@ -27,3 +27,6 @@ p_nodo action_list(WINDOW * playwin, p_nodo h, Hero* player);
 void set_enemies_stats(p_nodo h, int diff_level);
 //Prende in input il numero di nemici da generare e restituisce una lista di nemici con le loro coordinate sulla mappa.
 p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level);
+
+void salvaListaSuFile(p_nodo h, int numeroLista, const string &nomeFile);
+p_nodo leggiListaDaFile(int numeroLista, const string &nomeFile);

@@ -159,8 +159,8 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		}
 
 		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
-		//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!)
-			
+		//eliminare lista nemici corrente e generarne un'altra (altrimenti (BRUNI) CARICARE DA FILE QUELLA DELLA MAPPA SUCCESSIVA, SE ESISTE GIA'!
+
 		//le seguenti righe gestiscono il caso in cui nel file non sia già stata salvata la lista di nemici associata alla mappa successiva
 		p_nodo h2 = h;
 		delete h2;
@@ -180,10 +180,13 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		mapManager->DrawCurrentMap();
 
 		//(BRUNI) SALVARE SU FILE LISTA NEMICI ASSOCIATA A MAPPA!
+		//salvaListaSuFile(h, mapManager->GetCurrentMapList()->GetTail()->GetID(),"salvaLista.bin");
+
 		p_nodo h2 = h;
 		delete h2;
 		h = NULL;
 		//(BRUNI) CARICARE DA FILE LISTA NEMICI DELLA MAPPA PRECEDENTE!
+		//h = leggiListaDaFile(mapManager->GetCurrentMapList()->GetTail()->GetPrev()->GetID(), "salvaLista.bin");
 	}
 	return h;
 }

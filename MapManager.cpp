@@ -89,7 +89,7 @@ void MapManager::DrawCurrentMap()
 			if (this->currentMapList->GetTail()->GetMap()[i][j] == EMPTYCHARACTER)
 				character = ' ';
 			else if (this->currentMapList->GetTail()->GetMap()[i][j] == FLOORCHARACTER)
-				character = '-';
+				character = '_';
 			else if (this->currentMapList->GetTail()->GetMap()[i][j] == WALLCHARACTER)
 				character = '|';
 			else
