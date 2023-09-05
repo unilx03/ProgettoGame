@@ -165,12 +165,18 @@ void Hero::getmv(int choice){
 void Hero::setStatChange(OggettoMarket o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
-    if(strcmp(o.getStatAffected(), "health")==0)
-        this->setHealth((int)(this->getHealth() *boost)); //Modifica il valore di MAXHP quindi dovrebbe essere setMaxHP...
-    else if(strcmp(o.getStatAffected(), "strenght")==0)
+    if(strcmp(o.getStatAffected(), "health")==0){
+        this->setHealth((int)(this->getMaxHp() *boost)); //Modifica il valore di MAXHP quindi dovrebbe essere setMaxHP...
+        (this->diff_level)++;
+    }
+    else if(strcmp(o.getStatAffected(), "strenght")==0){
         this->setStrenght((int)(this->getStrenght() *boost));
-    else if(strcmp(o.getStatAffected(), "defense")==0)
+        (this->diff_level)++;
+    }
+    else if(strcmp(o.getStatAffected(), "defense")==0){
         this->setDefense((int)(this->getDefense()+1)); //aggiungo 1 alla difesa attuale
+        (this->diff_level)++;
+    }
     else if(strcmp(o.getStatAffected(), "luck")==0) 
         this->setLuck((this->getLuck()+1)); //aggiungo 1 ai punti fortuna attuali
 }     
@@ -179,7 +185,7 @@ const char * Hero::purchase(OggettoMarket o){
     if(this->getMoney()>=o.getPrice()){
         this->setMoney(this->getMoney()-(o.getPrice()));
         this->setStatChange(o);
-        (this->diff_level)++;
+        //(this->diff_level)++;
         return "ACQUISTO    AVVENUTO";
     }
     else{
@@ -201,10 +207,14 @@ void Hero::setStatPermanent(OggettoMappa o){
     //casting a int poichè le statistiche sono valori interi
     if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
         this->setHealth(getMaxHp());
-   else if(strcmp(o.getStatAffected(), "strenght")==0)
-        this->setStrenght((int)(this->getStrenght() *boost));
-    else if(strcmp(o.getStatAffected(), "defense")==0)
+   else if(strcmp(o.getStatAffected(), "strenght")==0){
+            this->setStrenght((int)(this->getStrenght() *boost));
+            (this->diff_level)++;
+   }
+    else if(strcmp(o.getStatAffected(), "defense")==0){
         this->setDefense(this->getDefense()+1);
+        (this->diff_level)++;
+    }
     else if(strcmp(o.getStatAffected(), "luck")==0)
         this->setLuck(this->getLuck()+1);
     else if(strcmp(o.getStatAffected(), "jumpForce")==0)
@@ -246,9 +256,9 @@ void Hero::hero_object_collision(OggettoMappa o){
             this->has_found_obj = true;
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
             
-            if(!(o.isTemporary())){
+            /*if(!(o.isTemporary())){
                 (this->diff_level)++;
-            }
+            }*/
         }
     }
 }

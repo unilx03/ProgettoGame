@@ -157,6 +157,9 @@ void inseriscinome() {
     mvwgetnstr(namewin, 2, 1, nome, sizeof(nome)); // Mostra ciò che l'utente digita
     noecho(); // Disabilita l'eco
 
-    saveCharacterStats(nome,0, 25, 1, 0, 0, 0, 1, 0);
+    string str(nome, sizeof(nome) / sizeof(nome[0]));
+
+    saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
+
     wrefresh(namewin);
 }
