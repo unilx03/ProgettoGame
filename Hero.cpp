@@ -188,26 +188,26 @@ const char * Hero::purchase(OggettoMarket o){
 }  
 
 void Hero::setStatTemporary(OggettoMappa o){
-    if(strcmp(o.getStatAffected(), "invincibility")==0)
+    if(strcmp(o.getStatAffected(), "Invincibility")==0)
         this->setInvincibility(true);
-    else if(strcmp(o.getStatAffected(), "doubleMoney")==0)
+    else if(strcmp(o.getStatAffected(), "Double Money")==0)
         this->setDoubleMoney(true);
-    else if(strcmp(o.getStatAffected(), "doubleScore")==0)
+    else if(strcmp(o.getStatAffected(), "Double Score")==0)
         this->setDoubleScore(true);
 }
 
 void Hero::setStatPermanent(OggettoMappa o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
-    if(strcmp(o.getStatAffected(), "health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
+    if(strcmp(o.getStatAffected(), "Health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
         this->setHealth(getMaxHp());
-   else if(strcmp(o.getStatAffected(), "strenght")==0)
+   else if(strcmp(o.getStatAffected(), "Strenght")==0)
         this->setStrenght((int)(this->getStrenght() *boost));
-    else if(strcmp(o.getStatAffected(), "defense")==0)
+    else if(strcmp(o.getStatAffected(), "Defense")==0)
         this->setDefense(this->getDefense()+1);
-    else if(strcmp(o.getStatAffected(), "luck")==0)
+    else if(strcmp(o.getStatAffected(), "Luck")==0)
         this->setLuck(this->getLuck()+1);
-    else if(strcmp(o.getStatAffected(), "jumpForce")==0)
+    else if(strcmp(o.getStatAffected(), "Jump Force")==0)
         this->setJumpForce(this->getJumpForce()+1);  
 }
 

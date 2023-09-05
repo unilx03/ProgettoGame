@@ -104,6 +104,11 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_
 
 	mapManager->DrawCurrentMap();
 	player->hero_object_collision(mapManager->GetCurrentMapList()->GetTail()->GetItemDrop());
+	//stampa a schermo dell'effetto dell'oggetto appena raccolto
+	if(player->mapManager->GetCurrentMapList()->GetTail()->GetItemPicked()){
+		mvwprintw(win, 1, 1, "Object boost:");
+		mvwprintw(win, 1, 15, mapManager->GetCurrentMapList()->GetTail()->GetItemDrop()->getStatAffected());
+	}
 	//aggiornamento del livello di difficoltà se si ha raggiunto un certo score
 	if(player->score >= player->score_threshold){
 		(player->diff_level)++;
