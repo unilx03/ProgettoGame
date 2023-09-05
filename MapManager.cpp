@@ -7,14 +7,14 @@ MapManager::MapManager(WINDOW* win)
     this->currentMapList = new MapList();
 
 	this->itemList = new OggettoMappa*[8];
-    this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "health");
-    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.2, "strenght");
-    this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 1.0, "defense");
-    this->itemList[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "doubleMoney",0, 0, true);
-    this->itemList[4] = new OggettoMappa("Carrot Points", "##", 0.5, "doubleScore",0, 0, true);
-    this->itemList[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "invincibility",0, 0, true);
-    this->itemList[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "jumpForce");
-    this->itemList[7] = new OggettoMappa("Sale", "££", 0.2, "sale",0, 0, false, true);
+    this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "Health");
+    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.2, "Strenght");
+    this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 1.0, "Defense");
+    this->itemList[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "Double Money",0, 0, true);
+    this->itemList[4] = new OggettoMappa("Carrot Points", "##", 0.5, "Double Score",0, 0, true);
+    this->itemList[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "Invincibility",0, 0, true);
+    this->itemList[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "Jump Force");
+    this->itemList[7] = new OggettoMappa("Sale", "££", 0.2, "Dale",0, 0, false, true);
 }
 
 void MapManager::InitializeFullMapList()
