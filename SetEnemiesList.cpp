@@ -206,11 +206,11 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
 
         index = rand()%16;
 
-        do
-        {
+       //do
+       // {
             spawn = rand() % ENEMYSPAWN;
-        }
-        while (isPositionTaken[spawn]);
+       // }
+        //while (isPositionTaken[spawn]);
         isPositionTaken[spawn] = true;
         //validSpawn = true;
 
