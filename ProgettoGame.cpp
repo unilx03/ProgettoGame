@@ -49,8 +49,10 @@ int main()
 			p_nodo h = NULL;
 			srand((unsigned) time(NULL));
 			h = generate_enemies(win, mapManager, 0);
-			p_en_list list = tail_insert(list, h);
-			player -> setMoney(100);
+			p_en_list list = NULL;
+			list = tail_insert(list, h);
+			
+			//player -> setMoney(100);
 			create_market(player); //visualizzo il market
 			erase(); //cancella tutto ciò che c'è sullo schermo
 
@@ -81,9 +83,13 @@ int main()
 			
 			player->setHealth(player->getMaxHp());
 
-			p_nodo h2 = h;
-			delete h2;
-			h = NULL;
+			p_en_list list2 = list;
+			delete list2;
+			list = NULL;
+
+			MapManager* map2 = mapManager;
+			delete map2;
+			mapManager = NULL;
 		}
 	}
 
@@ -110,6 +116,7 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_
 	
 	display_list(h);
     h = action_list(win, h, player);
+	search_enemies(list, player->level)->list = h;
 
 	player_skin_select(key, player); //selezione della giusta skin dell'eroe da visualizzare
 
@@ -148,7 +155,8 @@ void player_skin_select(int key, Hero* player){
 }
 
 p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list list){
-	p_nodo h;
+	p_nodo h = NULL;
+	h = (search_enemies(list, player->level))->list;
 	//se il personaggio si trova nell'angolo in basso a dx della window e sta guardando a dx, passa alla mappa successiva
 	if((player->yLoc == 19 && player->xLoc >= 153) && player->is_left == false){
 		//tolgo gli effetti degli oggetti temporanei

@@ -22,8 +22,10 @@ p_en_list tail_insert(p_en_list h, p_nodo enemies){
 }
 
 p_en_list search_enemies(p_en_list h, int level){
-    for(int i = 1; i <= level; i++){
-        h = h->next;
+    if(h != NULL){
+        for(int i = 1; i < level; i++){
+            h = h->next;
+        }
     }
     return h;
 }
