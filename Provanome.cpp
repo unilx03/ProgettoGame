@@ -1,15 +1,16 @@
 #include <ncurses.h>
 #include <iostream>
 using namespace std;
+
 int main() {
-    initscr(); // Inizializza ncurses
-    cbreak();  // Abilita l'input per carattere (non bufferizzato)
-    noecho();  // Non mostrare i caratteri inseriti
-    curs_set(1); // Mostra il cursore
+    initscr();
+    cbreak();
+    keypad(stdscr, TRUE); // Abilita il keypad per tastiere speciali (es. F1, F2)
+    curs_set(1);
 
     // Crea una finestra per l'input
     WINDOW *win = newwin(10, 40, 5, 5);
-    box(win, 0, 0); // Crea una bordatura per la finestra
+    box(win, 0, 0);
     refresh();
 
     // Stampa un prompt
@@ -18,19 +19,18 @@ int main() {
 
     // Crea un buffer per l'input dell'utente
     char nome[32];
-    wgetnstr(win, nome, sizeof(nome));
+    echo(); // Abilita l'eco (visualizza ciò che viene digitato)
+    mvwgetnstr(win, 2, 1, nome, sizeof(nome)); // Mostra ciò che l'utente digita
+    noecho(); // Disabilita l'eco
 
     // Stampa il nome inserito
-    mvwprintw(win, 2, 1, "Hai inserito: %s", nome);
+    mvwprintw(win, 3, 1, "Hai inserito: %s", nome);
     wrefresh(win);
 
     // Attendi un input prima di uscire
     getch();
 
-    // Termina ncurses
     endwin();
 
     return 0;
 }
-
-
