@@ -193,7 +193,6 @@ p_nodo generate_enemies(WINDOW * playwin, MapManager* map, int diff_level){
         isPositionTaken[i] = false;
 
     int v[] = {0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4}; //array da cui estrarre randomicamente il tipo di nemico da inserire in lista (notare che, ad esempio, il nemico di tipo 0 ha probabilità maggiore)
-    //int v[] = {0, 0, 0, 0, 0, 3, 1, 1, 2, 4, 4, 4, 4, 4, 4, 4};
     random_shuffle(&v[0], &v[15]); //"scompiglia" gli elementi dell'array in modo casuale
     
     for(int i = 0; i<num_enemies; i++){ //seleziono randomicamente un elemento dell'array e inserisco nella lista il nemico corrispondente
