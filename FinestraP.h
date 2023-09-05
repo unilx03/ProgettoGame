@@ -14,7 +14,6 @@ string puntif="0";
 string score="0";
 string livello="1";
 string dif_lev="0";
-string sconto="0";
 ofstream fout;
 fout.open("Personaggio.txt"); // apre il file in scrittura
 fout << nome << endl; // scrive sul file
@@ -26,11 +25,10 @@ fout << puntif << endl;
 fout << livello << endl;
 fout << score << endl;
 fout << dif_lev << endl;
-fout << sconto << endl;
 fout.close();
 }
 
-void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int def_lev, int sconto) {
+void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev) {
     ofstream fout;
     fout.open("Personaggio.txt"); // apre il file in scrittura
     fout << nome << endl; // scrive sul file
@@ -41,8 +39,7 @@ void saveCharacterStats(string nome, int difesa, int vita, int attacco, int sold
     fout << puntif << endl;
     fout << livello << endl;
     fout << score << endl;
-    fout << def_lev << endl;
-    fout << sconto << endl;
+    fout << dif_lev << endl;
     fout.close();
 }
 
@@ -147,7 +144,7 @@ void inseriscinome() {
 
     // Crea una finestra per l'input
     WINDOW *namewin = newwin(22, 162, 2, 5);
-    box(win, 0, 0);
+    box(namewin, 0, 0);
     refresh();
 
     // Stampa un prompt
@@ -160,6 +157,9 @@ void inseriscinome() {
     mvwgetnstr(namewin, 2, 1, nome, sizeof(nome)); // Mostra ciò che l'utente digita
     noecho(); // Disabilita l'eco
 
-    saveCharacterStats(nome,0, 25, 1, 0, 0, 0, 1, 0, 0);
+    string str(nome, sizeof(nome) / sizeof(nome[0]));
+
+    saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
+
     wrefresh(namewin);
 }
