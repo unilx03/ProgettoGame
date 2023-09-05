@@ -7,8 +7,8 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 #include <algorithm>    // std::random_shuffle
 
 
-const int NUM_ENEMIES_DEFAULT = 3; //numero di nemici presenti di default sulla mappa
-const int NUM_ENEMIES_GROWTH = 5; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
+const int NUM_ENEMIES_DEFAULT = 1; //numero di nemici presenti di default sulla mappa
+const int NUM_ENEMIES_GROWTH = 1; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
 
 struct nodo{    
     Enemy *e;
