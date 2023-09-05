@@ -237,11 +237,13 @@ void Hero::setStatChange(OggettoMappa o){
 
 //NOTA: dove la richiamiamo questa funzione??? Come capiamo qual è l'oggetto da passare??? Magari ogni mappa dovrebbe avere un attributo oggetto?
 void Hero::hero_object_collision(OggettoMappa o){
+    if (this->mapManager->GetCurrentMapList()->GetTail()->GetItemPicked())
+        return;
+
     if(o.getYOgg() == (this->yLoc) || o.getYOgg() == (this->yLoc)+1){
         if(o.getXOgg() >= (this->xLoc) - 2 && o.getXOgg() <= (this->xLoc) + (this->bound_right) - 1){
-            //CHIARA rimuovere l'oggetto (IDEA: attributo "used" in OggettoMappa: se è false (caso A), usare l'oggetto sull'eroe; 
-            //se è true (caso B), non fare più la print dell'oggetto e non applicare l'effetto all'eroe)
-            
+            //CHIARA usare l'oggetto sull'eroe
+            this->has_found_obj = true;
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
             
             //Nota: le successive righe vanno eseguite SOLO nel caso A descritto prima.

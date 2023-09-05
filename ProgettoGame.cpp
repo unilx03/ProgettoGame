@@ -109,9 +109,12 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 	display_list(h);
     h = action_list(win, h, player);
 
+	player->hero_object_collision(mapManager->GetCurrentMapList()->GetTail()->GetItemDrop());
+
 	player_skin_select(key, player); //selezione della giusta skin dell'eroe da visualizzare
 
 	player->hit_direction = 0;
+	player->has_found_obj = false;
 
 	//salvo stato del giocatore su file (NOTA PER ME: salviamo il level o il diff_level? O, meglio, entrambi?)
 	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->diff_level);
@@ -129,6 +132,12 @@ void player_skin_select(int key, Hero* player){
 		else if(player->isAttackingDown){
 			player->display(player->player_shape_attack_down, player->player_shape_attack_down);
 		}
+		else if(player->isAttackingDown){
+			player->display(player->player_shape_attack_down, player->player_shape_attack_down);
+		}
+		else if(player->has_found_obj){
+			player->display(player->player_shape_left_obj, player->player_shape_right_obj);
+		}
 		else
 		player->display(player->player_shape_left, player->player_shape_right);
 	}
@@ -145,6 +154,11 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		player->xLoc = 1;
 		player->is_left = false;
 		(player->level)++;
+
+		//elimino la lista di proiettili
+		Hero::p_bullet b = player->h;
+		delete b;
+		player->h = NULL;
 
 		bool newMap = false;
 		//carica livello successivo, se non esiste aggiungere un nuovo livello
@@ -175,6 +189,11 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h){
 		player->xLoc = 153;
 		player->is_left = true;
 		(player->level)--;
+
+		//elimino la lista di proiettili
+		Hero::p_bullet b = player->h;
+		delete b;
+		player->h = NULL;
 		
 		mapManager->GetCurrentMapList()->PreviousMap();
 		mapManager->DrawCurrentMap();

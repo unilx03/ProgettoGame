@@ -37,6 +37,7 @@ class Hero: public Character{
         int score_threshold; //score + score_count (soglia di punteggio per aumentare il livello di difficoltà di gioco)
         int level; //livello corrente in cui si trova l'eroe
         int diff_level; //livello di difficoltà di gioco
+        bool has_found_obj;
 
         void setMoney(int n){
             money = n;
@@ -103,6 +104,15 @@ class Hero: public Character{
             "/)'w'(\\",
             "(\")_(\")"
         };
+        
+        const char* player_shape_right_obj[2] = {
+            "  (\\ /)",
+            "( =^O^)"
+        };
+        const char* player_shape_left_obj[2] = {
+            "(\\ /) ",
+            "(^O^= )"
+        };
 
         //costruttore del personaggio
         Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 400, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
@@ -119,6 +129,7 @@ class Hero: public Character{
             doubleScore = dS;
             isAttacking = false;
             maxHp = hp;
+            has_found_obj = false;
         }
         p_bullet bullet_insert(p_bullet h, int x, int y, bool left);
         p_bullet attack(p_bullet h);

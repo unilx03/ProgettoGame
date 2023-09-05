@@ -37,23 +37,23 @@ void FlyingEnemyX::mv_up_down(){
  }
 
 //Funzione che controlla le collisioni entità-mappa
-/*bool FlyingEnemyX::check_map_collision(int direction) {
+bool FlyingEnemyX::check_map_collision(int direction) {
     bool noCollision = true;
     int checkY = 0;
     switch (direction){
         case 2: //top
-            if ((this->yLoc - this->rows) - 1 < 0)  //(yLoc - rows + 1) limite superiore effettivo
+            if ((this->yLoc) - 2 < 0)  //(yLoc - rows + 1) limite superiore effettivo
                 noCollision = false;
-            else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(this->yLoc - this->rows) - 1][this->xLoc - 1] == FLOORCHARACTER ||
-                mapManager->GetCurrentMapList()->GetTail()->GetMap()[(this->yLoc - this->rows) - 1][(this->xLoc + this->bound_right - 1) - 1] == FLOORCHARACTER)
+            else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[(this->yLoc) - 2][this->xLoc - 1] == FLOORCHARACTER ||
+                mapManager->GetCurrentMapList()->GetTail()->GetMap()[(this->yLoc) - 2][(this->xLoc + this->bound_right - 1) - 1] == FLOORCHARACTER)
                 noCollision = false;
             break;
 
         case 3: //bottom
-            if (this->yLoc + 1 > ROW - 1 || this->yLoc + 2 > ROW - 1)
+            if (this->yLoc + this->rows > ROW)
                 noCollision = false;
-            else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[this->yLoc+2][this->xLoc - 1] == FLOORCHARACTER ||
-                mapManager->GetCurrentMapList()->GetTail()->GetMap()[this->yLoc+2][(this->xLoc + this->bound_right - 1) - 1] == FLOORCHARACTER)
+            else if (mapManager->GetCurrentMapList()->GetTail()->GetMap()[this->yLoc + this->rows -1][this->xLoc - 1] == FLOORCHARACTER ||
+                mapManager->GetCurrentMapList()->GetTail()->GetMap()[this->yLoc + this->rows -1][(this->xLoc + this->bound_right - 1) - 1] == FLOORCHARACTER)
                 noCollision = false;
             break;
 
@@ -62,4 +62,4 @@ void FlyingEnemyX::mv_up_down(){
             break;
     }
     return noCollision;
-}*/
+}
