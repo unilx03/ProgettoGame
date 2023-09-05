@@ -14,6 +14,8 @@ string puntif="0";
 string score="0";
 string livello="1";
 string dif_lev="0";
+string sconto="0";
+string maxhp="600"; //devo inserire il valore giusto
 ofstream fout;
 fout.open("Personaggio.txt"); // apre il file in scrittura
 fout << nome << endl; // scrive sul file
@@ -25,6 +27,8 @@ fout << puntif << endl;
 fout << livello << endl;
 fout << score << endl;
 fout << dif_lev << endl;
+fout << sconto << endl;
+fout << maxhp << endl;
 fout.close();
 }
 
@@ -42,6 +46,29 @@ void saveCharacterStats(string nome, int difesa, int vita, int attacco, int sold
     fout << dif_lev << endl;
     fout.close();
 }
+
+string selezionenome(){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    getline(file, line);
+    file.close();
+    return line;
+}
+
+void vettoredati(string dati[]){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    int i=0;
+    getline(file, line);
+    while( getline(file, line)){
+    dati[i]=line;
+    i++;
+    }
+    file.close();
+}
+
 
 
 void creaFinestra(){
@@ -140,7 +167,7 @@ void perdita(){
     wrefresh(menuwinG);
 }
 
-string inseriscinome() {
+void inseriscinome() {
 
     // Crea una finestra per l'input
     WINDOW *namewin = newwin(22, 162, 2, 5);
@@ -159,8 +186,7 @@ string inseriscinome() {
 
     string str(nome, sizeof(nome) / sizeof(nome[0]));
 
-    //saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
+    saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
 
     wrefresh(namewin);
-    return str;
 }
