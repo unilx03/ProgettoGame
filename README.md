@@ -4,13 +4,6 @@ Progetto di Programmazione 2023
 Nota - per compilare:
 g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Character.cpp Hero.cpp Enemy.cpp SetEnemiesList.cpp FlyingEnemyX.cpp FlyingEnemyY.cpp ThiefEnemy.cpp JumpingEnemy.cpp Menu.cpp Drop.cpp OggettoMappa.cpp OggettoMarket.cpp MarketScreen.cpp EnemiesManager.cpp -lncurses -o game.exe
 
-
-Checklist Mappe
-- Adattare i codici per Nemici e Oggetti alla mappa
-- Gestire collisioni tra Entità e Mappa
-- Migliorare il caricamento da file della lista delle mappe
-- Salvare su file la mappa con i nemici e oggetti generati (aggiornare quando un nemico viene sconfitto, un oggetto viene preso, un nuovo livello viene caricato)
-
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 OGGETTI (uso singolo) --> Un solo carattere descrive l'oggetto
