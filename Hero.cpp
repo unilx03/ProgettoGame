@@ -1,46 +1,4 @@
 #include "Hero.h"
-//********** Funzioni che servono per modificare e prendere info dal file *************
-
-
-void saveCharacterStats2(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev,int sconto, int maxhp) {
-    ofstream fout;
-    fout.open("Personaggio.txt"); // apre il file in scrittura
-    fout << nome << endl; // scrive sul file
-    fout << vita << endl;
-    fout << soldi << endl;
-    fout << difesa << endl;
-    fout << attacco << endl;
-    fout << puntif << endl;
-    fout << livello << endl;
-    fout << score << endl;
-    fout << dif_lev << endl;
-    fout << sconto << endl;
-    fout << maxhp << endl;
-    fout.close();
-}
-
-string selezionenome2(){
-    //f.open("Personaggio.txt");
-    ifstream file ("Personaggio.txt");
-    string line;
-    getline(file, line);
-    file.close();
-    return line;
-}
-
-void vettoredati2(string dati[]){
-    //f.open("Personaggio.txt");
-    ifstream file ("Personaggio.txt");
-    string line;
-    int i=0;
-    getline(file, line);
-    while( getline(file, line)){
-    dati[i]=line;
-    i++;
-    }
-    file.close();
-}
-
 
 //********** Nella seguente sezione si gestisce l'attacco con i proiettili **********
 
@@ -141,8 +99,6 @@ bool Hero::check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bul
 
 //switch-case per gestire le mosse del personaggio in base al tasto premuto dall'utente
 void Hero::getmv(int choice){
-            //napms(50);
-
             switch(choice){
                 case KEY_UP:
             if (!(this->isJumping) && !(this->isFalling)){
@@ -157,7 +113,6 @@ void Hero::getmv(int choice){
                     mvleft();
             if(check_map_collision(3))
                 this->isFalling = true;
-            //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
             break;
         case KEY_RIGHT:
             if(this->hit_direction != 1)
@@ -165,7 +120,6 @@ void Hero::getmv(int choice){
                     mvright();
             if(check_map_collision(3))
                 this->isFalling = true;
-            //napms(70); //tentativo di non velocizzare tutti i nemici quando si tiene premuta una freccia
             break;
         case ' ': //quando si preme la barra spaziatrice
             this->isAttacking = true;
@@ -227,7 +181,6 @@ const char * Hero::purchase(OggettoMarket o){
     if(this->getMoney()>=o.getPrice()){
         this->setMoney(this->getMoney()-(o.getPrice()));
         this->setStatChange(o);
-        //(this->diff_level)++;
         return "ACQUISTO    AVVENUTO";
     }
     else{
@@ -268,10 +221,10 @@ void Hero::setStatChange(OggettoMappa o){
         this->setStatTemporary(o);
     //La rimozione dell'effetto viene eseguita quando il personaggio passa al livello successivo
     else if(o.isSpecial()){ //CASO SCONTI
-                string nomep= selezionenome();
+                string nomep = selezionenome();
 				int datiuser[10];
-				vettoredati(dattiuser);
-				saveCharacterStats2(nomep,datiuser[2], datiuser[0], datiuser[3], datiuser[1], datiuser[4], datiuser[6], datiuser[5], datiuser[7], 1, datiuser[9])
+				vettoredati(datiuser);
+				saveCharacterStats(nomep, datiuser[2], datiuser[0], datiuser[3], datiuser[1], datiuser[4], datiuser[6], datiuser[5], datiuser[7], 1, datiuser[9]);
 
         //Parte di salvataggio su file
         /* ifstream inputFile;  Dichiarazione di tipo
@@ -292,7 +245,6 @@ void Hero::setStatChange(OggettoMappa o){
         this->setStatPermanent(o);
 }
 
-//NOTA: dove la richiamiamo questa funzione??? Come capiamo qual è l'oggetto da passare??? Magari ogni mappa dovrebbe avere un attributo oggetto?
 void Hero::hero_object_collision(OggettoMappa o){
     if (this->mapManager->GetCurrentMapList()->GetTail()->GetItemPicked())
         return;
@@ -302,10 +254,50 @@ void Hero::hero_object_collision(OggettoMappa o){
             this->setStatChange(o);
             this->has_found_obj = true;
             this->mapManager->GetCurrentMapList()->GetTail()->SetItemPicked(true);
-
-            /*if(!(o.isTemporary())){
-                (this->diff_level)++;
-            }*/
         }
     }
+}
+
+//********** Funzioni che servono per modificare e prendere info dal file *************
+
+//Scrivo lo stato corrente dell'eroe su file
+void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev, int sconto, int maxhp) {
+    ofstream fout;
+    fout.open("Personaggio.txt"); // apre il file in scrittura
+    fout << nome << endl; // scrive sul file
+    fout << vita << endl;
+    fout << soldi << endl;
+    fout << difesa << endl;
+    fout << attacco << endl;
+    fout << puntif << endl;
+    fout << livello << endl;
+    fout << score << endl;
+    fout << dif_lev << endl;
+    fout << sconto << endl;
+    fout << maxhp << endl;
+    fout.close();
+}
+
+//Leggo il nome dell'eroe da file
+string selezionenome(){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    getline(file, line);
+    file.close();
+    return line;
+}
+
+//Leggo tutte le statistiche associate all'eroe da file
+void vettoredati(int dati[]){
+    //f.open("Personaggio.txt");
+    ifstream file ("Personaggio.txt");
+    string line;
+    int i=0;
+    getline(file, line);
+    while( getline(file, line)){
+    dati[i]=stoi(line);
+    i++;
+    }
+    file.close();
 }

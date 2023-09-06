@@ -32,47 +32,6 @@ fout << maxhp << endl;
 fout.close();
 }
 
-void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev, int sconto, int maxhp) {
-    ofstream fout;
-    fout.open("Personaggio.txt"); // apre il file in scrittura
-    fout << nome << endl; // scrive sul file
-    fout << vita << endl;
-    fout << soldi << endl;
-    fout << difesa << endl;
-    fout << attacco << endl;
-    fout << puntif << endl;
-    fout << livello << endl;
-    fout << score << endl;
-    fout << dif_lev << endl;
-    fout << sconto << endl;
-    fout << maxhp << endl;
-    fout.close();
-}
-
-string selezionenome(){
-    //f.open("Personaggio.txt");
-    ifstream file ("Personaggio.txt");
-    string line;
-    getline(file, line);
-    file.close();
-    return line;
-}
-
-void vettoredati(string dati[]){
-    //f.open("Personaggio.txt");
-    ifstream file ("Personaggio.txt");
-    string line;
-    int i=0;
-    getline(file, line);
-    while( getline(file, line)){
-    dati[i]=line;
-    i++;
-    }
-    file.close();
-}
-
-
-
 void creaFinestra(){
     ifstream f;
     f.open("Personaggio.txt");
@@ -82,9 +41,6 @@ void creaFinestra(){
         creaFileStat();
         f.open("Personaggio.txt");
     }
-
-
-
 
     //misure dello screen
     int yMax, xMax;
@@ -171,7 +127,7 @@ void perdita(){
     wrefresh(menuwinG);
 }
 
-void inseriscinome() {
+string inseriscinome() {
 
     // Crea una finestra per l'input
     WINDOW *namewin = newwin(22, 162, 2, 5);
@@ -190,7 +146,9 @@ void inseriscinome() {
 
     string str(nome, sizeof(nome) / sizeof(nome[0]));
 
-    saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
+    //saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
 
     wrefresh(namewin);
+
+    return str;
 }

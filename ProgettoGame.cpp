@@ -34,10 +34,12 @@ int main()
 			string n = "Ettore";
 			Hero* player = new Hero(win, 19, 1, 7, mapManager, false, n);
 
+			//L'utente ha scelto di fare una nuova partita
 			if(menu_choice == 1){
 				player->player_name = inseriscinome();
 				erase();
 			}
+			//L'utente ha scelto di continuare una partita già salvata
 			else if(menu_choice == 2){
 				//Carico gli ultimi dati di salvataggio da file
 				player->player_name = selezionenome();
@@ -56,7 +58,7 @@ int main()
 			//Inizializzazione lista di nemici
 			p_nodo h = NULL;
 			srand((unsigned) time(NULL));
-			h = generate_enemies(win, mapManager, 0);
+			h = generate_enemies(win, mapManager, player->diff_level);
 			p_en_list list = NULL;
 			list = tail_insert(list, h);
 			
@@ -75,7 +77,7 @@ int main()
 				//visualzzo box statistiche
 				creaFinestra();
 				//salvo stato del giocatore su file
-				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
+				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
 				creaFinestra();	
 
 				h = game_loop(win, mapManager, player, h, list);
@@ -136,7 +138,7 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_
 	player->has_found_obj = false;
 
 	//salvo stato del giocatore su file
-	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
+	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
 	//visualzzo box statistiche
 	creaFinestra();	
 
@@ -206,19 +208,6 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list l
 			h = generate_enemies(win, mapManager, player->diff_level);
 			list = tail_insert(list, h);
 		}
-
-		/*//se non esiste una lista associata al livello successivo
-		if(list->next == NULL){
-			h = generate_enemies(win, mapManager, player->diff_level);
-			list = tail_insert(list, h);
-		}
-		//se esiste già una lista associata al livello successivo
-		else{
-			h = search_enemies(list, player->level)->list;
-		}*/
-
-		/*if (newMap)
-			h = generate_enemies(win, mapManager, player->diff_level);*/
 	}
 	//se il personaggio si trova nell'angolo in basso a sx della window e sta guardando a sx, passa alla mappa precedente (a meno che non sia nella prima mappa)
 	else if(player->level!=1 && (player->yLoc == 19 && player->xLoc <= 1) && player->is_left == true){
@@ -276,7 +265,7 @@ void create_market(Hero* player){
 	//stampa schermo
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
     creaFinestra();
-    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
 	creaFinestra();	
 
 	while(1){
@@ -296,7 +285,7 @@ void create_market(Hero* player){
             break;
 		}
 		
-		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level);
+		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
 		creaFinestra();
         
     }

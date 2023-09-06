@@ -145,5 +145,7 @@ class Hero: public Character{
         void hero_object_collision(OggettoMappa o);
 };
 
-
+void saveCharacterStats(string nome, int difesa, int vita, int attacco, int soldi, int puntif, int score, int livello, int dif_lev, int sconto, int maxhp);
+string selezionenome();
+void vettoredati(int dati[]);
 

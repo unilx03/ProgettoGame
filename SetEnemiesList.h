@@ -8,7 +8,7 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 
 
 const int NUM_ENEMIES_DEFAULT = 3; //numero di nemici presenti di default sulla mappa
-const int NUM_ENEMIES_GROWTH = 3; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
+const int NUM_ENEMIES_GROWTH = 4; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
 
 struct nodo{    
     Enemy *e;
@@ -18,7 +18,7 @@ struct nodo{
 typedef nodo* p_nodo;
 
 //Inserisce un nuovo nemico in testa alla lista.
-p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type, bool left, int hp, int st, int df, int scr, int mn);
+p_nodo head_insert(p_nodo h, WINDOW * playwin, int y, int x, MapManager* map, int enemy_type, bool left);
 //Stampa sulla mappa tutti 3 nemici istanziati.
 void display_list(p_nodo h);
 //Fa muovere tutti i nemici nella lista di un "passo", in base alla funzione di movimento associata a ciascuna tipologia.

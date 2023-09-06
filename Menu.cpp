@@ -41,7 +41,7 @@ void stampaConiglio(WINDOW *f, int n){
 
 
 }
-void creaFileStat(){
+void creaFileStatMenu(){
 string nome="Bunny";
 string difesa="0";
 string vita="25";
@@ -82,25 +82,8 @@ void selezionoScore(string v[]){
     file.close();
 }
 
-/*int cercaRecord(string v[], int n){
-    int j=1;
-    int cont=1;
-    while(j<n-2){
-    if(stoi(v[j])<stoi(v[j+2])){   //in caso di parit� tengo il vecchio campione
-    cont=j+2;
-    }
-    j+=2;
-    }
-    return cont-1;
-}*/
-
 
 int create_menu(){
-    //NCURSES START
-    /*initscr();
-    noecho();
-    cbreak();
-    curs_set(0);*/
 
     string v[50];
     int p=0;
@@ -111,7 +94,7 @@ int create_menu(){
     //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
-        creaFile();
+        creaFileStatMenu();
         f.open("Personaggio.txt");
     }
 
