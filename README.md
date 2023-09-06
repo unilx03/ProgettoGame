@@ -19,3 +19,5 @@ Sconfiggi nemici e colleziona oggetti per incrementare il tuo punteggio. Scala l
 
 ## Avvio del gioco
 Una volta eseguita la fetch del progetto, eseguire il comando 'make' per compilare il tutto e generare l'eseguibile BunnyFury.exe tramite l'apposito makefile.
+Se invece si desidera compilare il codice manualmente, usare il seguente comando:
+g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Character.cpp Hero.cpp Enemy.cpp SetEnemiesList.cpp FlyingEnemyX.cpp FlyingEnemyY.cpp ThiefEnemy.cpp JumpingEnemy.cpp Drop.cpp OggettoMappa.cpp OggettoMarket.cpp MarketScreen.cpp EnemiesManager.cpp FileManager.cpp -lncurses -o BunnyFury.exe
