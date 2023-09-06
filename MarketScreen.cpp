@@ -19,35 +19,35 @@ void printScreen(WINDOW* win, WINDOW* item1, WINDOW* item2, WINDOW* item3, WINDO
     mvwprintw(item1, 2, 1, "--------------");
     mvwprintw(item1, 4, 7, m[0] -> getSkin());
     mvwprintw(item1, 6, 1, "______________");
-    mvwprintw(item1, 7, 7, "55");
+    mvwprintw(item1, 7, 7, "%d", m[0] -> getPrice());
 
     //FINESTRA 2
     mvwprintw(item2, 1, 4, "SPINACIO");
     mvwprintw(item2, 2, 1, "--------------");
     mvwprintw(item2, 4, 7, m[1] -> getSkin());
     mvwprintw(item2, 6, 1, "______________");
-    mvwprintw(item2, 7, 7, "44");
+    mvwprintw(item2, 7, 7, "%d", m[1] -> getPrice());
 
     //FINESTRA 3
     mvwprintw(item3, 1, 1, "POZIONE  SALTO");
     mvwprintw(item3, 2, 1, "--------------");
     mvwprintw(item3, 4, 7, m[2] -> getSkin());
     mvwprintw(item3, 6, 1, "______________");
-    mvwprintw(item3, 7, 7, "22");
+    mvwprintw(item3, 7, 7, "%d", m[2] -> getPrice());
 
     //FINESTRA 4
     mvwprintw(item4, 1, 2, "SCUDO CAROTA");
     mvwprintw(item4, 2, 1, "--------------");
     mvwprintw(item4, 4, 7, m[3] -> getSkin());
     mvwprintw(item4, 6, 1, "______________");
-    mvwprintw(item4, 7, 7, "11");
+    mvwprintw(item4, 7, 7, "%d", m[3] -> getPrice());
 
     //FINESTRA 5
     mvwprintw(item5, 1, 1, "CAROTA FORTUNA");
     mvwprintw(item5, 2, 1, "--------------");
     mvwprintw(item5, 4, 7, m[4] -> getSkin());
     mvwprintw(item5, 6, 1, "______________");
-    mvwprintw(item5, 7, 7, "100");
+    mvwprintw(item5, 7, 7, "%d", m[4] -> getPrice());
 
     mvwprintw(item6, 1, 4, "CONTINUE");
     refresh();
