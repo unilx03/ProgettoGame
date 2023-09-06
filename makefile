@@ -1,20 +1,11 @@
-g++ ProgettoGame.cpp map.cpp -lncurses -o ProgettoGame
-./ProgettoGame
+SOURCES=ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Character.cpp Hero.cpp Enemy.cpp SetEnemiesList.cpp FlyingEnemyX.cpp FlyingEnemyY.cpp ThiefEnemy.cpp JumpingEnemy.cpp Drop.cpp OggettoMappa.cpp OggettoMarket.cpp MarketScreen.cpp EnemiesManager.cpp FileManager.cpp
+EXECUTABLE=BunnyFury.exe
 
-g++ main.cpp Character.cpp Hero.cpp Enemy.cpp JumpingEnemy.cpp ThiefEnemy.cpp FlyingEnemyY.cpp FLyingEnemyX.cpp BossEnemy.cpp -lncurses -o game
-./game.exe
+all: $(EXECUTABLE) clean
 
-g++ ProgettoGame.cpp map.cpp Entities/Character.cpp -lncurses -o ProgettoGame
-./ProgettoGame
+$(EXECUTABLE): $(SOURCES)
+	g++  $(SOURCES) -lncurses -o $(EXECUTABLE)
+	./$(EXECUTABLE)
 
-g++ ProgettoGame.cpp map.cpp Entities/Hero.cpp -lncurses -o ProgettoGame
-./ProgettoGame
-
-g++ ProgettoGame.cpp map.cpp Entities/Character.cpp oggetto.cpp -lncurses -o ProgettoGame
-./ProgettoGame
-
-g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp -lncurses -o ProgettoGameClassi
-./ProgettoGameClassi
-
-g++ ProgettoGame.cpp Map.cpp MapList.cpp MapManager.cpp Hero.cpp -lncurses -o ProgettoGameClassi
-./ProgettoGameClassi
+clean:
+	rm -f $(EXECUTABLE)
