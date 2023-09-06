@@ -18,4 +18,4 @@ Sconfiggi nemici e colleziona oggetti per incrementare il tuo punteggio. Scala l
 - Freccia in giù: se l'eroe sta già saltando, entra in modalità "attacco dall'alto", che permette di colpire e causare danno ai nemici saltandoci sopra.
 
 ## Avvio del gioco
-Una volta eseguita la fetch del progetto si esegue game.exe, in mancanza di questo eseguire il comando make per compilare nuovamente il progetto
+Una volta eseguita la fetch del progetto, eseguire il comando 'make' per compilare il tutto e generare l'eseguibile BunnyFury.exe tramite l'apposito makefile.
