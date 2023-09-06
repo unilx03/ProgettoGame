@@ -17,6 +17,7 @@ class Hero: public Character{
         bool doubleMoney;
         bool doubleScore;
         int maxHp;
+        int sale;
 
     public:
         //I proiettili vengono gestiti tramite una lista. Ciò permette all'eroe di sparare più proiettili per volta.
@@ -75,6 +76,12 @@ class Hero: public Character{
         int getMaxHp(){
             return maxHp;
         }
+        void setSale(int n){
+            sale = n;
+        }
+        int getSale(){
+            return sale;
+        }
 
         //il personaggio viene disegnato su più righe utilizzando un array
         const char* player_shape_right[2] = {
@@ -115,7 +122,7 @@ class Hero: public Character{
         };
 
         //costruttore del personaggio
-        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 600, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false):Character(win, y, x, bRight, map, isL, hp, st, df, r){
+        Hero(WINDOW * win, int y, int x, int bRight, MapManager* map, bool isL, string n, int hp = 600, int st = 15, int df = 1, int r = 2, int m = 0, int s = 0, int lp = 0, bool inv = false, bool dM = false, bool dS = false, int sal = 0):Character(win, y, x, bRight, map, isL, hp, st, df, r){
             money = m;
             level = 1;
             diff_level = 0;
@@ -130,6 +137,7 @@ class Hero: public Character{
             isAttacking = false;
             maxHp = hp;
             has_found_obj = false;
+            sale = sal;
         }
         p_bullet bullet_insert(p_bullet h, int x, int y, bool left);
         p_bullet attack(p_bullet h);
