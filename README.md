@@ -4,7 +4,7 @@ Sconfiggi nemici e colleziona oggetti per incrementare il tuo punteggio. Scala l
 
 ## Meccaniche di gioco
 - L'eroe si muove da una piattaforma all'altra per collezionare oggetti e sconfiggere i nemici attraverso proiettili e un attacco dall'alto.
-- Quando l'eroe raggiunge la fine di un livello, accede a una nuova area con nuovi nemici o a una precedentemente esplorata nello stato in cui l'aveva precedentemente lasciata.
+- Quando l'eroe raggiunge la fine di un livello, accede a una nuova area con nuovi nemici o a una precedentemente esplorata nello stato in cui l'aveva lasciata prima.
 - Quando un nemico viene sconfitto, l'eroe guadagna punti e denaro.
 - Quando l'eroe viene a contatto con un nemico, perde vita fino a quando non viene sconfitto.
 - In caso di morte, il giocatore può continuare la partita corrente mantenendo le statistiche dell'eroe, il denaro e la difficoltà di gioco.
