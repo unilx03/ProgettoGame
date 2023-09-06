@@ -131,7 +131,5 @@ bool Character::check_map_collision(int direction) {
             noCollision = false;
             break;
     }
-
-    //cout << "No Collision " << noCollision << endl;
     return noCollision;
 }

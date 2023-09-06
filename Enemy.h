@@ -45,7 +45,6 @@ class Enemy: public Character{
 
         //costruttore dei nemici. Richiama il costruttore della classe Character.
         Enemy(WINDOW * win, int y, int x, int type, int bRight, MapManager* map, bool isL, int hp = 40, int st = 15, int df = 0, int r = 2, int score_rel = 25, int money_rel = 10):Character(win, y, x, bRight, map, isL, hp, st, df, r){
-                //wtimeout(win, 100); //permette al nemico di muoversi indipendentemente dagli input dell'utente
                 enemy_type = type;
                 money_released = money_rel;
                 score_released = score_rel;

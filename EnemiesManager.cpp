@@ -1,5 +1,6 @@
 #include "EnemiesManager.h"
 
+//Inserisce un lista di nemici in coda alla lista di liste
 p_en_list tail_insert(p_en_list h, p_nodo enemies){
     if(h == NULL){
         p_en_list tmp = new enemiesList;
@@ -21,6 +22,7 @@ p_en_list tail_insert(p_en_list h, p_nodo enemies){
     }
 }
 
+//Cerca la lista di nemici associata al livello dato in input (sapendo che al livello i-esimo corrisponde la lista i-esima)
 p_en_list search_enemies(p_en_list h, int level){
     if(h != NULL){
         for(int i = 1; i < level; i++){
