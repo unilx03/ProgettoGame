@@ -95,7 +95,7 @@ int create_menu(){
 
     ifstream f;
     f.open("Personaggio.txt");
-    //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
+    //CONTROLLO CHE il file ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
         creaFileStat();
@@ -229,7 +229,7 @@ int create_menu(){
 void creaFinestra(){
     ifstream f;
     f.open("Personaggio.txt");
-    //CONTROLLO CHE datis.txt ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
+    //CONTROLLO CHE il file ESISTA, SE NON ESISTE LO CREO CON UN SET BASE
     if(!f.is_open() || f.peek()==EOF){
         f.close();
         creaFileStat();
@@ -340,7 +340,6 @@ string inseriscinome() {
 
     string str(nome, sizeof(nome) / sizeof(nome[0]));
 
-    //saveCharacterStats(str,0, 25, 1, 0, 0, 0, 1, 0);
 
     wrefresh(namewin);
 
