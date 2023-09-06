@@ -80,6 +80,7 @@ void MapManager::GenerateNewMap(bool lucky)
     int levelToLoadID = rand() % numMaps;
 	if (this->currentMapList->GetTail() != NULL && this->currentMapList->GetTail()->GetPrev() != NULL)
 	{
+		//per evitare di avere la stessa mappa consecutivamente
 		if (levelToLoadID == this->currentMapList->GetTail()->GetPrev()->GetID())
 		{
 			levelToLoadID += 2;
