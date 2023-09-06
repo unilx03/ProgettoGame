@@ -8,8 +8,6 @@
 
 using namespace std;
 
-#define MAPNUMBER 21
-
 class MapManager
 {
     protected:

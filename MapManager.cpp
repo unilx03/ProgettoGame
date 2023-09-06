@@ -55,13 +55,9 @@ void MapManager::InitializeFullMapList()
 			this->fullMapList->AddMap(m1);
 			this->fullMapList->AddMap(m2);
 		}
-		//head = head->prec; //il ciclo while crea un livello vuoto in più in fondo
-		//head = head->prec;
-		//head->next = NULL;
 
 		this->fullMapList->SetTail(this->fullMapList->GetTail()->GetPrev()); //il ciclo while crea un livello vuoto in più in fondo
 		this->fullMapList->SetTail(this->fullMapList->GetTail()->GetPrev());
-		//this->fullMapList->GetTail()->SetNext(NULL);
 	}
 
     this->numMaps = this->fullMapList->CountMaps(fullMapList->GetTail());
@@ -85,11 +81,12 @@ void MapManager::GenerateNewMap(bool lucky)
     int levelToLoadID = rand() % numMaps;
 	if (this->currentMapList->GetTail() != NULL && this->currentMapList->GetTail()->GetPrev() != NULL)
 	{
+		//per evitare di avere la stessa mappa consecutivamente
 		if (levelToLoadID == this->currentMapList->GetTail()->GetPrev()->GetID())
 		{
 			levelToLoadID += 2;
-			if (levelToLoadID >= (MAPNUMBER * 2))
-				levelToLoadID -= (MAPNUMBER * 2);
+			if (levelToLoadID >= (this->numMaps * 2))
+				levelToLoadID -= (this->numMaps * 2);
 		}
 	}
 
@@ -128,9 +125,7 @@ void MapManager::DrawCurrentMap()
 
 OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[], bool lucky)
 {
-	int index = -1;
 	OggettoMappa * p = new OggettoMappa(chosenObject(item, lucky));
-	this->GetCurrentMapList()->GetTail()->SetItemID(index);
 	
 	//Imposto le coordinate di spawn dell'oggetto all'interno della mappa corrente
 	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem()->x;
