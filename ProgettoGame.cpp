@@ -48,6 +48,7 @@ int main()
 
 				player->setDefense(player_data[2]);
 				player->setMaxHp(player_data[9]);
+				player->setHealth(player->getMaxHp());
 				player->setStrenght(player_data[3]);
 				player->setMoney(player_data[1]);
 				player->setLuck(player_data[4]);
@@ -89,8 +90,6 @@ int main()
 			creaFinestra();
 			perdita();
 			napms(3000);
-			
-			player->setHealth(player->getMaxHp());
 
 			p_en_list list2 = list;
 			delete list2;
