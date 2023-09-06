@@ -161,20 +161,24 @@ void Hero::getmv(int choice){
 void Hero::setStatChange(OggettoMarket o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
     //casting a int poichè le statistiche sono valori interi
-    if(strcmp(o.getStatAffected(), "health")==0){
-        this->setHealth((int)(this->getMaxHp() *boost)); //Modifica il valore di MAXHP quindi dovrebbe essere setMaxHP...
+    if(strcmp(o.getStatAffected(), "Health")==0){
+        int health = (int)(this->getMaxHp() *boost);
+        this->setMaxHp(health); //Modifica il valore di MAXHP
+        this->setHealth(health);
         (this->diff_level)++;
     }
-    else if(strcmp(o.getStatAffected(), "strenght")==0){
+    else if(strcmp(o.getStatAffected(), "Strenght")==0){
         this->setStrenght((int)(this->getStrenght() *boost));
         (this->diff_level)++;
     }
-    else if(strcmp(o.getStatAffected(), "defense")==0){
+    else if(strcmp(o.getStatAffected(), "Defense")==0){
         this->setDefense((int)(this->getDefense()+1)); //aggiungo 1 alla difesa attuale
         (this->diff_level)++;
     }
-    else if(strcmp(o.getStatAffected(), "luck")==0)
+    else if(strcmp(o.getStatAffected(), "Luck")==0)
         this->setLuck((this->getLuck()+1)); //aggiungo 1 ai punti fortuna attuali
+    else
+        this->setJumpForce(this->getJumpForce()+1); //aggiungo 1 alla potenza di salta attuale
 }
 
 const char * Hero::purchase(OggettoMarket o){
@@ -207,7 +211,7 @@ void Hero::setStatPermanent(OggettoMappa o){
             (this->diff_level)++;
    }
     else if(strcmp(o.getStatAffected(), "Defense")==0){
-        this->setDefense(this->getDefense()+1);
+        this->setDefense(this->getDefense()+5);
         (this->diff_level)++;
     }
     else if(strcmp(o.getStatAffected(), "Luck")==0)
@@ -224,22 +228,8 @@ void Hero::setStatChange(OggettoMappa o){
                 string nomep = selezionenome();
 				int datiuser[10];
 				vettoredati(datiuser);
+                this -> setSale(1);
 				saveCharacterStats(nomep, datiuser[2], datiuser[0], datiuser[3], datiuser[1], datiuser[4], datiuser[6], datiuser[5], datiuser[7], 1, datiuser[9]);
-
-        //Parte di salvataggio su file
-        /* ifstream inputFile;  Dichiarazione di tipo
-	    char path[100] = "stat.txt"; //file dove vengono salvate le statistiche
-        inputFile.open(path);
-        string word;
-	    if(!inputFile.fail()){
-            while (inputFile >> word){
-                if(strcmp(word, "Sconti:")==0){ //cerca stringa Sconti
-                    inputFile<<"Y"; //Modifica a Y quello dopo
-                    break;
-                }
-            }
-        }
-    }*/
     }
     else
         this->setStatPermanent(o);

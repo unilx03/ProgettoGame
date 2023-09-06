@@ -7,14 +7,14 @@ MapManager::MapManager(WINDOW* win)
     this->currentMapList = new MapList();
 
 	this->itemList = new OggettoMappa*[8];
-    this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 0.2, "Health");
-    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.2, "Strenght");
+    this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 1, "Health");
+    this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.35, "Strenght");
     this->itemList[2] = new OggettoMappa("Carrot Shield", "|)", 1.0, "Defense");
     this->itemList[3] = new OggettoMappa("Greedy Carrot", "$$", 0.5, "Double Money",0, 0, true);
     this->itemList[4] = new OggettoMappa("Carrot Points", "##", 0.5, "Double Score",0, 0, true);
     this->itemList[5] = new OggettoMappa("Magic Carrot", "|3", 1.0, "Invincibility",0, 0, true);
-    this->itemList[6] = new OggettoMappa("Bouncing Carrot", "|7", 0.05, "Jump Force");
-    this->itemList[7] = new OggettoMappa("Sale", "££", 0.2, "Dale",0, 0, false, true);
+    this->itemList[6] = new OggettoMappa("Bouncing Carrot", "|7", 1.0, "Jump Force");
+    this->itemList[7] = new OggettoMappa("Sale", "-!", 0.2, "Sale",0, 0, false, true);
 }
 
 void MapManager::InitializeFullMapList()

@@ -10,6 +10,7 @@ int main()
 	
 	//Inizio del loop di gioco
 	int gameState = 1;
+	bool sale = false;
 	while (gameState > 0 )
 	{
 		//Inizializzazione finestra di gioco
@@ -45,7 +46,6 @@ int main()
 				player->player_name = selezionenome();
 				int player_data[10];
 				vettoredati(player_data);
-
 				player->setDefense(player_data[2]);
 				player->setMaxHp(player_data[9]);
 				player->setStrenght(player_data[3]);
@@ -53,6 +53,11 @@ int main()
 				player->setLuck(player_data[4]);
 				player->score = 0;
 				player->diff_level = player_data[7];
+				player->setSale(player_data[8]);
+				if((player->getSale())==1){ //Sconti nel market
+					sale = true;
+					player_data[8] = 0;
+				}
 			}
 
 			//Inizializzazione lista di nemici
@@ -62,8 +67,11 @@ int main()
 			p_en_list list = NULL;
 			list = tail_insert(list, h);
 			
-			//player -> setMoney(100);
-			create_market(player); //visualizzo il market
+			create_market(player, sale); //visualizzo il market
+			//Resetto ciò che riguarda gli sconti
+			player->setSale(0);
+			sale = false;
+
 			erase(); //cancella tutto ciò che c'è sullo schermo
 
 			box(win, 0, 0);
@@ -77,7 +85,7 @@ int main()
 				//visualzzo box statistiche
 				creaFinestra();
 				//salvo stato del giocatore su file
-				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
+				saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, player->getSale(), player->getMaxHp());
 				creaFinestra();	
 
 				h = game_loop(win, mapManager, player, h, list);
@@ -138,7 +146,7 @@ p_nodo game_loop(WINDOW* win, MapManager* mapManager, Hero* player, p_nodo h, p_
 	player->has_found_obj = false;
 
 	//salvo stato del giocatore su file
-	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
+	saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, player -> getSale(), player->getMaxHp());
 	//visualzzo box statistiche
 	creaFinestra();	
 
@@ -229,7 +237,7 @@ p_nodo map_change(WINDOW* win, MapManager* mapManager, Hero* player, p_en_list l
 	return h;
 }
 
-void create_market(Hero* player){
+void create_market(Hero* player, bool sale){
 
 	WINDOW* win = newwin(ROWMARKET, COLUMN, 0,0);
 	box(win, 0, 0);
@@ -242,12 +250,25 @@ void create_market(Hero* player){
 
 	//Inizializzazione array oggetti market
 	OggettoMarket * item[N];
-	item[0] = new OggettoMarket ("BISCOTTO VITA","<3", 0.1,"health",55);
-    item[1] = new OggettoMarket("SPINACI", "YY", 0.1,"strenght",44);
-    item[2] = new OggettoMarket("POZIONE SALTO", "()", 0.02,"JumpForce",22);
-    item[3] = new OggettoMarket("SCUDO CAROTA", "][", 1,"defense",11);
-    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 1,"luck",100);
-
+	item[0] = new OggettoMarket ("BISCOTTO VITA","<3", 0.2,"Health",70);
+    item[1] = new OggettoMarket("SPINACI", "YY", 0.35,"Strenght",40);
+    item[2] = new OggettoMarket("POZIONE SALTO", "()", 1,"JumpForce",150);
+    item[3] = new OggettoMarket("SCUDO CAROTA", "][", 1,"Defense",90);
+    item[4] = new OggettoMarket("CAROTA FORTUNA", "X>", 1,"Luck",120);
+	if(sale){ //Gli sconti dimezzano il prezzo di ogni oggetto del market
+		item[0]->setPrice(item[0]->getPrice()/2);
+		item[1]->setPrice(item[1]->getPrice()/2);
+		item[2]->setPrice(item[2]->getPrice()/2);
+		item[3]->setPrice(item[3]->getPrice()/2);
+		item[4]->setPrice(item[4]->getPrice()/2);
+	}
+	else{
+		item[0]->setPrice(70);
+		item[1]->setPrice(40);
+		item[2]->setPrice(150);
+		item[3]->setPrice(90);
+		item[4]->setPrice(120);
+	}
 	//Inizializzazione finestre item + continue
     WINDOW* item1 = newwin(HEIGHT, WIDTH, 16, 2);
     WINDOW* item2 = newwin(HEIGHT, WIDTH, 16, 37);
@@ -265,7 +286,7 @@ void create_market(Hero* player){
 	//stampa schermo
     printScreen(win, item1, item2, item3, item4, item5, item6, item);
     creaFinestra();
-    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
+    saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, player -> getSale(), player->getMaxHp());
 	creaFinestra();	
 
 	while(1){
@@ -285,7 +306,7 @@ void create_market(Hero* player){
             break;
 		}
 		
-		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, 0, player->getMaxHp());
+		saveCharacterStats(player->player_name, player->getDefense(), player->getHealth(), player->getStrenght(), player->getMoney(), player->getLuck(), player->score, player->level, player->diff_level, player -> getSale(), player->getMaxHp());
 		creaFinestra();
         
     }
