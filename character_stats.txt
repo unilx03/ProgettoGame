@@ -1,3 +1,0 @@
-Nome: ettore
-Vita: 100
-Attacco: 50

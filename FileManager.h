@@ -1,6 +1,7 @@
 #include <ncurses/ncurses.h>
 #include <string>
 #include <fstream>
+using namespace std;
 
 class Menu {
   protected:
@@ -50,3 +51,11 @@ class Menu {
     void wrW();
 
 };
+
+void creaFileStat();
+void stampaConiglio(WINDOW *f, int n);
+void selezionoScore(string v[]);
+int create_menu();
+void creaFinestra();
+void perdita();
+string inseriscinome();

@@ -1,6 +1,5 @@
 #include "MarketScreen.h"
-#include "Menu.h"
-#include "FinestraP.h"
+#include "FileManager.h"
 #include <string>
 
 //la seguente funzione viene richiamata ad ogni "passo" del gioco
