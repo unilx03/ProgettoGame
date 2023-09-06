@@ -4,7 +4,6 @@ class OggettoMappa : Oggetto{
     protected:
         bool temporary; //vero quando l'effetto è temporaneo (dura solo per la stanza corrente)
         bool special; //vero quando oggetto ha effetto nella run successiva
-        
         //coordinate dell'oggetto nella mappa
         int xOgg;  
         int yOgg;
@@ -27,7 +26,7 @@ class OggettoMappa : Oggetto{
 
         }
 
-        OggettoMappa(OggettoMappa * obj){
+        OggettoMappa(OggettoMappa * obj){ //costruttore copia
             this -> name = obj->name;
             this -> skin = obj->skin;
             this -> statAffected = obj->statAffected;
@@ -39,7 +38,7 @@ class OggettoMappa : Oggetto{
         }
 
         const char * getSkin(); 
-        //ritorna la skin dell'oggetto  
+ 
         bool isTemporary();
         bool isSpecial(); 
 
@@ -60,7 +59,4 @@ class OggettoMappa : Oggetto{
         bool getTemporary();
 
         bool getSpecial();
-
-        //costruttore copia
-        OggettoMappa * newObject(OggettoMappa* ogg);
 };

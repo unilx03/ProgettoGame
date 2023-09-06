@@ -16,7 +16,7 @@ class Oggetto{
         const char * statAffected; //nome della statistica che l'oggetto modifica
 
     public:
-        const char * getSkin(); //ritorna la skin dell'oggetto
+        const char * getSkin();
         void setBoostStat(double boostStat);
         double getBoostStat();
         void setStatAffected(const char * statAffected);

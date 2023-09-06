@@ -6,7 +6,7 @@ OggettoMappa* getItemDrop(int i, OggettoMappa* item[]){
 OggettoMappa* chosenObject(OggettoMappa* item[], bool lucky){
     int num = rand()%100;
     int index = 0;
-    if(!lucky){
+    if(!lucky){ //probabilità caso base
         switch (num){
             case 0 ... 39: //Healing carrot 40%
                 index = 0;
@@ -36,7 +36,7 @@ OggettoMappa* chosenObject(OggettoMappa* item[], bool lucky){
                 break;
         }
     }
-    else{
+    else{ //Probabilità caso fortunato (FortunePoints>0)
         switch (num){
             case 0 ... 24: //Healing carrot 20%
                 index = 0;

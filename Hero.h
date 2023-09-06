@@ -144,12 +144,20 @@ class Hero: public Character{
         bool check_map_collision_bullet(bool is_left_bullet, int bullet_y, int bullet_x);
         void getmv(int choice);
 
+        //Modifica statistiche personaggio con oggetti del market
         void setStatChange(OggettoMarket o);
+
+        //Acquisto oggetti del market
         const char * purchase(OggettoMarket o);
+
+        //Modifica statistiche se l'effetto dell'oggetto è temporaneo
         void setStatTemporary(OggettoMappa o);
+        //Modifica statistiche se l'effetto dell'oggetto è permanente
         void setStatPermanent(OggettoMappa o);
+        //Modifica statistiche personaggio con oggetti della mappa
         void setStatChange(OggettoMappa o);
         
+        //Gestione della collisione personaggio - oggetto
         void hero_object_collision(OggettoMappa o);
 };
 

@@ -155,7 +155,7 @@ bool checkChoice(int choice, int highlight, bool cont, WINDOW* win, WINDOW* item
             return true;
     }
     else if (choice == 10){
-        string str2 = h->purchase(*(m[highlight])); //mettere l'eroe
+        string str2 = h->purchase(*(m[highlight]));
         WINDOW* message = newwin((HEIGHT/2)+1, WIDTH*2, 10, 64);
         box(message, 0, 0);
         mvwprintw(message, 2, 6, str2.c_str());

@@ -6,6 +6,7 @@ MapManager::MapManager(WINDOW* win)
     InitializeFullMapList();
     this->currentMapList = new MapList();
 
+	//Inizializzazione array dei drop
 	this->itemList = new OggettoMappa*[8];
     this->itemList[0] = new OggettoMappa("Healing Carrot", "<3", 1, "Health");
     this->itemList[1] = new OggettoMappa("Carrot Sword", "=>", 0.35, "Strenght");
@@ -118,7 +119,7 @@ void MapManager::DrawCurrentMap()
 		}
 	}
 
-	//per disegnare l'oggetto
+	//Disegna oggetto nella posizione scelta
 	if (!this->currentMapList->GetTail()->GetItemPicked())
 		mvwprintw(this->window, this->currentMapList->GetTail()->GetItemDrop()->getYOgg(), this->currentMapList->GetTail()->GetItemDrop()->getXOgg(), this->currentMapList->GetTail()->GetItemDrop()->getSkin());
 
@@ -127,11 +128,11 @@ void MapManager::DrawCurrentMap()
 
 OggettoMappa* MapManager::GenerateDrop(OggettoMappa* item[], bool lucky)
 {
-	//this->currentMapList->GetTail()->GetItemDrop() -> newObject(chosenObject(item));
 	int index = -1;
 	OggettoMappa * p = new OggettoMappa(chosenObject(item, lucky));
 	this->GetCurrentMapList()->GetTail()->SetItemID(index);
 	
+	//Imposto le coordinate di spawn dell'oggetto all'interno della mappa corrente
 	int x = this->GetCurrentMapList()->GetTail()->GetSpawnItem()->x;
     p->setXOgg(x);
     int y = this ->GetCurrentMapList()->GetTail()->GetSpawnItem()->y;

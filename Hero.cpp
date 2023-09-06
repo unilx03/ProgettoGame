@@ -160,10 +160,10 @@ void Hero::getmv(int choice){
 
 void Hero::setStatChange(OggettoMarket o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
-    //casting a int poichè le statistiche sono valori interi
+
     if(strcmp(o.getStatAffected(), "Health")==0){
         int health = (int)(this->getMaxHp() *boost);
-        this->setMaxHp(health); //Modifica il valore di MAXHP
+        this->setMaxHp(health); 
         this->setHealth(health);
         (this->diff_level)++;
     }
@@ -172,13 +172,13 @@ void Hero::setStatChange(OggettoMarket o){
         (this->diff_level)++;
     }
     else if(strcmp(o.getStatAffected(), "Defense")==0){
-        this->setDefense((int)(this->getDefense()+1)); //aggiungo 1 alla difesa attuale
+        this->setDefense((int)(this->getDefense()+5)); 
         (this->diff_level)++;
     }
     else if(strcmp(o.getStatAffected(), "Luck")==0)
-        this->setLuck((this->getLuck()+1)); //aggiungo 1 ai punti fortuna attuali
+        this->setLuck((this->getLuck()+1)); 
     else
-        this->setJumpForce(this->getJumpForce()+1); //aggiungo 1 alla potenza di salta attuale
+        this->setJumpForce(this->getJumpForce()+1); 
 }
 
 const char * Hero::purchase(OggettoMarket o){
@@ -203,8 +203,8 @@ void Hero::setStatTemporary(OggettoMappa o){
 
 void Hero::setStatPermanent(OggettoMappa o){
     double boost = 1.0 + o.getBoostStat(); //aumento percentuale completo
-    //casting a int poichè le statistiche sono valori interi
-    if(strcmp(o.getStatAffected(), "Health")==0) //Aumenta gli hp di boostStat rispetto ai maxHP
+
+    if(strcmp(o.getStatAffected(), "Health")==0) 
         this->setHealth(getMaxHp());
    else if(strcmp(o.getStatAffected(), "Strenght")==0){
             this->setStrenght((int)(this->getStrenght() *boost));
@@ -214,8 +214,6 @@ void Hero::setStatPermanent(OggettoMappa o){
         this->setDefense(this->getDefense()+5);
         (this->diff_level)++;
     }
-    else if(strcmp(o.getStatAffected(), "Luck")==0)
-        this->setLuck(this->getLuck()+1);
     else if(strcmp(o.getStatAffected(), "Jump Force")==0)
         this->setJumpForce(this->getJumpForce()+1);
 }
@@ -224,7 +222,7 @@ void Hero::setStatChange(OggettoMappa o){
     if(o.isTemporary())
         this->setStatTemporary(o);
     //La rimozione dell'effetto viene eseguita quando il personaggio passa al livello successivo
-    else if(o.isSpecial()){ //CASO SCONTI
+    else if(o.isSpecial()){
                 string nomep = selezionenome();
 				int datiuser[10];
 				vettoredati(datiuser);
@@ -236,9 +234,11 @@ void Hero::setStatChange(OggettoMappa o){
 }
 
 void Hero::hero_object_collision(OggettoMappa o){
+    //Oggetto già raccolto
     if (this->mapManager->GetCurrentMapList()->GetTail()->GetItemPicked())
         return;
-
+        
+    //Oggetto non ancora raccolto
     if(o.getYOgg() == (this->yLoc) || o.getYOgg() == (this->yLoc)+1){
         if(o.getXOgg() >= (this->xLoc) - 2 && o.getXOgg() <= (this->xLoc) + (this->bound_right) - 1){
             this->setStatChange(o);

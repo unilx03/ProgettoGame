@@ -3,12 +3,8 @@
 class OggettoMarket : Oggetto{
     protected:
         int price;
-        //SKIN solo per il market
 
     public:
-        /*OggettoMarket(){
-
-        }*/
         OggettoMarket(const char * name, const char * skin, double boostStat, const char * statAffected, double price){
             this -> name = new char[LEN];
             this -> name = name;
@@ -20,9 +16,7 @@ class OggettoMarket : Oggetto{
             this -> price = price;
         }
 
-
         const char * getSkin(); 
-        //ritorna la skin dell'oggetto
 
         int getPrice();
         void setPrice(int price);

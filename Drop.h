@@ -1,5 +1,5 @@
-#include <ctime>        // std::time
-#include <cstdlib>      // std::rand, std::srand
+#include <ctime>        
+#include <cstdlib>      
 #include "OggettoMappa.h"
 
 
