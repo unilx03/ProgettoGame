@@ -175,7 +175,7 @@ void set_enemies_stats(p_nodo h, int diff_level){
         (h->e)->setDefense((h->e)->DEF_DF + diff_level);
         (h->e)->setHealth((h->e)->DEF_HP + 5*diff_level);
         ((h->e)->money_released) = (h->e)->DEF_MONEY + 5*diff_level;
-        ((h->e)->score_released) = (h->e)->DEF_SCORE + 10*diff_level;
+        ((h->e)->score_released) = (h->e)->DEF_SCORE + 5*diff_level;
 
         h = h->next;
     }
