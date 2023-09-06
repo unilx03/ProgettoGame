@@ -18,4 +18,4 @@ Prima di entrare nella fase di gioco, il giocatore entra in un livello market do
 - Freccia in giù: se l'eroe sta già saltando, entra in modalità "attacco dall'alto", che permette di colpire e causare danno ai nemici saltandoci sopra.
 
 ## Avvio del gioco
-Una volta eseguita la fetch del progetto si esegue il file game.exe, in mancanza di questo eseguire il comando make per compilare nuovamente il progetto
+Una volta eseguita la fetch del progetto si esegue game.exe, in mancanza di questo eseguire il comando make per compilare nuovamente il progetto
