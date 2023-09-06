@@ -8,7 +8,7 @@ I nemici vengono gestiti per mezzo di una lista dinamica.
 
 
 const int NUM_ENEMIES_DEFAULT = 3; //numero di nemici presenti di default sulla mappa
-const int NUM_ENEMIES_GROWTH = 2; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
+const int NUM_ENEMIES_GROWTH = 3; //numero di livelli di difficoltà necessari per aumentare il numero di nemici di 1
 
 struct nodo{    
     Enemy *e;
